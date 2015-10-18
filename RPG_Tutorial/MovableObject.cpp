@@ -3,15 +3,21 @@
 
 //initiating stats to arbitrary values
 MovableObject::MovableObject() : _health(100.0f), _strength(10.0f), _speed(5),
-_isStable(true){
+_isStable(true), _previousXYPosition(new int[2]),_hitbox(new SDL_Rect()){
 	_isMovable = true;
-	_hitbox = new SDL_Rect();
-	_previousXYPosition = new int[2];
 }
 
-MovableObject::MovableObject(const MovableObject &movableObject): Object(movableObject){
-	_hitbox = new SDL_Rect();
-	_previousXYPosition = new int[2];
+MovableObject::MovableObject(int x, int y, int width, int height) : Object(x, y, width, height), _health(100.0f),
+_strength(10.0f), _speed(5), _isStable(true), _hitbox(new SDL_Rect), _previousXYPosition(new int[2]){
+	_isMovable = true;
+	_hitbox->x = HITBOX_MODIFIER*_x;
+	_hitbox->y = HITBOX_MODIFIER*_y;
+	_hitbox->w = HITBOX_MODIFIER*_width;
+	_hitbox->h = HITBOX_MODIFIER*_height;
+}
+
+MovableObject::MovableObject(const MovableObject &movableObject): Object(movableObject),
+_previousXYPosition(new int[2]), _hitbox(new SDL_Rect){
 	*(_hitbox) = *(movableObject.getHitbox());
 }
 
@@ -32,14 +38,6 @@ MovableObject& MovableObject::operator=(const MovableObject &moveableObject){
 }
 
 
-MovableObject::MovableObject(int x, int y, int width, int height) : Object(x, y, width, height), _health(100.0f),
-_strength(10.0f), _speed(5), _isStable(true){
-	_isMovable = true;
-	_hitbox->x = HITBOX_MODIFIER*_x;
-	_hitbox->y = HITBOX_MODIFIER*_y;
-	_hitbox->w = HITBOX_MODIFIER*_width;
-	_hitbox->h = HITBOX_MODIFIER*_height;
-}
 
 float MovableObject::getStrength() const{
 	return _strength;

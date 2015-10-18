@@ -1,8 +1,8 @@
 #include "TheGame.h"
 
 
-TheGame::TheGame() : _currentWindow(nullptr), WINDOW_HEIGHT(600), WINDOW_WIDTH(768), FPS(10),
-_currentState(GameState::PLAY), jimHeight(50), jimWidth(50), _eventMade(0), jim(nullptr)
+TheGame::TheGame() : _currentWindow(nullptr), WINDOW_HEIGHT(600), WINDOW_WIDTH(768), FPS(15),
+_currentState(GameState::PLAY), jimHeight(200), jimWidth(200), _eventMade(0), jim(nullptr)
 , BACKGROUND_FNAME("Background.png"), _gravity(5), _gameFloor(nullptr)
 {}
 
@@ -16,6 +16,7 @@ TheGame::~TheGame()
    may be assigned to them
 2. improve walkcycles to be more generalizable
 3. institute collision detection
+	3.5 make gamefloor
 */
 
 void TheGame::run(){
@@ -37,9 +38,7 @@ void TheGame::run(){
 	jim->setTexturePath("CharacterLeft_Standing.png");
 	jim->setObjectTexture(_currentRenderContext);
 
-
 	_levelObjects.push_back(&background);
-	_levelObjects.push_back(_gameFloor);
 	_levelObjects.push_back(&platform);
 	_levelObjects.push_back(&platform2);
 	_levelObjects.push_back(jim);
@@ -104,15 +103,17 @@ int TheGame::processInput(){
 }
 
 void TheGame::update(){
-	calcGravity();
+	
 	jim->setPreviousMovement(jim->getCurrentMovement());
 	jim->setPreviousXY(jim->getX(), jim->getY());
+	calcGravity();
 
 	//change walkcycles!!!
 	if (_keyState[SDL_SCANCODE_D] && !_keyState[SDL_SCANCODE_W]){
 		jim->setCurrentMovement(MovableObject::Movements::right);
 		jim->moveRight();
 
+		// make sure jim doesn't exit screen
 		if ((jim->getX() + jim->getWidth()) > WINDOW_WIDTH)
 			jim->setX(WINDOW_WIDTH - jim->getWidth());
 
@@ -133,6 +134,7 @@ void TheGame::update(){
 		if (jim->getX() < 0)
 			jim->setX(0);
 
+		// make sure jim doesn't go outside of the screen
 		if ((jim->getX() + jim->getWidth()) > WINDOW_WIDTH)
 			jim->setX(WINDOW_WIDTH - jim->getWidth());
 
@@ -183,7 +185,7 @@ void TheGame::draw(){
 
 	std::vector<Object*>::iterator iter = _levelObjects.begin();
 	for (iter; iter != _levelObjects.end(); ++iter){
-		if (dynamic_cast<MovableObject*>(*iter))
+		if ((*iter)->getIsMovable())
 			(*iter)->setObjectTexture(_currentRenderContext);
 		(*iter)->draw(_currentRenderContext);
 	}
@@ -200,14 +202,16 @@ void TheGame::calcGravity(){
 	}
 }
 
-// detects collisions between dynamic and static objects
+// detects collisions between static objects
 void TheGame::detectStaticCollisions(MovableObject* object){
 	std::vector<Object*>::iterator i = _levelObjects.begin();
 	for (i; i != _levelObjects.end(); ++i){
 		if (dynamic_cast<Platform*>(*i)){
 			SDL_Rect intersection;
 			if (SDL_IntersectRect((*i)->getSDLRect(), object->getSDLRect(),&intersection)){
-				switch (object->getCurrentMovement()){
+				float angle = object->calcMovementVector();
+
+				/*switch (object->getCurrentMovement()){
 				case MovableObject::Movements::right:
 					object->setX(object->getX() - intersection.x);
 					break;
@@ -218,7 +222,7 @@ void TheGame::detectStaticCollisions(MovableObject* object){
 					break;
 				case MovableObject::Movements::down:
 					break;
-				}
+				}*/
 			}
 		}
 	}

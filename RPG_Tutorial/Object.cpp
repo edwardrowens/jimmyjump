@@ -1,9 +1,9 @@
 #include "Object.h"
 
 
-Object::Object() : _x(0), _y(0), _width(0), _height(0), _objectTexture(nullptr), _texturePath(""), _objectRect(nullptr)
-, TEXTURE_PATH("Textures/jimmyJump_pack/PNG/"), _isMovable(false)
-{}
+Object::Object() : _x(0), _y(0), _width(0), _height(0), _objectTexture(nullptr), _texturePath(""), _objectRect(new SDL_Rect)
+, TEXTURE_PATH("Textures/jimmyJump_pack/PNG/"), _isMovable(false){
+}
 
 //copy constructor
 Object::Object(const Object &object) : _x(object.getX()), _y(object.getY()), _width(object.getWidth()), _height(object.getHeight())
