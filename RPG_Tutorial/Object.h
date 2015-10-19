@@ -24,6 +24,7 @@ public:
 	SDL_Texture* getObjectTexture() const;
 	std::string getTexturePath() const;
 	SDL_Rect* getSDLRect() const;
+	bool getIsRenderable() const;
 
 	void setX(int x);
 	void setY(int y);
@@ -32,6 +33,7 @@ public:
 	void setObjectTexture(SDL_Renderer* context);
 	void setTexturePath(std::string newTexturePath);
 	void setIsMovable(bool isMovable);
+	void setIsRenderable(bool isRenderable);
 
 	void die();
 	virtual void draw(SDL_Renderer* context);
@@ -39,6 +41,7 @@ public:
 protected:
 	int _x, _y, _width, _height;
 	bool _isMovable;
+	bool _isRenderable;
 	SDL_Texture* _objectTexture;
 	std::string _texturePath;
 	SDL_Rect* _objectRect;

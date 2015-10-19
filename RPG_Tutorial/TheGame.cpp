@@ -2,8 +2,8 @@
 
 
 TheGame::TheGame() : _currentWindow(nullptr), WINDOW_HEIGHT(600), WINDOW_WIDTH(768), FPS(15),
-_currentState(GameState::PLAY), jimHeight(200), jimWidth(200), _eventMade(0), jim(nullptr)
-, BACKGROUND_FNAME("Background.png"), _gravity(5), _gameFloor(nullptr)
+_currentState(GameState::PLAY), jimHeight(50), jimWidth(50), _eventMade(0), jim(nullptr)
+, BACKGROUND_FNAME("Background.png"), _gravity(0), _gameFloor(nullptr)
 {}
 
 
@@ -42,6 +42,7 @@ void TheGame::run(){
 	_levelObjects.push_back(&platform);
 	_levelObjects.push_back(&platform2);
 	_levelObjects.push_back(jim);
+	_levelObjects.push_back(_gameFloor);
 
 	const int SKIP_FRAMES = 1000 / FPS;
 	const int MAX_FRAMESKIP = 5;
@@ -75,6 +76,7 @@ void TheGame::initGame(){
 
 	//_gameFloor = new Platform(0,WINDOW_HEIGHT - ((2.0/23)*WINDOW_HEIGHT)),10,WINDOW_WIDTH);
 	_gameFloor = new Platform();
+	_gameFloor->setIsRenderable(false);
 	_gameFloor->setX(0);
 	_gameFloor->setY(WINDOW_HEIGHT - ((2.0 / 23)*WINDOW_HEIGHT));
 	_gameFloor->setHeight(10);
@@ -187,7 +189,8 @@ void TheGame::draw(){
 	for (iter; iter != _levelObjects.end(); ++iter){
 		if ((*iter)->getIsMovable())
 			(*iter)->setObjectTexture(_currentRenderContext);
-		(*iter)->draw(_currentRenderContext);
+		if ((*iter)->getIsRenderable())
+			(*iter)->draw(_currentRenderContext);
 	}
 
 	SDL_RenderPresent(_currentRenderContext);
