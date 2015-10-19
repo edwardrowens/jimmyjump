@@ -172,7 +172,8 @@ void TheGame::update(){
 		else
 			jim->setTexturePath("CharacterLeft_Jump.png");
 	}
-
+	
+	detectCollisions();
 }
 
 void TheGame::draw(){
@@ -205,11 +206,26 @@ void TheGame::calcGravity(){
 	}
 }
 
+void TheGame::detectCollisions(){
+	std::vector<Object*>::iterator i = _levelObjects.begin();
+	for (i; i != _levelObjects.end(); ++i){
+		if ((*i)->getIsMovable()){
+			MovableObject* tempObject = dynamic_cast<MovableObject*>(*i);
+			detectStaticCollisions(tempObject);
+			detectDynamicCollisions(tempObject);
+		}
+	}
+}
+
+void TheGame::detectDynamicCollisions(MovableObject* object){
+
+}
+
 // detects collisions between static objects
 void TheGame::detectStaticCollisions(MovableObject* object){
 	std::vector<Object*>::iterator i = _levelObjects.begin();
 	for (i; i != _levelObjects.end(); ++i){
-		if (dynamic_cast<Platform*>(*i)){
+		if ((*i)->getIsPlatform()){
 			SDL_Rect intersection;
 			if (SDL_IntersectRect((*i)->getSDLRect(), object->getSDLRect(),&intersection)){
 				float angle = object->calcMovementVector();

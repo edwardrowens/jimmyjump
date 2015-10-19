@@ -25,6 +25,7 @@ public:
 	std::string getTexturePath() const;
 	SDL_Rect* getSDLRect() const;
 	bool getIsRenderable() const;
+	bool getIsPlatform() const;
 
 	void setX(int x);
 	void setY(int y);
@@ -34,6 +35,7 @@ public:
 	void setTexturePath(std::string newTexturePath);
 	void setIsMovable(bool isMovable);
 	void setIsRenderable(bool isRenderable);
+	void setIsPlatform(bool isPlatform);
 
 	void die();
 	virtual void draw(SDL_Renderer* context);
@@ -42,8 +44,10 @@ protected:
 	int _x, _y, _width, _height;
 	bool _isMovable;
 	bool _isRenderable;
+	bool _isPlatform;
 	SDL_Texture* _objectTexture;
 	std::string _texturePath;
 	SDL_Rect* _objectRect;
+
 };
 

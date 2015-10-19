@@ -2,18 +2,18 @@
 
 
 Object::Object() : _x(0), _y(0), _width(0), _height(0), _objectTexture(nullptr), _texturePath(""), _objectRect(new SDL_Rect)
-, TEXTURE_PATH("Textures/jimmyJump_pack/PNG/"), _isMovable(false), _isRenderable(true){
+, TEXTURE_PATH("Textures/jimmyJump_pack/PNG/"), _isMovable(false), _isRenderable(true), _isPlatform(false){
 }
 
 //copy constructor
 Object::Object(const Object &object) : _x(object.getX()), _y(object.getY()), _width(object.getWidth()), _height(object.getHeight())
-, _objectTexture(object.getObjectTexture()), _texturePath(object.getTexturePath()), _isRenderable(true){
+, _objectTexture(object.getObjectTexture()), _texturePath(object.getTexturePath()), _isRenderable(true), _isPlatform(false){
 	_objectRect = new SDL_Rect;
 	*_objectRect = *(object.getSDLRect());
 }
 
 Object::Object(int x, int y, int width, int height) : _x(x), _y(y), _width(width), _height(height)
-, TEXTURE_PATH("Textures/jimmyJump_pack/PNG/"), _isRenderable(true){
+, TEXTURE_PATH("Textures/jimmyJump_pack/PNG/"), _isRenderable(true), _isPlatform(false){
 	_objectRect = new SDL_Rect();
 	_objectRect->x = _x;
 	_objectRect->y = _y;
@@ -101,6 +101,14 @@ void Object::setObjectTexture(SDL_Renderer* context){
 
 void Object::setTexturePath(std::string newTexturePath){
 	_texturePath = TEXTURE_PATH + newTexturePath;
+}
+
+void Object::setIsPlatform(bool isPlatform){
+	_isPlatform = isPlatform;
+}
+
+bool Object::getIsPlatform() const{
+	return _isPlatform;
 }
 
 SDL_Rect* Object::getSDLRect() const{
