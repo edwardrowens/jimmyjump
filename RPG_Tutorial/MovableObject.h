@@ -46,7 +46,7 @@ public:
 	void moveRight();
 	void moveLeft();
 	void useItem();
-	float calcMovementVector() const;
+	float calcAngleOfMovement() const;
 	float attack();
 
 	Movements _currentMovement;

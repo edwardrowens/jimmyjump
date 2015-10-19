@@ -146,7 +146,11 @@ float MovableObject::attack(){
 	return _strength;
 }
 
-float MovableObject::calcMovementVector() const{
-	float movementVector = sqrt((_previousXYPosition[0] - _x) ^ 2 + (_previousXYPosition[1] - _y) ^ 2);
-	return movementVector*(_y > _previousXYPosition[1]) ? -1 : 1;
+float MovableObject::calcAngleOfMovement() const{
+	std::cout << _previousXYPosition[0] << std::endl;
+	std::cout << _previousXYPosition[1] << std::endl;
+	float deltaY = _y - _previousXYPosition[1];
+	float deltaX = _previousXYPosition[0] - _x;
+	float angle = atan(deltaY/deltaX) * 180 / M_PI;
+	return angle;
 }

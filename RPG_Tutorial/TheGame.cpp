@@ -3,7 +3,7 @@
 
 TheGame::TheGame() : _currentWindow(nullptr), WINDOW_HEIGHT(600), WINDOW_WIDTH(768), FPS(15),
 _currentState(GameState::PLAY), jimHeight(50), jimWidth(50), _eventMade(0), jim(nullptr)
-, BACKGROUND_FNAME("Background.png"), _gravity(0), _gameFloor(nullptr)
+, BACKGROUND_FNAME("Background.png"), _gravity(4), _gameFloor(nullptr)
 {}
 
 
@@ -109,6 +109,7 @@ void TheGame::update(){
 	jim->setPreviousMovement(jim->getCurrentMovement());
 	jim->setPreviousXY(jim->getX(), jim->getY());
 	calcGravity();
+	jim->moveRight();
 
 	//change walkcycles!!!
 	if (_keyState[SDL_SCANCODE_D] && !_keyState[SDL_SCANCODE_W]){
@@ -227,8 +228,11 @@ void TheGame::detectStaticCollisions(MovableObject* object){
 	for (i; i != _levelObjects.end(); ++i){
 		if ((*i)->getIsPlatform()){
 			SDL_Rect intersection;
+			float angle = 0.0f;
 			if (SDL_IntersectRect((*i)->getSDLRect(), object->getSDLRect(),&intersection)){
-				float angle = object->calcMovementVector();
+				float angle = object->calcAngleOfMovement();
+				std::cout << angle << std::endl;
+				//(*i)->setX((*i)->getX() - )
 
 				/*switch (object->getCurrentMovement()){
 				case MovableObject::Movements::right:
