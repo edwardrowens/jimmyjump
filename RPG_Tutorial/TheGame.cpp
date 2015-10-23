@@ -3,7 +3,7 @@
 
 TheGame::TheGame() : _currentWindow(nullptr), WINDOW_HEIGHT(600), WINDOW_WIDTH(768), FPS(15),
 _currentState(GameState::PLAY), jimHeight(50), jimWidth(50), _eventMade(0), jim(nullptr)
-, BACKGROUND_FNAME("Background.png"), _gravity(-5), _gameFloor(nullptr)
+, BACKGROUND_FNAME("Background.png"), _gravity(-3), _gameFloor(nullptr)
 {}
 
 
@@ -83,7 +83,7 @@ void TheGame::initGame(){
 	_gameFloor->setWidth(WINDOW_WIDTH);
 
 	int startingJimHeight = WINDOW_HEIGHT - (jimHeight - 7) - ((2.0 / 23)*WINDOW_HEIGHT);
-	jim = new MainCharacter(0, startingJimHeight, jimWidth, jimHeight);
+	jim = new MainCharacter(WINDOW_WIDTH/2, startingJimHeight, jimWidth, jimHeight);
 }
 
 SDL_Window* TheGame::WindowInitialization(){
@@ -142,8 +142,6 @@ void TheGame::update(){
 	}
 	else if (_keyState[SDL_SCANCODE_W]){
 		jim->setCurrentMovement(MovableObject::Movements::jump);
-		if (jim->getY() == (WINDOW_HEIGHT - (jimHeight - 7) - ((2.0 / 23)*WINDOW_HEIGHT)))
-			jim->jump();
 
 		if (_keyState[SDL_SCANCODE_D]){
 			jim->setTexturePath("CharacterRight_Jump.png");
@@ -168,6 +166,12 @@ void TheGame::update(){
 
 	if (jim->getX() < 0)
 		jim->setX(0);
+
+	if (jim->getY() < 0)
+		jim->setY(0);
+
+	if ((jim->getY() + jim->getHeight()) > WINDOW_HEIGHT)
+		jim->setY(WINDOW_HEIGHT - jim->getY());
 
 	detectCollisions();
 }
