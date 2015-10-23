@@ -1,6 +1,7 @@
 #pragma once
 #include "Object.h"
 #include <math.h>
+#include <string>
 
 class MovableObject : public Object
 {

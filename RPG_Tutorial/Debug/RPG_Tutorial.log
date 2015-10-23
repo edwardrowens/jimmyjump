@@ -1,31 +1,22 @@
-﻿Build started 10/18/2015 9:52:22 PM.
-     1>Project "C:\Users\Eddie\Documents\Visual Studio 2013\Projects\jimmyjump\RPG_Tutorial\RPG_Tutorial.vcxproj" on node 2 (Build target(s)).
+﻿Build started 10/22/2015 8:19:08 PM.
+     1>Project "C:\Users\Eddie\Documents\Visual Studio 2013\Projects\RPG_Tutorial\jimmyjump\RPG_Tutorial\RPG_Tutorial.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt MovableObject.cpp
-         MovableObject.cpp
-     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.h(15): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(13): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(14): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(15): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(16): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(94): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(99): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(104): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(109): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(152): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(153): warning C4244: 'initializing' : conversion from 'const int' to 'float', possible loss of data
-     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(154): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt TheGame.cpp
+         TheGame.cpp
+     1>c:\users\eddie\documents\visual studio 2013\projects\rpg_tutorial\jimmyjump\rpg_tutorial\movableobject.h(16): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+     1>c:\users\eddie\documents\visual studio 2013\projects\rpg_tutorial\jimmyjump\rpg_tutorial\thegame.cpp(81): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\eddie\documents\visual studio 2013\projects\rpg_tutorial\jimmyjump\rpg_tutorial\thegame.cpp(85): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Eddie\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.exe" /INCREMENTAL /NOLOGO SDL2.0/SDL2.lib SDL2.0/SDL2main.lib SDL2.0/SDL2test.lib SDL2.0/SDL2_image.lib SDL2.0/SDL2_mixer.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Eddie\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Eddie\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.lib" /MACHINE:X86 Debug\Errors.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Eddie\Documents\Visual Studio 2013\Projects\RPG_Tutorial\jimmyjump\Debug\RPG_Tutorial.exe" /INCREMENTAL /NOLOGO SDL2.0/SDL2.lib SDL2.0/SDL2main.lib SDL2.0/SDL2test.lib SDL2.0/SDL2_image.lib SDL2.0/SDL2_mixer.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Eddie\Documents\Visual Studio 2013\Projects\RPG_Tutorial\jimmyjump\Debug\RPG_Tutorial.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Eddie\Documents\Visual Studio 2013\Projects\RPG_Tutorial\jimmyjump\Debug\RPG_Tutorial.lib" /MACHINE:X86 Debug\Errors.obj
          Debug\main.obj
          Debug\MainCharacter.obj
          Debug\MovableObject.obj
          Debug\Object.obj
          Debug\Platform.obj
          Debug\TheGame.obj
-         RPG_Tutorial.vcxproj -> C:\Users\Eddie\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.exe
-     1>Done Building Project "C:\Users\Eddie\Documents\Visual Studio 2013\Projects\jimmyjump\RPG_Tutorial\RPG_Tutorial.vcxproj" (Build target(s)).
+         RPG_Tutorial.vcxproj -> C:\Users\Eddie\Documents\Visual Studio 2013\Projects\RPG_Tutorial\jimmyjump\Debug\RPG_Tutorial.exe
+     1>Done Building Project "C:\Users\Eddie\Documents\Visual Studio 2013\Projects\RPG_Tutorial\jimmyjump\RPG_Tutorial\RPG_Tutorial.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.55
+Time Elapsed 00:00:00.94

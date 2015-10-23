@@ -147,10 +147,13 @@ float MovableObject::attack(){
 }
 
 float MovableObject::calcAngleOfMovement() const{
-	std::cout << _previousXYPosition[0] << std::endl;
-	std::cout << _previousXYPosition[1] << std::endl;
+	std::cout << "previous X: " + std::to_string(_previousXYPosition[0]) << std::endl;
+	std::cout << "current X: " + std::to_string(_x) << std::endl;
+	std::cout << "previous Y: " + std::to_string(_previousXYPosition[1]) << std::endl;
+	std::cout << "current Y: " + std::to_string(_y) << std::endl;
 	float deltaY = _y - _previousXYPosition[1];
 	float deltaX = _previousXYPosition[0] - _x;
 	float angle = atan(deltaY/deltaX) * 180 / M_PI;
+	std::cout << "Angle: " + std::to_string(angle) << std::endl << std::endl;
 	return angle;
 }

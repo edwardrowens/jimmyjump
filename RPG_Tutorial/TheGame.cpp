@@ -3,7 +3,7 @@
 
 TheGame::TheGame() : _currentWindow(nullptr), WINDOW_HEIGHT(600), WINDOW_WIDTH(768), FPS(15),
 _currentState(GameState::PLAY), jimHeight(50), jimWidth(50), _eventMade(0), jim(nullptr)
-, BACKGROUND_FNAME("Background.png"), _gravity(4), _gameFloor(nullptr)
+, BACKGROUND_FNAME("Background.png"), _gravity(-5), _gameFloor(nullptr)
 {}
 
 
@@ -105,20 +105,15 @@ int TheGame::processInput(){
 }
 
 void TheGame::update(){
-	
 	jim->setPreviousMovement(jim->getCurrentMovement());
 	jim->setPreviousXY(jim->getX(), jim->getY());
 	calcGravity();
-	jim->moveRight();
+	jim->moveLeft();
 
 	//change walkcycles!!!
 	if (_keyState[SDL_SCANCODE_D] && !_keyState[SDL_SCANCODE_W]){
 		jim->setCurrentMovement(MovableObject::Movements::right);
 		jim->moveRight();
-
-		// make sure jim doesn't exit screen
-		if ((jim->getX() + jim->getWidth()) > WINDOW_WIDTH)
-			jim->setX(WINDOW_WIDTH - jim->getWidth());
 
 		if (jim->getTexturePath().find("Left", 0) != jim->getTexturePath().npos){
 			jim->setTexturePath("CharacterRight_Standing.png");
@@ -134,12 +129,6 @@ void TheGame::update(){
 	else if (_keyState[SDL_SCANCODE_A] && !_keyState[SDL_SCANCODE_W]){
 		jim->setCurrentMovement(MovableObject::Movements::left);
 		jim->moveLeft();
-		if (jim->getX() < 0)
-			jim->setX(0);
-
-		// make sure jim doesn't go outside of the screen
-		if ((jim->getX() + jim->getWidth()) > WINDOW_WIDTH)
-			jim->setX(WINDOW_WIDTH - jim->getWidth());
 
 		if (jim->getTexturePath().find("Right", 0) != jim->getTexturePath().npos){
 			jim->setTexturePath("CharacterLeft_Standing.png");
@@ -173,7 +162,13 @@ void TheGame::update(){
 		else
 			jim->setTexturePath("CharacterLeft_Jump.png");
 	}
-	
+	// make sure jim doesn't exit screen
+	if ((jim->getX() + jim->getWidth()) > WINDOW_WIDTH)
+		jim->setX(WINDOW_WIDTH - jim->getWidth());
+
+	if (jim->getX() < 0)
+		jim->setX(0);
+
 	detectCollisions();
 }
 
@@ -226,12 +221,12 @@ void TheGame::detectDynamicCollisions(MovableObject* object){
 void TheGame::detectStaticCollisions(MovableObject* object){
 	std::vector<Object*>::iterator i = _levelObjects.begin();
 	for (i; i != _levelObjects.end(); ++i){
+		float angle = object->calcAngleOfMovement();
 		if ((*i)->getIsPlatform()){
 			SDL_Rect intersection;
 			float angle = 0.0f;
 			if (SDL_IntersectRect((*i)->getSDLRect(), object->getSDLRect(),&intersection)){
-				float angle = object->calcAngleOfMovement();
-				std::cout << angle << std::endl;
+				//float angle = object->calcAngleOfMovement();
 				//(*i)->setX((*i)->getX() - )
 
 				/*switch (object->getCurrentMovement()){
