@@ -153,9 +153,13 @@ float MovableObject::calcAngleOfMovement() const{
 	std::cout << "current Y: " + std::to_string(_y) << std::endl;
 	float deltaY = _y - _previousXYPosition[1];
 	float deltaX = _previousXYPosition[0] - _x;
-	std::cout << "divisor: " + std::to_string(deltaY / deltaX) << std::endl;
-	float angle;
+	float angle = 0.0f;
 
+	// no movement
+	if (deltaX == 0 && deltaY == 0)
+		return 0.0f;
+
+	// vertical movement
 	if (deltaX == 0){
 		if (deltaY > 0){
 			angle = 270.0f;
@@ -164,8 +168,32 @@ float MovableObject::calcAngleOfMovement() const{
 			angle = 90.0f;
 		}
 	}
-	else{
-		angle = atan(deltaY / deltaX) * 180 / M_PI;
+
+	// horizontal movement
+	if (deltaY == 0){
+		if (deltaX > 0)
+			angle = 0.0f;
+		else
+			angle = 180.0f;
+	}
+	std::cout << "divisor: " + std::to_string(deltaY / deltaX) << std::endl;
+	angle = atan(deltaY / deltaX) * 180 / M_PI;
+
+	// Q1
+	if (deltaX < 0 && deltaY < 0){
+		//return angle;
+	}
+	// Q2
+	else if (deltaX > 0 && deltaY < 0){
+		angle = angle * -1 + 90;
+	}
+	// Q3
+	else if (deltaX > 0 && deltaY > 0){
+		angle += 180;
+	}
+	// Q4
+	else if (deltaX < 0 && deltaY > 0){
+		angle = angle * -1 + 270;
 	}
 
 	std::cout << "Angle: " + std::to_string(angle) << std::endl << std::endl;
