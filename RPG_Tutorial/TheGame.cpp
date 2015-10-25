@@ -23,8 +23,8 @@ void TheGame::run(){
 	initGame();
 
 	Object background(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-	Platform platform(50, WINDOW_HEIGHT - 150, 100, 100);
-	Platform platform2(400, WINDOW_HEIGHT - 150, 100, 100);
+	Platform platform(600, WINDOW_HEIGHT - 150, 100, 100);
+	Platform platform2(0, WINDOW_HEIGHT - 150, 100, 100);
 
 	background.setTexturePath("Background.png");
 	background.setObjectTexture(_currentRenderContext);
@@ -108,6 +108,7 @@ void TheGame::update(){
 	jim->setPreviousMovement(jim->getCurrentMovement());
 	jim->setPreviousXY(jim->getX(), jim->getY());
 	calcGravity();
+	jim->moveLeft();
 
 	//change walkcycles!!!
 	if (_keyState[SDL_SCANCODE_D] && !_keyState[SDL_SCANCODE_W]){
@@ -230,19 +231,27 @@ void TheGame::detectStaticCollisions(MovableObject* object){
 
 			if (SDL_IntersectRect((*i)->getSDLRect(), object->getSDLRect(), &intersection)){
 				MovableObject::Movements m = object->getCurrentMovement();
-				int i = static_cast<int>(m);
+				//int i = static_cast<int>(m);
 				float angle = object->calcAngleOfMovement();
-				std::cout << std::to_string(intersection.w) << std::endl;
-				std::cout << std::to_string(intersection.h) << std::endl<<std::endl;
-				// left, right, up, and down
+				int depthOfPenetration;
+				if (intersection.w == object->getWidth())
+					depthOfPenetration = intersection.h;
+				else if (intersection.h == object->getHeight())
+					depthOfPenetration = intersection.w;
+				else
+					depthOfPenetration = intersection.h;
+				// right
 				if (angle == 0)
-					object->setX(object->getX() - intersection.w);
+					object->setX(object->getX() - depthOfPenetration);
+				// left
 				else if (angle == 180)
-					object->setX(object->getX() + intersection.w);
+					object->setX(object->getX() + depthOfPenetration);
+				// down
 				else if (angle > 180 && angle < 360)
-					object->setY(object->getY() - intersection.h);
+					object->setY(object->getY() - depthOfPenetration);
+				// up
 				else if (angle < 180 && angle > 0)
-					object->setY(object->getY() + intersection.h);
+					object->setY(object->getY() + depthOfPenetration);
 			}
 		}
 	}
