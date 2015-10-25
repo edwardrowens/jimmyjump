@@ -3,22 +3,30 @@
 
 //initiating stats to arbitrary values
 MovableObject::MovableObject() : _health(100.0f), _strength(10.0f), _speed(5),
-_isStable(true), _previousXYPosition(new int[2]),_hitbox(new SDL_Rect()){
+_isStable(true), _previousXYPosition(new int[2]),_hitbox(new SDL_Rect()),
+_currentMovement(Movements::none){
 	_isMovable = true;
+	_previousXYPosition[0] = _x;
+	_previousXYPosition[1] = _y;
 }
 
 MovableObject::MovableObject(int x, int y, int width, int height) : Object(x, y, width, height), _health(100.0f),
-_strength(10.0f), _speed(5), _isStable(true), _hitbox(new SDL_Rect), _previousXYPosition(new int[2]){
+_strength(10.0f), _speed(5), _isStable(true), _hitbox(new SDL_Rect), _previousXYPosition(new int[2]),
+_currentMovement(Movements::none){
 	_isMovable = true;
 	_hitbox->x = HITBOX_MODIFIER*_x;
 	_hitbox->y = HITBOX_MODIFIER*_y;
 	_hitbox->w = HITBOX_MODIFIER*_width;
 	_hitbox->h = HITBOX_MODIFIER*_height;
+	_previousXYPosition[0] = _x;
+	_previousXYPosition[1] = _y;
 }
 
 MovableObject::MovableObject(const MovableObject &movableObject): Object(movableObject),
-_previousXYPosition(new int[2]), _hitbox(new SDL_Rect){
+_previousXYPosition(new int[2]), _hitbox(new SDL_Rect), _currentMovement(Movements::none){
 	*(_hitbox) = *(movableObject.getHitbox());
+	_previousXYPosition[0] = _x;
+	_previousXYPosition[1] = _y;
 }
 
 MovableObject::~MovableObject(){
@@ -147,13 +155,8 @@ float MovableObject::attack(){
 }
 
 float MovableObject::calcAngleOfMovement() const{
-	std::cout << "previous X: " + std::to_string(_previousXYPosition[0]) << std::endl;
-	std::cout << "current X: " + std::to_string(_x) << std::endl;
-	std::cout << "previous Y: " + std::to_string(_previousXYPosition[1]) << std::endl;
-	std::cout << "current Y: " + std::to_string(_y) << std::endl;
 	float deltaY = _y - _previousXYPosition[1];
 	float deltaX = _previousXYPosition[0] - _x;
-	float angle = 0.0f;
 
 	// no movement
 	if (deltaX == 0 && deltaY == 0)
@@ -162,40 +165,36 @@ float MovableObject::calcAngleOfMovement() const{
 	// vertical movement
 	if (deltaX == 0){
 		if (deltaY > 0){
-			angle = 270.0f;
+			return 270.0f;
 		}
 		else{
-			angle = 90.0f;
+			return 90.0f;
 		}
 	}
 
 	// horizontal movement
 	if (deltaY == 0){
 		if (deltaX > 0)
-			angle = 0.0f;
+			return 0.0f;
 		else
-			angle = 180.0f;
+			return 180.0f;
 	}
-	std::cout << "divisor: " + std::to_string(deltaY / deltaX) << std::endl;
-	angle = atan(deltaY / deltaX) * 180 / M_PI;
+	float angle = atan(deltaY / deltaX) * 180 / M_PI;
 
 	// Q1
 	if (deltaX < 0 && deltaY < 0){
-		//return angle;
+		return angle;
 	}
 	// Q2
 	else if (deltaX > 0 && deltaY < 0){
-		angle = angle * -1 + 90;
+		return angle * -1 + 90;
 	}
 	// Q3
 	else if (deltaX > 0 && deltaY > 0){
-		angle += 180;
+		return angle += 180;
 	}
 	// Q4
-	else if (deltaX < 0 && deltaY > 0){
-		angle = angle * -1 + 270;
+	else {
+		return angle * -1 + 270;
 	}
-
-	std::cout << "Angle: " + std::to_string(angle) << std::endl << std::endl;
-	return angle;
 }

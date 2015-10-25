@@ -3,7 +3,7 @@
 
 TheGame::TheGame() : _currentWindow(nullptr), WINDOW_HEIGHT(600), WINDOW_WIDTH(768), FPS(15),
 _currentState(GameState::PLAY), jimHeight(50), jimWidth(50), _eventMade(0), jim(nullptr)
-, BACKGROUND_FNAME("Background.png"), _gravity(-3), _gameFloor(nullptr)
+, BACKGROUND_FNAME("Background.png"), _gravity(3), _gameFloor(nullptr) 
 {}
 
 
@@ -13,18 +13,18 @@ TheGame::~TheGame()
 
 /* TODO
 1. implement safety checks for background and platform objects so only the appropriate textures
-   may be assigned to them
+may be assigned to them
 2. improve walkcycles to be more generalizable
 3. institute collision detection
-	3.5 make gamefloor
+3.5 make gamefloor
 */
 
 void TheGame::run(){
 	initGame();
 
 	Object background(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-	Platform platform(50, 50, 100, 100);
-	Platform platform2(400, 100, 100, 100);
+	Platform platform(50, WINDOW_HEIGHT - 150, 100, 100);
+	Platform platform2(400, WINDOW_HEIGHT - 150, 100, 100);
 
 	background.setTexturePath("Background.png");
 	background.setObjectTexture(_currentRenderContext);
@@ -83,7 +83,7 @@ void TheGame::initGame(){
 	_gameFloor->setWidth(WINDOW_WIDTH);
 
 	int startingJimHeight = WINDOW_HEIGHT - (jimHeight - 7) - ((2.0 / 23)*WINDOW_HEIGHT);
-	jim = new MainCharacter(WINDOW_WIDTH/2, startingJimHeight, jimWidth, jimHeight);
+	jim = new MainCharacter(WINDOW_WIDTH / 2, startingJimHeight, jimWidth, jimHeight);
 }
 
 SDL_Window* TheGame::WindowInitialization(){
@@ -108,7 +108,6 @@ void TheGame::update(){
 	jim->setPreviousMovement(jim->getCurrentMovement());
 	jim->setPreviousXY(jim->getX(), jim->getY());
 	calcGravity();
-	//jim->moveRight();
 
 	//change walkcycles!!!
 	if (_keyState[SDL_SCANCODE_D] && !_keyState[SDL_SCANCODE_W]){
@@ -154,7 +153,7 @@ void TheGame::update(){
 		jim->setCurrentMovement(MovableObject::Movements::none);
 	}
 
-	if (jim->getY() > (WINDOW_HEIGHT - (jimHeight - 7) - ((2.0 / 23)*WINDOW_HEIGHT))){
+	if (jim->getCurrentMovement() == MovableObject::Movements::jump){
 		if (jim->getTexturePath().find("Right", 0) != jim->getTexturePath().npos)
 			jim->setTexturePath("CharacterRight_Jump.png");
 		else
@@ -228,23 +227,22 @@ void TheGame::detectStaticCollisions(MovableObject* object){
 		float angle = object->calcAngleOfMovement();
 		if ((*i)->getIsPlatform()){
 			SDL_Rect intersection;
-			float angle = 0.0f;
-			if (SDL_IntersectRect((*i)->getSDLRect(), object->getSDLRect(),&intersection)){
-				//float angle = object->calcAngleOfMovement();
-				//(*i)->setX((*i)->getX() - )
 
-				/*switch (object->getCurrentMovement()){
-				case MovableObject::Movements::right:
-					object->setX(object->getX() - intersection.x);
-					break;
-				case MovableObject::Movements::left:
-					object->setX(object->getX() + intersection.x);
-					break;
-				case MovableObject::Movements::jump:
-					break;
-				case MovableObject::Movements::down:
-					break;
-				}*/
+			if (SDL_IntersectRect((*i)->getSDLRect(), object->getSDLRect(), &intersection)){
+				MovableObject::Movements m = object->getCurrentMovement();
+				int i = static_cast<int>(m);
+				float angle = object->calcAngleOfMovement();
+				std::cout << std::to_string(intersection.w) << std::endl;
+				std::cout << std::to_string(intersection.h) << std::endl<<std::endl;
+				// left, right, up, and down
+				if (angle == 0)
+					object->setX(object->getX() - intersection.w);
+				else if (angle == 180)
+					object->setX(object->getX() + intersection.w);
+				else if (angle > 180 && angle < 360)
+					object->setY(object->getY() - intersection.h);
+				else if (angle < 180 && angle > 0)
+					object->setY(object->getY() + intersection.h);
 			}
 		}
 	}
