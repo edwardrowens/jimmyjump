@@ -198,3 +198,10 @@ float MovableObject::calcAngleOfMovement() const{
 		return angle * -1 + 270;
 	}
 }
+
+float MovableObject::calcSlopeOfMovement() const{
+	float deltaY = _y - _previousXYPosition[1];
+	float deltaX = _previousXYPosition[0] - _x;
+
+	return (deltaY / deltaX);
+}

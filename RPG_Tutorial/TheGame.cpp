@@ -83,7 +83,7 @@ void TheGame::initGame(){
 	_gameFloor->setWidth(WINDOW_WIDTH);
 
 	int startingJimHeight = WINDOW_HEIGHT - (jimHeight - 7) - ((2.0 / 23)*WINDOW_HEIGHT);
-	jim = new MainCharacter(WINDOW_WIDTH / 2, startingJimHeight, jimWidth, jimHeight);
+	jim = new MainCharacter(105, startingJimHeight, jimWidth, jimHeight);
 }
 
 SDL_Window* TheGame::WindowInitialization(){
@@ -225,13 +225,14 @@ void TheGame::detectDynamicCollisions(MovableObject* object){
 void TheGame::detectStaticCollisions(MovableObject* object){
 	std::vector<Object*>::iterator i = _levelObjects.begin();
 	for (i; i != _levelObjects.end(); ++i){
-		float angle = object->calcAngleOfMovement();
+		float slope = object->calcSlopeOfMovement();
 		if ((*i)->getIsPlatform()){
 			SDL_Rect intersection;
 
 			if (SDL_IntersectRect((*i)->getSDLRect(), object->getSDLRect(), &intersection)){
 				MovableObject::Movements m = object->getCurrentMovement();
 				//int i = static_cast<int>(m);
+				float slope = object->calcSlopeOfMovement();
 				float angle = object->calcAngleOfMovement();
 				int depthOfPenetration;
 				if (intersection.w == object->getWidth())
@@ -241,17 +242,35 @@ void TheGame::detectStaticCollisions(MovableObject* object){
 				else
 					depthOfPenetration = intersection.h;
 				// right
-				if (angle == 0)
+				if (angle == 0.0f)
 					object->setX(object->getX() - depthOfPenetration);
 				// left
-				else if (angle == 180)
+				else if (angle == 180.0f)
 					object->setX(object->getX() + depthOfPenetration);
 				// down
-				else if (angle > 180 && angle < 360)
+				else if (angle == 270.0f){
 					object->setY(object->getY() - depthOfPenetration);
+				}
 				// up
-				else if (angle < 180 && angle > 0)
+				else if (angle == 90.0f){
 					object->setY(object->getY() + depthOfPenetration);
+				}
+				else if (angle > 0 && angle < 90){
+					object->setY(object->getY() + depthOfPenetration);
+					object->setX(object->getY() / slope);
+				}
+				else if (angle > 90 && angle < 180){
+					object->setY(object->getY() + depthOfPenetration);
+					object->setX(object->getY() / slope);
+				}
+				else if (angle > 180 && angle < 270){
+					object->setY(object->getY() - depthOfPenetration);
+					object->setX(object->getY() / slope);
+				}
+				else if (angle > 270 && angle < 360){
+					object->setY(object->getY() - depthOfPenetration);
+					object->setX(object->getY() / slope);
+				}
 			}
 		}
 	}
