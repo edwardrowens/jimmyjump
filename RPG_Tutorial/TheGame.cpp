@@ -224,16 +224,16 @@ void TheGame::detectDynamicCollisions(MovableObject* object){
 // detects collisions between static objects
 void TheGame::detectStaticCollisions(MovableObject* object){
 	std::vector<Object*>::iterator i = _levelObjects.begin();
+	SDL_Rect intersection;
 	for (i; i != _levelObjects.end(); ++i){
-		float slope = object->calcSlopeOfMovement();
 		if ((*i)->getIsPlatform()){
-			SDL_Rect intersection;
-
+			
 			if (SDL_IntersectRect((*i)->getSDLRect(), object->getSDLRect(), &intersection)){
 				MovableObject::Movements m = object->getCurrentMovement();
 				//int i = static_cast<int>(m);
 				float slope = object->calcSlopeOfMovement();
 				float angle = object->calcAngleOfMovement();
+				int intercept = object->getY() - (object->getX() * slope);
 				int depthOfPenetration;
 				if (intersection.w == object->getWidth())
 					depthOfPenetration = intersection.h;
@@ -257,19 +257,19 @@ void TheGame::detectStaticCollisions(MovableObject* object){
 				}
 				else if (angle > 0 && angle < 90){
 					object->setY(object->getY() + depthOfPenetration);
-					object->setX(object->getY() / slope);
+					object->setX((object->getY() - intercept) / slope);
 				}
 				else if (angle > 90 && angle < 180){
 					object->setY(object->getY() + depthOfPenetration);
-					object->setX(object->getY() / slope);
+					object->setX((object->getY() - intercept) / slope);
 				}
 				else if (angle > 180 && angle < 270){
 					object->setY(object->getY() - depthOfPenetration);
-					object->setX(object->getY() / slope);
+					object->setX(((object->getY() - intercept) / slope)+1); //+1 account of integer truncation
 				}
 				else if (angle > 270 && angle < 360){
 					object->setY(object->getY() - depthOfPenetration);
-					object->setX(object->getY() / slope);
+					object->setX((object->getY() - intercept) / slope);
 				}
 			}
 		}
