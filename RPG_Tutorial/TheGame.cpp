@@ -79,11 +79,11 @@ void TheGame::initGame(){
 	_gameFloor->setIsRenderable(false);
 	_gameFloor->setX(0);
 	_gameFloor->setY(WINDOW_HEIGHT - ((2.0 / 23)*WINDOW_HEIGHT));
-	_gameFloor->setHeight(10);
+	_gameFloor->setHeight(15);
 	_gameFloor->setWidth(WINDOW_WIDTH);
 
-	int startingJimHeight = WINDOW_HEIGHT - (jimHeight - 7) - ((2.0 / 23)*WINDOW_HEIGHT);
-	jim = new MainCharacter(105, startingJimHeight, jimWidth, jimHeight);
+	int startingY = _gameFloor->getY()-jimHeight;
+	jim = new MainCharacter(105, startingY, jimWidth, jimHeight);
 }
 
 SDL_Window* TheGame::WindowInitialization(){
@@ -108,7 +108,7 @@ void TheGame::update(){
 	jim->setPreviousMovement(jim->getCurrentMovement());
 	jim->setPreviousXY(jim->getX(), jim->getY());
 	calcGravity();
-	jim->moveLeft();
+	//jim->moveRight();
 
 	//change walkcycles!!!
 	if (_keyState[SDL_SCANCODE_D] && !_keyState[SDL_SCANCODE_W]){
@@ -233,7 +233,7 @@ void TheGame::detectStaticCollisions(MovableObject* object){
 				//int i = static_cast<int>(m);
 				float slope = object->calcSlopeOfMovement();
 				float angle = object->calcAngleOfMovement();
-				int intercept = object->getY() - (object->getX() * slope);
+				int intercept = object->getY() - (object->getX() * (-1*slope));
 				int depthOfPenetration;
 				if (intersection.w == object->getWidth())
 					depthOfPenetration = intersection.h;
@@ -257,20 +257,21 @@ void TheGame::detectStaticCollisions(MovableObject* object){
 				}
 				else if (angle > 0 && angle < 90){
 					object->setY(object->getY() + depthOfPenetration);
-					object->setX((object->getY() - intercept) / slope);
+					object->setX(-1*((object->getY() - intercept) / slope));
 				}
 				else if (angle > 90 && angle < 180){
 					object->setY(object->getY() + depthOfPenetration);
-					object->setX((object->getY() - intercept) / slope);
+					object->setX(-1 * ((object->getY() - intercept) / slope));
 				}
 				else if (angle > 180 && angle < 270){
 					object->setY(object->getY() - depthOfPenetration);
-					object->setX(((object->getY() - intercept) / slope)+1); //+1 account of integer truncation
+					object->setX(-1 * ((object->getY() - intercept) / slope));
 				}
 				else if (angle > 270 && angle < 360){
 					object->setY(object->getY() - depthOfPenetration);
-					object->setX((object->getY() - intercept) / slope);
+					object->setX(-1 * ((object->getY() - intercept) / slope));
 				}
+				i = _levelObjects.begin();
 			}
 		}
 	}
