@@ -3,7 +3,7 @@
 
 TheGame::TheGame() : _currentWindow(nullptr), WINDOW_HEIGHT(600), WINDOW_WIDTH(768), FPS(15),
 _currentState(GameState::PLAY), jimHeight(50), jimWidth(50), _eventMade(0), jim(nullptr)
-, BACKGROUND_FNAME("Background.png"), _gravity(3), _gameFloor(nullptr) 
+, BACKGROUND_FNAME("Background.png"), _gravity(3), _gameFloor(nullptr)
 {}
 
 
@@ -82,7 +82,7 @@ void TheGame::initGame(){
 	_gameFloor->setHeight(15);
 	_gameFloor->setWidth(WINDOW_WIDTH);
 
-	int startingY = _gameFloor->getY()-jimHeight;
+	int startingY = _gameFloor->getY() - jimHeight;
 	jim = new MainCharacter(105, startingY, jimWidth, jimHeight);
 }
 
@@ -108,7 +108,7 @@ void TheGame::update(){
 	jim->setPreviousMovement(jim->getCurrentMovement());
 	jim->setPreviousXY(jim->getX(), jim->getY());
 	calcGravity();
-	//jim->moveRight();
+	//jim->moveLeft();
 
 	//change walkcycles!!!
 	if (_keyState[SDL_SCANCODE_D] && !_keyState[SDL_SCANCODE_W]){
@@ -225,53 +225,64 @@ void TheGame::detectDynamicCollisions(MovableObject* object){
 void TheGame::detectStaticCollisions(MovableObject* object){
 	std::vector<Object*>::iterator i = _levelObjects.begin();
 	SDL_Rect intersection;
-	for (i; i != _levelObjects.end(); ++i){
-		if ((*i)->getIsPlatform()){
-			
-			if (SDL_IntersectRect((*i)->getSDLRect(), object->getSDLRect(), &intersection)){
+
+	int iteration, intercept, depthOfPenetration = 0;
+	iteration = intercept = depthOfPenetration;
+	float slope, angle = 0.0f;
+
+	for (int i = 0; i < _levelObjects.size(); ++i){
+		if (_levelObjects[i]->getIsPlatform()){
+			if (SDL_IntersectRect(_levelObjects[i]->getSDLRect(), object->getSDLRect(), &intersection)){
 				MovableObject::Movements m = object->getCurrentMovement();
 				//int i = static_cast<int>(m);
-				float slope = object->calcSlopeOfMovement();
-				float angle = object->calcAngleOfMovement();
-				int intercept = object->getY() - (object->getX() * (-1*slope));
-				int depthOfPenetration;
-				if (intersection.w == object->getWidth())
-					depthOfPenetration = intersection.h;
-				else if (intersection.h == object->getHeight())
-					depthOfPenetration = intersection.w;
-				else
-					depthOfPenetration = intersection.h;
-				// right
-				if (angle == 0.0f)
-					object->setX(object->getX() - depthOfPenetration);
-				// left
-				else if (angle == 180.0f)
-					object->setX(object->getX() + depthOfPenetration);
-				// down
-				else if (angle == 270.0f){
-					object->setY(object->getY() - depthOfPenetration);
+				if (iteration == 0){
+					// get line parameters
+					slope = object->calcSlopeOfMovement();
+					angle = object->calcAngleOfMovement(); 
+					intercept = object->getY() - (object->getX() * (-1 * slope));
+
+					// find how far the rectangles intersect
+					int depthOfPenetration;
+					if (intersection.w == object->getWidth())
+						depthOfPenetration = intersection.h;
+					else if (intersection.h == object->getHeight())
+						depthOfPenetration = intersection.w;
+					else
+						depthOfPenetration = intersection.h;
+
+					/* 
+					We want to see if a simply change in y will resolve the issue
+					for situations such as the object falling through the floor due
+					to gravity
+					*/
+					// right
+					if (angle == 0.0f)
+						object->setX(object->getX() - intersection.w);
+					// left
+					else if (angle == 180.0f)
+						object->setX(object->getX() + intersection.w);
+					// up
+					else if (angle > 0 && angle < 180){
+						object->setY(object->getY() + intersection.h);
+					}
+					// down
+					else if (angle > 180 && angle < 360){
+						object->setY(object->getY() - intersection.h);
+					}
 				}
-				// up
-				else if (angle == 90.0f){
-					object->setY(object->getY() + depthOfPenetration);
+				else{
+					// up
+					if (angle > 0 && angle < 180){
+						object->setX(-1 * ((object->getY() - intercept) / slope));
+					}
+					// down
+					else {
+						object->setX(-1 * ((object->getY() - intercept) / slope));
+					}
 				}
-				else if (angle > 0 && angle < 90){
-					object->setY(object->getY() + depthOfPenetration);
-					object->setX(-1*((object->getY() - intercept) / slope));
-				}
-				else if (angle > 90 && angle < 180){
-					object->setY(object->getY() + depthOfPenetration);
-					object->setX(-1 * ((object->getY() - intercept) / slope));
-				}
-				else if (angle > 180 && angle < 270){
-					object->setY(object->getY() - depthOfPenetration);
-					object->setX(-1 * ((object->getY() - intercept) / slope));
-				}
-				else if (angle > 270 && angle < 360){
-					object->setY(object->getY() - depthOfPenetration);
-					object->setX(-1 * ((object->getY() - intercept) / slope));
-				}
-				i = _levelObjects.begin();
+				++iteration;
+
+				i = -1;
 			}
 		}
 	}

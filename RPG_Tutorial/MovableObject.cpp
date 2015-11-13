@@ -203,5 +203,9 @@ float MovableObject::calcSlopeOfMovement() const{
 	float deltaY = _y - _previousXYPosition[1];
 	float deltaX = _previousXYPosition[0] - _x;
 
+	if (deltaX == 0.0f){
+		return 0;
+	}
+
 	return (deltaY / deltaX);
 }
