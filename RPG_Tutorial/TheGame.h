@@ -29,6 +29,7 @@ private:
 	void detectStaticCollisions(MovableObject* object);
 	void detectDynamicCollisions(MovableObject* object);
 	void detectCollisions();
+	int calcDepthOfPenetration(const SDL_Rect &smalerRect, const SDL_Rect &i);
 
 	GameState _currentState;
 	SDL_Window* _currentWindow;

@@ -1,7 +1,7 @@
 #include "TheGame.h"
 
 
-TheGame::TheGame() : _currentWindow(nullptr), WINDOW_HEIGHT(600), WINDOW_WIDTH(768), FPS(15),
+TheGame::TheGame() : _currentWindow(nullptr), WINDOW_HEIGHT(600), WINDOW_WIDTH(768), FPS(10),
 _currentState(GameState::PLAY), jimHeight(50), jimWidth(50), _eventMade(0), jim(nullptr)
 , BACKGROUND_FNAME("Background.png"), _gravity(3), _gameFloor(nullptr)
 {}
@@ -83,7 +83,7 @@ void TheGame::initGame(){
 	_gameFloor->setWidth(WINDOW_WIDTH);
 
 	int startingY = _gameFloor->getY() - jimHeight;
-	jim = new MainCharacter(105, startingY, jimWidth, jimHeight);
+	jim = new MainCharacter(550, startingY, jimWidth, jimHeight);
 }
 
 SDL_Window* TheGame::WindowInitialization(){
@@ -108,7 +108,7 @@ void TheGame::update(){
 	jim->setPreviousMovement(jim->getCurrentMovement());
 	jim->setPreviousXY(jim->getX(), jim->getY());
 	calcGravity();
-	//jim->moveLeft();
+	//jim->moveRight();
 
 	//change walkcycles!!!
 	if (_keyState[SDL_SCANCODE_D] && !_keyState[SDL_SCANCODE_W]){
@@ -235,55 +235,72 @@ void TheGame::detectStaticCollisions(MovableObject* object){
 			if (SDL_IntersectRect(_levelObjects[i]->getSDLRect(), object->getSDLRect(), &intersection)){
 				MovableObject::Movements m = object->getCurrentMovement();
 				//int i = static_cast<int>(m);
-				if (iteration == 0){
 					// get line parameters
 					slope = object->calcSlopeOfMovement();
-					angle = object->calcAngleOfMovement(); 
+					angle = object->calcAngleOfMovement();
 					intercept = object->getY() - (object->getX() * (-1 * slope));
 
-					// find how far the rectangles intersect
-					int depthOfPenetration;
-					if (intersection.w == object->getWidth())
-						depthOfPenetration = intersection.h;
-					else if (intersection.h == object->getHeight())
-						depthOfPenetration = intersection.w;
+					// find the smaller rectangle
+					SDL_Rect smallerRect = SDL_Rect();
+					if (_levelObjects[i]->getHeight() == intersection.h || _levelObjects[i]->getWidth() == intersection.w)
+						smallerRect = *(_levelObjects[i]->getSDLRect());
 					else
-						depthOfPenetration = intersection.h;
+						smallerRect = *(object->getSDLRect());
 
-					/* 
+					// intersected either from the left or right
+					if ((object->getX() == intersection.x && intersection.y == object->getY()) || object->getX() < intersection.x && object->getY() == intersection.y){
+						if (angle >= 90 && angle < 270)
+							object->setX(object->getX() + intersection.w);
+						else
+							object->setX(object->getX() - intersection.w);
+					}
+					// intersected from up or down
+					else if ((intersection.x == smallerRect.x && intersection.y != smallerRect.y) || (intersection.x != smallerRect.x && intersection.y == smallerRect.y)){
+						if (angle >= 0 && angle < 180)
+							object->setY(object->getY() + intersection.h);
+						else
+							object->setY(object->getY() - intersection.h);
+					}
+					/*
 					We want to see if a simply change in y will resolve the issue
 					for situations such as the object falling through the floor due
 					to gravity
 					*/
 					// right
-					if (angle == 0.0f)
-						object->setX(object->getX() - intersection.w);
-					// left
-					else if (angle == 180.0f)
-						object->setX(object->getX() + intersection.w);
-					// up
-					else if (angle > 0 && angle < 180){
-						object->setY(object->getY() + intersection.h);
-					}
-					// down
-					else if (angle > 180 && angle < 360){
-						object->setY(object->getY() - intersection.h);
-					}
-				}
-				else{
-					// up
-					if (angle > 0 && angle < 180){
-						object->setX(-1 * ((object->getY() - intercept) / slope));
-					}
-					// down
-					else {
-						object->setX(-1 * ((object->getY() - intercept) / slope));
-					}
-				}
-				++iteration;
+					//if (angle == 0.0f)
+					//	object->setX(object->getX() - depthOfPenetration);
+					//// left
+					//else if (angle == 180.0f)
+					//	object->setX(object->getX() + depthOfPenetration);
+					//// up
+					//else if (angle > 0 && angle < 180){
+					//	object->setY(object->getY() + depthOfPenetration);
+					//}
+					//// down
+					//else if (angle > 180 && angle < 360){
+					//	object->setY(object->getY() - depthOfPenetration);
+					//}
 
 				i = -1;
 			}
 		}
+	}
+}
+
+/*
+Calculate the distance of separation between the two rectangles
+
+@param smallerRect The smaller of the two rectangles in the intersection
+@param i The intersection rectangle
+*/
+int TheGame::calcDepthOfPenetration(const SDL_Rect &smallerRect, const SDL_Rect &i){
+	if ((i.x == smallerRect.x && i.y == smallerRect.y) || smallerRect.x < i.x && smallerRect.y == i.y){
+		return i.w;
+	}
+	else if ((i.x == smallerRect.x && i.y != smallerRect.y) || (i.x != smallerRect.x && i.y == smallerRect.y)){
+		return i.h;
+	}
+	else{
+		return round(sqrt(i.w ^ 2 + i.h ^ 2));
 	}
 }
