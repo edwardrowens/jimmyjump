@@ -83,7 +83,7 @@ void TheGame::initGame(){
 	_gameFloor->setWidth(WINDOW_WIDTH);
 
 	int startingY = _gameFloor->getY() - jimHeight;
-	jim = new MainCharacter(550, startingY, jimWidth, jimHeight);
+	jim = new MainCharacter(105, startingY, jimWidth, jimHeight);
 }
 
 SDL_Window* TheGame::WindowInitialization(){
@@ -108,7 +108,7 @@ void TheGame::update(){
 	jim->setPreviousMovement(jim->getCurrentMovement());
 	jim->setPreviousXY(jim->getX(), jim->getY());
 	calcGravity();
-	//jim->moveRight();
+	//jim->moveLeft();
 
 	//change walkcycles!!!
 	if (_keyState[SDL_SCANCODE_D] && !_keyState[SDL_SCANCODE_W]){
@@ -142,6 +142,7 @@ void TheGame::update(){
 	}
 	else if (_keyState[SDL_SCANCODE_W]){
 		jim->setCurrentMovement(MovableObject::Movements::jump);
+		jim->jump();
 
 		if (_keyState[SDL_SCANCODE_D]){
 			jim->setTexturePath("CharacterRight_Jump.png");
@@ -247,40 +248,38 @@ void TheGame::detectStaticCollisions(MovableObject* object){
 					else
 						smallerRect = *(object->getSDLRect());
 
+
+
 					// intersected either from the left or right
-					if ((object->getX() == intersection.x && intersection.y == object->getY()) || object->getX() < intersection.x && object->getY() == intersection.y){
-						if (angle >= 90 && angle < 270)
+					if (smallerRect.y < intersection.y && (smallerRect.x > intersection.x || smallerRect.x == intersection.x)){
+						// intersecting from right
+						if (angle > 90 && angle < 270)
 							object->setX(object->getX() + intersection.w);
 						else
 							object->setX(object->getX() - intersection.w);
 					}
 					// intersected from up or down
-					else if ((intersection.x == smallerRect.x && intersection.y != smallerRect.y) || (intersection.x != smallerRect.x && intersection.y == smallerRect.y)){
+					else if (intersection.x == smallerRect.x && smallerRect.y > intersection.y){
 						if (angle >= 0 && angle < 180)
 							object->setY(object->getY() + intersection.h);
 						else
 							object->setY(object->getY() - intersection.h);
 					}
-					/*
-					We want to see if a simply change in y will resolve the issue
-					for situations such as the object falling through the floor due
-					to gravity
-					*/
-					// right
-					//if (angle == 0.0f)
-					//	object->setX(object->getX() - depthOfPenetration);
-					//// left
-					//else if (angle == 180.0f)
-					//	object->setX(object->getX() + depthOfPenetration);
-					//// up
-					//else if (angle > 0 && angle < 180){
-					//	object->setY(object->getY() + depthOfPenetration);
-					//}
-					//// down
-					//else if (angle > 180 && angle < 360){
-					//	object->setY(object->getY() - depthOfPenetration);
-					//}
-
+					else if (intersection.x == smallerRect.x && smallerRect.y == intersection.y){
+						// coming from right
+						if (angle <= 45 && angle >= 315)
+							object->setX(object->getX() + intersection.w);
+						// coming from left
+						else if (angle <= 135 && angle >= 225)
+							object->setX(object->getX() - intersection.w);
+						// coming from top
+						else if (angle < 45 && angle < 135)
+							object->setY(object->getY() - intersection.h);
+						else
+							object->setY(object->getY() + intersection.h);
+					}
+					else
+						PrintErrors(generateResolutionErrorMessage(*object, *_levelObjects[i], intersection));
 				i = -1;
 			}
 		}
@@ -303,4 +302,13 @@ int TheGame::calcDepthOfPenetration(const SDL_Rect &smallerRect, const SDL_Rect 
 	else{
 		return round(sqrt(i.w ^ 2 + i.h ^ 2));
 	}
+}
+
+
+std::string TheGame::generateResolutionErrorMessage(const Object &a, const Object &b, const SDL_Rect &i){
+	return "No resolution found for:\n\n" + a.getTexturePath() + ":\n\t(" + std::to_string(a.getX()) + ", " + std::to_string(a.getY())
+		+ ") W = " + std::to_string(a.getWidth()) + ", H = " + std::to_string(a.getHeight()) + "\n\n" + b.getTexturePath() + ":\n\t(" + std::to_string(b.getX()) + ", " + std::to_string(b.getY())
+		+ ") W = " + std::to_string(b.getWidth()) + ", H = " + std::to_string(b.getHeight()) + "\n\n" + "Intersection:\n\t(" + std::to_string(i.x) + ", " + std::to_string(i.y)
+		+ ") W = " + std::to_string(i.w) + ", H = " + std::to_string(i.h) + "\n";
+
 }

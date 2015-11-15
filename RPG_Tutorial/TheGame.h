@@ -30,6 +30,7 @@ private:
 	void detectDynamicCollisions(MovableObject* object);
 	void detectCollisions();
 	int calcDepthOfPenetration(const SDL_Rect &smalerRect, const SDL_Rect &i);
+	std::string generateResolutionErrorMessage(const Object &a, const Object &b, const SDL_Rect &i);
 
 	GameState _currentState;
 	SDL_Window* _currentWindow;
