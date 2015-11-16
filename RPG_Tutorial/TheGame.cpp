@@ -83,7 +83,7 @@ void TheGame::initGame(){
 	_gameFloor->setWidth(WINDOW_WIDTH);
 
 	int startingY = _gameFloor->getY() - jimHeight;
-	jim = new MainCharacter(105, startingY, jimWidth, jimHeight);
+	jim = new MainCharacter(600-50-10, WINDOW_HEIGHT-200, jimWidth, jimHeight);
 }
 
 SDL_Window* TheGame::WindowInitialization(){
@@ -108,7 +108,7 @@ void TheGame::update(){
 	jim->setPreviousMovement(jim->getCurrentMovement());
 	jim->setPreviousXY(jim->getX(), jim->getY());
 	calcGravity();
-	//jim->moveLeft();
+	jim->moveRight();
 
 	//change walkcycles!!!
 	if (_keyState[SDL_SCANCODE_D] && !_keyState[SDL_SCANCODE_W]){
@@ -248,10 +248,11 @@ void TheGame::detectStaticCollisions(MovableObject* object){
 					else
 						smallerRect = *(object->getSDLRect());
 
-
+					// is the intersection a corner intersection
+					bool cornerResolution = intersection.w != smallerRect.w && intersection.h != smallerRect.h;
 
 					// intersected either from the left or right
-					if (smallerRect.y < intersection.y && (smallerRect.x > intersection.x || smallerRect.x == intersection.x)){
+					if (smallerRect.y == intersection.y && (smallerRect.x < intersection.x || smallerRect.x == intersection.x) && !cornerResolution){
 						// intersecting from right
 						if (angle > 90 && angle < 270)
 							object->setX(object->getX() + intersection.w);
@@ -259,24 +260,34 @@ void TheGame::detectStaticCollisions(MovableObject* object){
 							object->setX(object->getX() - intersection.w);
 					}
 					// intersected from up or down
-					else if (intersection.x == smallerRect.x && smallerRect.y > intersection.y){
+					else if (intersection.x == smallerRect.x && smallerRect.y < intersection.y && !cornerResolution){
 						if (angle >= 0 && angle < 180)
 							object->setY(object->getY() + intersection.h);
 						else
 							object->setY(object->getY() - intersection.h);
 					}
-					else if (intersection.x == smallerRect.x && smallerRect.y == intersection.y){
-						// coming from right
-						if (angle <= 45 && angle >= 315)
-							object->setX(object->getX() + intersection.w);
+					else if (cornerResolution){
 						// coming from left
-						else if (angle <= 135 && angle >= 225)
-							object->setX(object->getX() - intersection.w);
+						if ((angle <= 45 && angle >= 0) || (angle >= 315 && angle <= 360)){
+							// did you land on the platform?
+							if (object->getPreviousXY()[1] + object->getHeight() <= _levelObjects[i]->getY())
+								object->setY(object->getY() - intersection.h);
+							else
+								object->setX(object->getX() - intersection.w);
+						}
+						// coming from right
+						else if (angle >= 135 && angle <= 225){
+							// did you land on the platform?
+							if (object->getPreviousXY()[1] + object->getHeight() <= _levelObjects[i]->getY())
+								object->setY(object->getY() - intersection.h);
+							else
+								object->setX(object->getX() + intersection.w);
+						}
 						// coming from top
 						else if (angle < 45 && angle < 135)
-							object->setY(object->getY() - intersection.h);
-						else
 							object->setY(object->getY() + intersection.h);
+						else
+							object->setY(object->getY() - intersection.h);
 					}
 					else
 						PrintErrors(generateResolutionErrorMessage(*object, *_levelObjects[i], intersection));
