@@ -23,7 +23,7 @@ void TheGame::run(){
 	initGame();
 
 	Object background(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-	Platform platform(600, WINDOW_HEIGHT - 150, 100, 100);
+	Platform platform(125, WINDOW_HEIGHT - 210, 100, 100);
 	Platform platform2(0, WINDOW_HEIGHT - 150, 100, 100);
 
 	background.setTexturePath("Background.png");
@@ -83,7 +83,7 @@ void TheGame::initGame(){
 	_gameFloor->setWidth(WINDOW_WIDTH);
 
 	int startingY = _gameFloor->getY() - jimHeight;
-	jim = new MainCharacter(600-50-10, WINDOW_HEIGHT-200, jimWidth, jimHeight);
+	jim = new MainCharacter(100, startingY, jimWidth, jimHeight);
 }
 
 SDL_Window* TheGame::WindowInitialization(){
@@ -108,7 +108,7 @@ void TheGame::update(){
 	jim->setPreviousMovement(jim->getCurrentMovement());
 	jim->setPreviousXY(jim->getX(), jim->getY());
 	calcGravity();
-	jim->moveRight();
+	//jim->jump();
 
 	//change walkcycles!!!
 	if (_keyState[SDL_SCANCODE_D] && !_keyState[SDL_SCANCODE_W]){
@@ -236,61 +236,57 @@ void TheGame::detectStaticCollisions(MovableObject* object){
 			if (SDL_IntersectRect(_levelObjects[i]->getSDLRect(), object->getSDLRect(), &intersection)){
 				MovableObject::Movements m = object->getCurrentMovement();
 				//int i = static_cast<int>(m);
-					// get line parameters
-					slope = object->calcSlopeOfMovement();
-					angle = object->calcAngleOfMovement();
-					intercept = object->getY() - (object->getX() * (-1 * slope));
+				// get line parameters
+				slope = object->calcSlopeOfMovement();
+				angle = object->calcAngleOfMovement();
+				intercept = object->getY() - (object->getX() * (-1 * slope));
 
-					// find the smaller rectangle
-					SDL_Rect smallerRect = SDL_Rect();
-					if (_levelObjects[i]->getHeight() == intersection.h || _levelObjects[i]->getWidth() == intersection.w)
-						smallerRect = *(_levelObjects[i]->getSDLRect());
+				// find the smaller rectangle
+				SDL_Rect smallerRect = SDL_Rect();
+				if (_levelObjects[i]->getHeight() == intersection.h || _levelObjects[i]->getWidth() == intersection.w)
+					smallerRect = *(_levelObjects[i]->getSDLRect());
+				else
+					smallerRect = *(object->getSDLRect());
+
+				// is the intersection a corner intersection
+				bool cornerResolution = intersection.w != smallerRect.w && intersection.h != smallerRect.h;
+
+				// intersected either from the left or right
+				if (smallerRect.y == intersection.y && (smallerRect.x < intersection.x || smallerRect.x == intersection.x) && smallerRect.w != intersection.w && !cornerResolution){
+					// intersecting from right
+					if (angle > 90 && angle < 270)
+						object->setX(object->getX() + intersection.w);
 					else
-						smallerRect = *(object->getSDLRect());
-
-					// is the intersection a corner intersection
-					bool cornerResolution = intersection.w != smallerRect.w && intersection.h != smallerRect.h;
-
-					// intersected either from the left or right
-					if (smallerRect.y == intersection.y && (smallerRect.x < intersection.x || smallerRect.x == intersection.x) && !cornerResolution){
-						// intersecting from right
-						if (angle > 90 && angle < 270)
-							object->setX(object->getX() + intersection.w);
-						else
+						object->setX(object->getX() - intersection.w);
+				}
+				// intersected from up or down
+				else if (intersection.x == smallerRect.x && smallerRect.y <= intersection.y && !cornerResolution){
+					if (angle >= 0 && angle < 180)
+						object->setY(object->getY() + intersection.h);
+					else
+						object->setY(object->getY() - intersection.h);
+				}
+				else if (cornerResolution){
+					// Did the character land on the platform?
+					if (object->getPreviousXY()[1] + object->getHeight() <= _levelObjects[i]->getY())
+						object->setY(object->getY() - intersection.h);
+					else if ((smallerRect.x <= intersection.x && smallerRect.y == intersection.y) && angle < 180 && angle > 0)
+						object->setY(object->getY() + intersection.h);
+					else{
+						// Q1 or Q4?
+						if ((angle < 90 && angle >= 0) || (angle > 270 && angle < 360)){
 							object->setX(object->getX() - intersection.w);
-					}
-					// intersected from up or down
-					else if (intersection.x == smallerRect.x && smallerRect.y < intersection.y && !cornerResolution){
-						if (angle >= 0 && angle < 180)
-							object->setY(object->getY() + intersection.h);
-						else
-							object->setY(object->getY() - intersection.h);
-					}
-					else if (cornerResolution){
-						// coming from left
-						if ((angle <= 45 && angle >= 0) || (angle >= 315 && angle <= 360)){
-							// did you land on the platform?
-							if (object->getPreviousXY()[1] + object->getHeight() <= _levelObjects[i]->getY())
-								object->setY(object->getY() - intersection.h);
-							else
-								object->setX(object->getX() - intersection.w);
 						}
-						// coming from right
-						else if (angle >= 135 && angle <= 225){
-							// did you land on the platform?
-							if (object->getPreviousXY()[1] + object->getHeight() <= _levelObjects[i]->getY())
-								object->setY(object->getY() - intersection.h);
-							else
-								object->setX(object->getX() + intersection.w);
+						// Q2 or Q3?
+						else {
+							object->setX(object->getX() + intersection.w);
 						}
-						// coming from top
-						else if (angle < 45 && angle < 135)
-							object->setY(object->getY() + intersection.h);
-						else
-							object->setY(object->getY() - intersection.h);
 					}
-					else
-						PrintErrors(generateResolutionErrorMessage(*object, *_levelObjects[i], intersection));
+				}
+				else
+					PrintErrors(generateResolutionErrorMessage(*object, *_levelObjects[i], intersection));
+				
+				// reiterate through the loop to ensure there are no other resolutions required
 				i = -1;
 			}
 		}
