@@ -13,8 +13,6 @@ public:
 	MovableObject(const MovableObject &moveableObject);
 	MovableObject& operator=(const MovableObject &moveableObject);
 
-	const float HITBOX_MODIFIER = .9;
-
 	enum class Movements{
 		right, left, none, jump, down
 	};
@@ -24,7 +22,6 @@ public:
 	int getSpeed() const;
 	bool getIsJumping() const;
 	bool getIsStable() const;
-	SDL_Rect* getHitbox() const;
 	Movements getCurrentMovement() const;
 	Movements getPreviousMovement() const;
 	int* getPreviousXY() const;
@@ -34,10 +31,6 @@ public:
 	void setSpeed(int newSpeed);
 	void setIsJumping(bool isJumping);
 	void setIsStable(bool isStable);
-	virtual void setWidth(int width);
-	virtual void setHeight(int height);
-	virtual void setX(int x);
-	virtual void setY(int y);
 	void setCurrentMovement(Movements movements);
 	void setPreviousMovement(Movements movements);
 	void setPreviousXY(int x, int y);
@@ -57,9 +50,9 @@ public:
 protected:
 	float _strength, _health;
 	int _speed;
+	// 0 = x, 1 = y
 	int* _previousXYPosition;
 	//is the object's y position greater than then floor but should not be decremented
 	bool _isStable;
-	SDL_Rect* _hitbox;
 };
 

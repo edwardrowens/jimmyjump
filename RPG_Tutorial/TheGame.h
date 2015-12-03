@@ -9,6 +9,7 @@
 #include <ctime>
 #include <vector>
 #include "Platform.h"
+#include "CollisionDetector.h"
 
 enum class GameState {PLAY,EXIT};
 
@@ -23,14 +24,10 @@ public:
 private:
 	SDL_Window* WindowInitialization();
 	void initGame();
-	
+
 	int _gravity;
 	void calcGravity();
-	void detectStaticCollisions(MovableObject* object);
-	void detectDynamicCollisions(MovableObject* object);
 	void detectCollisions();
-	int calcDepthOfPenetration(const SDL_Rect &smalerRect, const SDL_Rect &i);
-	std::string generateResolutionErrorMessage(const Object &a, const Object &b, const SDL_Rect &i);
 
 	GameState _currentState;
 	SDL_Window* _currentWindow;

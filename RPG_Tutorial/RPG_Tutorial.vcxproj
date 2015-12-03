@@ -71,6 +71,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CollisionDetector.cpp" />
     <ClCompile Include="Errors.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainCharacter.cpp" />
@@ -80,6 +81,7 @@
     <ClCompile Include="TheGame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CollisionDetector.h" />
     <ClInclude Include="Errors.h" />
     <ClInclude Include="MainCharacter.h" />
     <ClInclude Include="MovableObject.h" />

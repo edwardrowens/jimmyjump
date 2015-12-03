@@ -3,7 +3,7 @@
 
 //initiating stats to arbitrary values
 MovableObject::MovableObject() : _health(100.0f), _strength(10.0f), _speed(5),
-_isStable(true), _previousXYPosition(new int[2]),_hitbox(new SDL_Rect()),
+_isStable(true), _previousXYPosition(new int[2]),
 _currentMovement(Movements::none){
 	_isMovable = true;
 	_previousXYPosition[0] = _x;
@@ -11,37 +11,26 @@ _currentMovement(Movements::none){
 }
 
 MovableObject::MovableObject(int x, int y, int width, int height) : Object(x, y, width, height), _health(100.0f),
-_strength(10.0f), _speed(5), _isStable(true), _hitbox(new SDL_Rect), _previousXYPosition(new int[2]),
+_strength(10.0f), _speed(5), _isStable(true), _previousXYPosition(new int[2]),
 _currentMovement(Movements::none){
 	_isMovable = true;
-	_hitbox->x = HITBOX_MODIFIER*_x;
-	_hitbox->y = HITBOX_MODIFIER*_y;
-	_hitbox->w = HITBOX_MODIFIER*_width;
-	_hitbox->h = HITBOX_MODIFIER*_height;
 	_previousXYPosition[0] = _x;
 	_previousXYPosition[1] = _y;
 }
 
 MovableObject::MovableObject(const MovableObject &movableObject): Object(movableObject),
-_previousXYPosition(new int[2]), _hitbox(new SDL_Rect), _currentMovement(Movements::none){
-	*(_hitbox) = *(movableObject.getHitbox());
+_previousXYPosition(new int[2]), _currentMovement(Movements::none){
 	_previousXYPosition[0] = _x;
 	_previousXYPosition[1] = _y;
 }
 
 MovableObject::~MovableObject(){
-	delete _hitbox;
 	delete _previousXYPosition;
 }
 
 MovableObject& MovableObject::operator=(const MovableObject &moveableObject){
 	Object::operator=(moveableObject);
-	SDL_Rect* movableRect = moveableObject.getHitbox();
-	this->_hitbox->x = movableRect->x;
-	this->_hitbox->y = movableRect->y;
-	this->_hitbox->w = movableRect->w;
-	this->_hitbox->h = movableRect->h;
-
+	
 	return *this;
 }
 
@@ -62,10 +51,6 @@ int MovableObject::getSpeed() const{
 
 bool MovableObject::getIsStable() const{
 	return _isStable;
-}
-
-SDL_Rect* MovableObject::getHitbox() const{
-	return _hitbox;
 }
 
 MovableObject::Movements MovableObject::getCurrentMovement() const{
@@ -95,26 +80,6 @@ void MovableObject::setSpeed(int newSpeed){
 
 void MovableObject::setIsStable(bool isStable){
 	_isStable = isStable;
-}
-
-void MovableObject::setWidth(int width){
-	Object::setWidth(width);
-	_hitbox->w = HITBOX_MODIFIER*width;
-}
-
-void MovableObject::setHeight(int height){
-	Object::setHeight(height);
-	_hitbox->h = HITBOX_MODIFIER*height;
-}
-
-void MovableObject::setX(int x){
-	Object::setX(x);
-	_hitbox->x = HITBOX_MODIFIER*x;
-}
-
-void MovableObject::setY(int y){
-	Object::setY(y);
-	_hitbox->y = HITBOX_MODIFIER*y;
 }
 
 void MovableObject::setCurrentMovement(Movements movements){
