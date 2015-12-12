@@ -1,19 +1,23 @@
 #include "Object.h"
 
-
-Object::Object() : _x(0), _y(0), _width(0), _height(0), _objectTexture(nullptr), _currentTexturePath(""), _objectRect(new SDL_Rect)
-, TEXTURE_PATH("Textures/jimmyJump_pack/PNG/"), _isMovable(false), _isRenderable(true), _isPlatform(false), _hitbox(new SDL_Rect()){
+// default
+Object::Object() : _x(0), _y(0), _width(0), _height(0), _objectTexture(nullptr),  _objectRect(new SDL_Rect)
+, _isMovable(false), _isRenderable(true), _isPlatform(false), _hitbox(new SDL_Rect()),
+_character(Character::NONE){
 }
 
+// copy
 Object::Object(const Object &object) : _x(object.getX()), _y(object.getY()), _width(object.getWidth()), _height(object.getHeight())
-, _objectTexture(object.getObjectTexture()), _currentTexturePath(object.getTexturePath()), _isRenderable(true), _isPlatform(false), _hitbox(new SDL_Rect){
+, _objectTexture(object.getObjectTexture()), _isRenderable(true), _isPlatform(false), _hitbox(new SDL_Rect),
+_character(object.getCharacter()){
 	*(_hitbox) = *(object.getHitbox());
 	_objectRect = new SDL_Rect;
 	*_objectRect = *(object.getSDLRect());
 }
 
+// coordinate constructor
 Object::Object(int x, int y, int width, int height) : _x(x), _y(y), _width(width), _height(height)
-, TEXTURE_PATH("Textures/jimmyJump_pack/PNG/"), _isRenderable(true), _isPlatform(false), _hitbox(new SDL_Rect){
+,  _isRenderable(true), _isPlatform(false), _hitbox(new SDL_Rect), _character(Character::NONE){
 	_objectRect = new SDL_Rect();
 	_objectRect->x = _x;
 	_objectRect->y = _y;
@@ -31,7 +35,6 @@ Object& Object::operator= (const Object &object){
 	_objectRect = new SDL_Rect;
 	*_objectRect = *(object.getSDLRect());
 	_objectTexture = object.getObjectTexture();
-	_currentTexturePath = object.getTexturePath();
 	_x = object.getX();
 	_y = object.getY();
 	_width = object.getWidth();
@@ -41,6 +44,8 @@ Object& Object::operator= (const Object &object){
 	this->_hitbox->y = movableRect->y;
 	this->_hitbox->w = movableRect->w;
 	this->_hitbox->h = movableRect->h;
+
+	_character = object.getCharacter();
 
 	delete movableRect;
 
@@ -81,49 +86,58 @@ SDL_Rect* Object::getHitbox() const{
 	return _hitbox;
 }
 
-void Object::setIsRenderable(bool isRenderable){
+Character Object::getCharacter() const{
+	return _character;
+}
+
+void Object::setCharacter(const Character& character){
+	_character = character;
+}
+
+void Object::setIsRenderable(const bool& isRenderable){
 	_isRenderable = isRenderable;
 }
 
-void Object::setHeight(int height){
+void Object::setHeight(const int& height){
 	_height = height;
 	_objectRect->h = _height;
 	createHitbox();
 }
 
-void Object::setWidth(int width){
+void Object::setWidth(const int& width){
 	_width = width;
 	_objectRect->w = _width;
 	createHitbox();
 }
 
-void Object::setX(int x){
+void Object::setX(const int& x){
 	_x = x;
 	_objectRect->x = _x;
 	createHitbox();
 }
 
-void Object::setY(int y){
+void Object::setY(const int& y){
 	_y = y;
 	_objectRect->y = _y;
 	createHitbox();
 }
 
-void Object::setIsMovable(bool isMovable){
+void Object::setIsMovable(const bool& isMovable){
 	_isMovable = isMovable;
 }
 
-void Object::setObjectTexture(SDL_Renderer* context, std::string texturePath){
-	if (_currentTexturePath != texturePath){
-		//set the texture path
-		_previousTexturePath = _currentTexturePath;
-		_currentTexturePath = TEXTURE_PATH + texturePath;
-		SDL_DestroyTexture(_objectTexture);
-		_objectTexture = IMG_LoadTexture(context, _currentTexturePath.c_str());
+void Object::setObjectTexture(SDL_Renderer* context){
+	// cannot be found in map
+	if (utility.textureCache.find(utility.getCharacterToFileMap()[_character]) == utility.textureCache.end()){
+		_objectTexture = IMG_LoadTexture(context, utility.getCharacterToFileMap()[_character].c_str());
+		utility.textureCache.insert(std::pair<std::string, SDL_Texture*>(utility.getCharacterToFileMap()[_character], _objectTexture));
+	}
+	else{
+		_objectTexture = utility.textureCache[utility.getCharacterToFileMap()[_character]];
 	}
 }
 
-void Object::setIsPlatform(bool isPlatform){
+void Object::setIsPlatform(const bool& isPlatform){
 	_isPlatform = isPlatform;
 }
 
@@ -135,19 +149,15 @@ SDL_Rect* Object::getSDLRect() const{
 	return _objectRect;
 }
 
-std::string Object::getTexturePath() const{
-	return _currentTexturePath;
-}
-
 SDL_Texture* Object::getObjectTexture() const{
 	return _objectTexture;
 }
 
 void Object::draw(SDL_Renderer* context){
 	if (_objectTexture == nullptr)
-		PrintErrors("No texture has been loaded. A texture must be set with the method: setObjectTexture.", SDL_GetError);
+		PrintErrors("No texture has been loaded. A texture must be set with the method: load.", SDL_GetError);
 	if (SDL_RenderCopy(context, _objectTexture, NULL, _objectRect))
-		PrintErrors("Failed to render " + _currentTexturePath, SDL_GetError);
+		PrintErrors("Failed to render " + utility.getCharacterToFileMap()[_character], SDL_GetError);
 }
 
 // create a hitbox that is approximately HITBOX_MODIFIER * object's rectangle
@@ -172,3 +182,7 @@ void Object::createHitbox(){
 	_hitbox->h = (_y + _height) - dy - _hitbox->y;
 }
 
+void Object::load(Character character, SDL_Renderer* context){
+	_character = character;
+	setObjectTexture(context);
+}

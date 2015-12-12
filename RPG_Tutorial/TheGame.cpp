@@ -3,7 +3,7 @@
 
 TheGame::TheGame() : _currentWindow(nullptr), WINDOW_HEIGHT(600), WINDOW_WIDTH(768), FPS(10),
 _currentState(GameState::PLAY), jimHeight(50), jimWidth(50), _eventMade(0), jim(nullptr)
-, BACKGROUND_FNAME("Background.png"), _gravity(3), _gameFloor(nullptr)
+, BACKGROUND_FNAME("Background.png"), _gravity(10), _gameFloor(nullptr)
 {}
 
 
@@ -75,7 +75,7 @@ void TheGame::initGame(){
 	_gameFloor->setWidth(WINDOW_WIDTH);
 
 	int startingY = _gameFloor->getY() - jimHeight;
-	jim = new MainCharacter(720, startingY, jimWidth, jimHeight);
+	jim = new MainCharacter(150, 0, jimWidth, jimHeight);
 }
 
 SDL_Window* TheGame::WindowInitialization(){

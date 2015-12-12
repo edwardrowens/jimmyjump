@@ -3,19 +3,21 @@
 #include <string>
 #include <SDL2.0\SDL_image.h>
 #include "Errors.h"
+#include "Character.h"
+#include "Utility.h"
 
 class Object
 {
 public:
 	Object();
 	Object(int x, int y, int width, int height);
-	
 	Object(const Object &object);
 	~Object();
 	Object& operator= (const Object &object);
 
-	const std::string TEXTURE_PATH;
-	const float HITBOX_MODIFIER = .95;
+	void load(Character character, SDL_Renderer* context);
+
+	const float HITBOX_MODIFIER = .93;
 
 	int getX() const;
 	int getY() const;
@@ -28,16 +30,18 @@ public:
 	bool getIsRenderable() const;
 	bool getIsPlatform() const;
 	SDL_Rect* getHitbox() const;
+	Character getCharacter() const;
 
-	void setX(int x);
-	void setY(int y);
-	void setWidth(int width);
-	void setHeight(int height);
-	void setObjectTexture(SDL_Renderer* context, std::string texturePath);
-	void setTexturePath(std::string newTexturePath);
-	void setIsMovable(bool isMovable);
-	void setIsRenderable(bool isRenderable);
-	void setIsPlatform(bool isPlatform);
+	void setX(const int& x);
+	void setY(const int& y);
+	void setWidth(const int& width);
+	void setHeight(const int& height);
+	void setObjectTexture(SDL_Renderer* context);
+	void setTexturePath(const std::string& newTexturePath);
+	void setIsMovable(const bool& isMovable);
+	void setIsRenderable(const bool& isRenderable);
+	void setIsPlatform(const bool& isPlatform);
+	void setCharacter(const Character& character);
 
 	void createHitbox();
 
@@ -50,9 +54,12 @@ protected:
 	bool _isRenderable;
 	bool _isPlatform;
 	SDL_Texture* _objectTexture;
-	std::string _currentTexturePath;
-	std::string _previousTexturePath;
+	/*std::string _currentTexturePath;
+	std::string _previousTexturePath;*/
 	SDL_Rect* _objectRect;
 	SDL_Rect* _hitbox;
+	Character _character;
+
+	Utility utility;
 };
 
