@@ -1,9 +1,9 @@
 #include "TheGame.h"
 
 
-TheGame::TheGame() : _currentWindow(nullptr), WINDOW_HEIGHT(600), WINDOW_WIDTH(768), FPS(10),
-_currentState(GameState::PLAY), jimHeight(50), jimWidth(50), _eventMade(0), jim(nullptr)
-, BACKGROUND_FNAME("Background.png"), _gravity(10), _gameFloor(nullptr)
+TheGame::TheGame() : currentWindow(nullptr), WINDOW_HEIGHT(600), WINDOW_WIDTH(768), FPS(10),
+currentState(GameState::PLAY), jimHeight(50), jimWidth(50), eventMade(0), jim(nullptr), 
+gravity(10), gameFloor(nullptr)
 {}
 
 
@@ -26,55 +26,55 @@ void TheGame::run(){
 	Platform platform(125, WINDOW_HEIGHT - 210, 100, 100);
 	Platform platform2(0, WINDOW_HEIGHT - 150, 100, 100);
 
-	background.setObjectTexture(_currentRenderContext, "Background.png");
-	platform2.setObjectTexture(_currentRenderContext, "LandPiece_LightGray.png");
-	platform.setObjectTexture(_currentRenderContext, "LandPiece_LightGreen.png");
-	jim->setObjectTexture(_currentRenderContext, "CharacterLeft_Standing.png");
+	background.load(Character::BACKGROUND, currentRenderContext);
+	platform2.load(Character::LIGHT_GRAY_PLATFORM, currentRenderContext);
+	platform.load(Character::LIGHT_GREEN_PLATFORM, currentRenderContext);
+	jim->load(Character::JIM, currentRenderContext);
 
-	_levelObjects.push_back(&background);
-	_levelObjects.push_back(&platform);
-	_levelObjects.push_back(&platform2);
-	_levelObjects.push_back(jim);
-	_levelObjects.push_back(_gameFloor);
+	levelObjects.push_back(&background);
+	levelObjects.push_back(&platform);
+	levelObjects.push_back(&platform2);
+	levelObjects.push_back(jim);
+	levelObjects.push_back(gameFloor);
 
-	const int SKIP_FRAMES = 1000 / FPS;
-	const int MAX_FRAMESKIP = 5;
+	const int SKIPFRAMES = 1000 / FPS;
+	const int MAXFRAMESKIP = 5;
 
-	unsigned int next_frame = SDL_GetTicks();
+	unsigned int nextframe = SDL_GetTicks();
 	int loops;
 	float interpolation;
 	int i = 0;
 
 	//game loop
-	while (_currentState != GameState::EXIT){
+	while (currentState != GameState::EXIT){
 		loops = 0;
 
 
-		while (SDL_GetTicks() > next_frame && loops < MAX_FRAMESKIP){
+		while (SDL_GetTicks() > nextframe && loops < MAXFRAMESKIP){
 			processInput();
 
 			update();
 
-			next_frame += SKIP_FRAMES;
+			nextframe += SKIPFRAMES;
 			++loops;
 		}
-		interpolation = float(SDL_GetTicks() + SKIP_FRAMES - next_frame) / float(SKIP_FRAMES);
+		interpolation = float(SDL_GetTicks() + SKIPFRAMES - nextframe) / float(SKIPFRAMES);
 		draw();
 	}
 }
 
 void TheGame::initGame(){
-	_currentWindow = WindowInitialization();
-	_currentRenderContext = SDL_CreateRenderer(_currentWindow, -1, SDL_RENDERER_ACCELERATED);
+	currentWindow = WindowInitialization();
+	currentRenderContext = SDL_CreateRenderer(currentWindow, -1, SDL_RENDERER_ACCELERATED);
 
-	_gameFloor = new Platform();
-	_gameFloor->setIsRenderable(false);
-	_gameFloor->setX(0);
-	_gameFloor->setY(WINDOW_HEIGHT - ((2.0 / 23)*WINDOW_HEIGHT));
-	_gameFloor->setHeight(15);
-	_gameFloor->setWidth(WINDOW_WIDTH);
+	gameFloor = new Platform();
+	gameFloor->setIsRenderable(false);
+	gameFloor->setX(0);
+	gameFloor->setY(WINDOW_HEIGHT - ((2.0 / 23)*WINDOW_HEIGHT));
+	gameFloor->setHeight(15);
+	gameFloor->setWidth(WINDOW_WIDTH);
 
-	int startingY = _gameFloor->getY() - jimHeight;
+	int startingY = gameFloor->getY() - jimHeight;
 	jim = new MainCharacter(150, 0, jimWidth, jimHeight);
 }
 
@@ -92,8 +92,8 @@ SDL_Window* TheGame::WindowInitialization(){
 
 int TheGame::processInput(){
 	int size;
-	_keyState = SDL_GetKeyboardState(&size);
-	return _eventMade = SDL_PollEvent(&_currentEvent);
+	keyState = SDL_GetKeyboardState(&size);
+	return eventMade = SDL_PollEvent(&currentEvent);
 }
 
 void TheGame::update(){
@@ -102,16 +102,16 @@ void TheGame::update(){
 	calcGravity();
 
 	//change walkcycles!!!
-	if (_keyState[SDL_SCANCODE_D] && !_keyState[SDL_SCANCODE_W]){
+	if (keyState[SDL_SCANCODE_D] && !keyState[SDL_SCANCODE_W]){
 		jim->setCurrentMovement(MovableObject::Movements::right);
 		jim->moveRight();
 	}
 
-	else if (_keyState[SDL_SCANCODE_A] && !_keyState[SDL_SCANCODE_W]){
+	else if (keyState[SDL_SCANCODE_A] && !keyState[SDL_SCANCODE_W]){
 		jim->setCurrentMovement(MovableObject::Movements::left);
 		jim->moveLeft();
 	}
-	else if (_keyState[SDL_SCANCODE_W]){
+	else if (keyState[SDL_SCANCODE_W]){
 		jim->setCurrentMovement(MovableObject::Movements::jump);
 		jim->jump();
 	}
@@ -136,39 +136,35 @@ void TheGame::update(){
 }
 
 void TheGame::draw(){
-	if (_levelObjects[0]->getTexturePath() != "Textures/jimmyJump_pack/PNG/" + BACKGROUND_FNAME){
-		PrintErrors("The background should be rendered first", SDL_GetError);
-	}
-
-	if (SDL_RenderClear(_currentRenderContext)){
+	if (SDL_RenderClear(currentRenderContext)){
 		PrintErrors("Renderer failed to clear", SDL_GetError);
 	}
 
-	std::vector<Object*>::iterator iter = _levelObjects.begin();
-	for (iter; iter != _levelObjects.end(); ++iter){
+	std::vector<Object*>::iterator iter = levelObjects.begin();
+	for (iter; iter != levelObjects.end(); ++iter){
 		if ((*iter)->getIsRenderable())
-			(*iter)->draw(_currentRenderContext);
+			(*iter)->draw(currentRenderContext);
 	}
 
-	SDL_RenderPresent(_currentRenderContext);
+	SDL_RenderPresent(currentRenderContext);
 }
 
 void TheGame::calcGravity(){
-	std::vector<Object*>::iterator iter = _levelObjects.begin();
-	for (iter; iter != _levelObjects.end(); ++iter){
+	std::vector<Object*>::iterator iter = levelObjects.begin();
+	for (iter; iter != levelObjects.end(); ++iter){
 		if ((*iter)->getIsMovable()){
-			(*iter)->setY((*iter)->getY() + _gravity);
+			(*iter)->setY((*iter)->getY() + gravity);
 		}
 	}
 }
 
 void TheGame::detectCollisions(){
-	std::vector<Object*>::iterator i = _levelObjects.begin();
-	for (i; i != _levelObjects.end(); ++i){
+	std::vector<Object*>::iterator i = levelObjects.begin();
+	for (i; i != levelObjects.end(); ++i){
 		if ((*i)->getIsMovable()){
 			MovableObject* tempObject = dynamic_cast<MovableObject*>(*i);
-			CollisionDetector::detectStaticCollisions(tempObject, _levelObjects);
-			CollisionDetector::detectDynamicCollisions(tempObject, _levelObjects);
+			CollisionDetector::detectStaticCollisions(tempObject, levelObjects);
+			CollisionDetector::detectDynamicCollisions(tempObject, levelObjects);
 		}
 	}
 }

@@ -2,30 +2,30 @@
 
 
 //initiating stats to arbitrary values
-MovableObject::MovableObject() : _health(100.0f), _strength(10.0f), _speed(5),
-_isStable(true), _previousXYPosition(new int[2]),
-_currentMovement(Movements::none){
-	_isMovable = true;
-	_previousXYPosition[0] = _x;
-	_previousXYPosition[1] = _y;
+MovableObject::MovableObject() : health(100.0f), strength(10.0f), speed(5),
+isStable(true), previousXYPosition(new int[2]),
+currentMovement(Movements::none){
+	isMovable = true;
+	previousXYPosition[0] = x;
+	previousXYPosition[1] = y;
 }
 
-MovableObject::MovableObject(int x, int y, int width, int height) : Object(x, y, width, height), _health(100.0f),
-_strength(10.0f), _speed(5), _isStable(true), _previousXYPosition(new int[2]),
-_currentMovement(Movements::none){
-	_isMovable = true;
-	_previousXYPosition[0] = _x;
-	_previousXYPosition[1] = _y;
+MovableObject::MovableObject(int x, int y, int width, int height) : Object(x, y, width, height), health(100.0f),
+strength(10.0f), speed(5), isStable(true), previousXYPosition(new int[2]),
+currentMovement(Movements::none){
+	isMovable = true;
+	previousXYPosition[0] = x;
+	previousXYPosition[1] = y;
 }
 
 MovableObject::MovableObject(const MovableObject &movableObject): Object(movableObject),
-_previousXYPosition(new int[2]), _currentMovement(Movements::none){
-	_previousXYPosition[0] = _x;
-	_previousXYPosition[1] = _y;
+previousXYPosition(new int[2]), currentMovement(Movements::none){
+	previousXYPosition[0] = x;
+	previousXYPosition[1] = y;
 }
 
 MovableObject::~MovableObject(){
-	delete _previousXYPosition;
+	delete previousXYPosition;
 }
 
 MovableObject& MovableObject::operator=(const MovableObject &moveableObject){
@@ -37,78 +37,78 @@ MovableObject& MovableObject::operator=(const MovableObject &moveableObject){
 
 
 float MovableObject::getStrength() const{
-	return _strength;
+	return strength;
 }
 
 float MovableObject::getHealth() const{
-	return _health;
+	return health;
 }
 
 int MovableObject::getSpeed() const{
-	return _speed;
+	return speed;
 }
 
 
 bool MovableObject::getIsStable() const{
-	return _isStable;
+	return isStable;
 }
 
 MovableObject::Movements MovableObject::getCurrentMovement() const{
-	return _currentMovement;
+	return currentMovement;
 }
 
 MovableObject::Movements MovableObject::getPreviousMovement() const{
-	return _previousMovement;
+	return previousMovement;
 }
 
 int* MovableObject::getPreviousXY() const{
-	return _previousXYPosition;
+	return previousXYPosition;
 }
 
-void MovableObject::setStrength(float newStrength){
-	_strength = newStrength;
+void MovableObject::setStrength(const float& strength){
+	this->strength = strength;
 }
 
-void MovableObject::setHealth(float newHealth){
-	_health = newHealth;
+void MovableObject::setHealth(const float& health){
+	this->health = health;
 }
 
-void MovableObject::setSpeed(int newSpeed){
-	_speed = newSpeed;
+void MovableObject::setSpeed(const int& speed){
+	this->speed = speed;
 }
 
 
-void MovableObject::setIsStable(bool isStable){
-	_isStable = isStable;
+void MovableObject::setIsStable(const bool& isStable){
+	this->isStable = isStable;
 }
 
-void MovableObject::setCurrentMovement(Movements movements){
-	_currentMovement = movements;
+void MovableObject::setCurrentMovement(const Movements& movement){
+	currentMovement = movement;
 }
 
-void MovableObject::setPreviousMovement(Movements movements){
-	_previousMovement = movements;
+void MovableObject::setPreviousMovement(const Movements& movement){
+	previousMovement = movement;
 }
 
-void MovableObject::setPreviousXY(int x, int y){
-	_previousXYPosition[0] = x;
-	_previousXYPosition[1] = y;
+void MovableObject::setPreviousXY(const int& x, const int& y){
+	previousXYPosition[0] = x;
+	previousXYPosition[1] = y;
 }
 
 
 void MovableObject::jump(){
-	setY(_y - 10);
-	_currentMovement = Movements::jump;
+	setY(y - 10);
+	currentMovement = Movements::jump;
 }
 
 void MovableObject::moveRight(){
-	setX(_x += _speed);
-	_currentMovement = Movements::right;
+	setX(x += speed);
+	currentMovement = Movements::right;
 }
 
 void MovableObject::moveLeft(){
-	setX(_x -= _speed);
-	_currentMovement = Movements::left;
+	setX(x -= speed);
+	currentMovement = Movements::left;
 }
 
 void MovableObject::useItem(){
@@ -116,12 +116,12 @@ void MovableObject::useItem(){
 }
 
 float MovableObject::attack(){
-	return _strength;
+	return strength;
 }
 
 float MovableObject::calcAngleOfMovement() const{
-	float deltaY = _y - _previousXYPosition[1];
-	float deltaX = _previousXYPosition[0] - _x;
+	float deltaY = y - previousXYPosition[1];
+	float deltaX = previousXYPosition[0] - x;
 
 	// no movement
 	if (deltaX == 0 && deltaY == 0)
@@ -165,8 +165,8 @@ float MovableObject::calcAngleOfMovement() const{
 }
 
 float MovableObject::calcSlopeOfMovement() const{
-	float deltaY = _y - _previousXYPosition[1];
-	float deltaX = _previousXYPosition[0] - _x;
+	float deltaY = y - previousXYPosition[1];
+	float deltaX = previousXYPosition[0] - x;
 
 	if (deltaX == 0.0f){
 		return 0;

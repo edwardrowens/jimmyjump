@@ -3,7 +3,8 @@
 /*
 An enum containing all objects in the game.
 */
-enum class Character{
+enum Character: int{
+	BEGINNING,
 	NONE,
 	JIM,
 	FLYING_HEART_SMALL,
@@ -11,5 +12,6 @@ enum class Character{
 	BACKGROUND,
 	LIGHT_GRAY_PLATFORM,
 	LIGHT_GREEN_PLATFORM,
+	END
 };
 #endif

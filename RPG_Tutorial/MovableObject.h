@@ -26,14 +26,14 @@ public:
 	Movements getPreviousMovement() const;
 	int* getPreviousXY() const;
 
-	void setStrength(float newStrength);
-	void setHealth(float newHealth);
-	void setSpeed(int newSpeed);
-	void setIsJumping(bool isJumping);
-	void setIsStable(bool isStable);
-	void setCurrentMovement(Movements movements);
-	void setPreviousMovement(Movements movements);
-	void setPreviousXY(int x, int y);
+	void setStrength(const float& newStrength);
+	void setHealth(const float& newHealth);
+	void setSpeed(const int& newSpeed);
+	void setIsJumping(const bool& isJumping);
+	void setIsStable(const bool& isStable);
+	void setCurrentMovement(const Movements& movement);
+	void setPreviousMovement(const Movements& movement);
+	void setPreviousXY(const int& x, const int& y);
 
 
 	void jump();
@@ -44,15 +44,15 @@ public:
 	float calcSlopeOfMovement() const;
 	float attack();
 
-	Movements _currentMovement;
-	Movements _previousMovement;
+	Movements currentMovement;
+	Movements previousMovement;
 
 protected:
-	float _strength, _health;
-	int _speed;
+	float strength, health;
+	int speed;
 	// 0 = x, 1 = y
-	int* _previousXYPosition;
+	int* previousXYPosition;
 	//is the object's y position greater than then floor but should not be decremented
-	bool _isStable;
+	bool isStable;
 };
 

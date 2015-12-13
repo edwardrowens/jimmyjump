@@ -25,23 +25,23 @@ private:
 	SDL_Window* WindowInitialization();
 	void initGame();
 
-	int _gravity;
+	int gravity;
 	void calcGravity();
 	void detectCollisions();
 
-	GameState _currentState;
-	SDL_Window* _currentWindow;
-	SDL_Renderer* _currentRenderContext;
-	SDL_Event _currentEvent;
+	GameState currentState;
+	SDL_Window* currentWindow;
+	SDL_Renderer* currentRenderContext;
+	SDL_Event currentEvent;
 
 	//processes input
-	const Uint8* _keyState;
-	int _eventMade;
+	const Uint8* keyState;
+	int eventMade;
 
 	/*vector that contains all objects but the main character. the background of a level should
 	always be pushed first*/
-	std::vector<Object*> _levelObjects;
-	Platform* _gameFloor;
+	std::vector<Object*> levelObjects;
+	Platform* gameFloor;
 
 	//game loop
 	int processInput();
@@ -51,7 +51,6 @@ private:
 	int jimWidth, jimHeight, jimStartY;
 	MainCharacter* jim;
 
-	const std::string BACKGROUND_FNAME;
 	const int WINDOW_WIDTH;
 	const int WINDOW_HEIGHT;
 	const int FPS;

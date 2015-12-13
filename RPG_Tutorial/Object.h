@@ -5,6 +5,7 @@
 #include "Errors.h"
 #include "Character.h"
 #include "Utility.h"
+#include <list>
 
 class Object
 {
@@ -17,7 +18,7 @@ public:
 
 	void load(Character character, SDL_Renderer* context);
 
-	const float HITBOX_MODIFIER = .93;
+	const float HITBOXMODIFIER = .93;
 
 	int getX() const;
 	int getY() const;
@@ -49,16 +50,15 @@ public:
 	virtual void draw(SDL_Renderer* context);
 
 protected:
-	int _x, _y, _width, _height;
-	bool _isMovable;
-	bool _isRenderable;
-	bool _isPlatform;
-	SDL_Texture* _objectTexture;
-	/*std::string _currentTexturePath;
-	std::string _previousTexturePath;*/
-	SDL_Rect* _objectRect;
-	SDL_Rect* _hitbox;
-	Character _character;
+	int x, y, width, height;
+	bool isMovable;
+	bool isRenderable;
+	bool isPlatform;
+	SDL_Texture* objectTexture;
+	std::string texturePath;
+	SDL_Rect* objectRect;
+	SDL_Rect* hitbox;
+	Character character;
 
 	Utility utility;
 };

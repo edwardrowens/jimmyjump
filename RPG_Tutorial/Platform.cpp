@@ -2,15 +2,15 @@
 
 
 Platform::Platform() : Object(){
-	_isPlatform = true;
+	isPlatform = true;
 }
 
 Platform::Platform(int x, int y, int width, int height) : Object(x, y, width, height){
-	_isPlatform = true;
+	isPlatform = true;
 }
 
 Platform::Platform(const Platform &platform): Object(platform){
-	_isPlatform = true;
+	isPlatform = true;
 }
 
 Platform::~Platform(){
