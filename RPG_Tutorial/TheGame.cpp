@@ -31,12 +31,6 @@ void TheGame::run(){
 	platform.load(Character::LIGHT_GREEN_PLATFORM, currentRenderContext);
 	jim->load(Character::JIM, currentRenderContext);
 
-	levelObjects.push_back(&background);
-	levelObjects.push_back(&platform);
-	levelObjects.push_back(&platform2);
-	levelObjects.push_back(jim);
-	levelObjects.push_back(gameFloor);
-
 	const int SKIPFRAMES = 1000 / FPS;
 	const int MAXFRAMESKIP = 5;
 
@@ -103,20 +97,14 @@ void TheGame::update(){
 
 	//change walkcycles!!!
 	if (keyState[SDL_SCANCODE_D] && !keyState[SDL_SCANCODE_W]){
-		jim->setCurrentMovement(MovableObject::Movements::right);
 		jim->moveRight();
 	}
 
 	else if (keyState[SDL_SCANCODE_A] && !keyState[SDL_SCANCODE_W]){
-		jim->setCurrentMovement(MovableObject::Movements::left);
 		jim->moveLeft();
 	}
 	else if (keyState[SDL_SCANCODE_W]){
-		jim->setCurrentMovement(MovableObject::Movements::jump);
 		jim->jump();
-	}
-	else{
-		jim->setCurrentMovement(MovableObject::Movements::none);
 	}
 
 	// make sure jim doesn't exit screen

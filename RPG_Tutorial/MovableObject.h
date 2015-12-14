@@ -2,6 +2,7 @@
 #include "Object.h"
 #include <math.h>
 #include <string>
+#include "Movements.h"
 
 class MovableObject : public Object
 {
@@ -12,10 +13,6 @@ public:
 	~MovableObject();
 	MovableObject(const MovableObject &moveableObject);
 	MovableObject& operator=(const MovableObject &moveableObject);
-
-	enum class Movements{
-		right, left, none, jump, down
-	};
 
 	float getStrength() const;
 	float getHealth() const;

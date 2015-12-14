@@ -53,11 +53,11 @@ bool MovableObject::getIsStable() const{
 	return isStable;
 }
 
-MovableObject::Movements MovableObject::getCurrentMovement() const{
+Movements MovableObject::getCurrentMovement() const{
 	return currentMovement;
 }
 
-MovableObject::Movements MovableObject::getPreviousMovement() const{
+Movements MovableObject::getPreviousMovement() const{
 	return previousMovement;
 }
 
@@ -98,17 +98,17 @@ void MovableObject::setPreviousXY(const int& x, const int& y){
 
 void MovableObject::jump(){
 	setY(y - 10);
-	currentMovement = Movements::jump;
+	currentMovement = Movements::JUMP;
 }
 
 void MovableObject::moveRight(){
 	setX(x += speed);
-	currentMovement = Movements::right;
+	currentMovement = Movements::RIGHT;
 }
 
 void MovableObject::moveLeft(){
 	setX(x -= speed);
-	currentMovement = Movements::left;
+	currentMovement = Movements::LEFT;
 }
 
 void MovableObject::useItem(){

@@ -16,11 +16,11 @@ Create enum to character file path mapping.
 */
 void Utility::createCharacterFileMap(){
 	characterFileMap[Character::BACKGROUND] = TEXTURE_PATH + "Background.png";
-	characterFileMap[Character::FLYING_HEART_SMALL] = TEXTURE_PATH + "Characters/FlyingHeartSmall/Textures/FlyingHeartSmall";
-	characterFileMap[Character::FLYING_HEART_LARGE] = TEXTURE_PATH + "Character/FlyingHeartLarge/Textures/FlyingHeartLarge";
+	characterFileMap[Character::FLYING_HEART_SMALL] = TEXTURE_PATH + "Characters/FlyingHeartSmall/Textures";
+	characterFileMap[Character::FLYING_HEART_LARGE] = TEXTURE_PATH + "Character/FlyingHeartLarge/Textures";
 	characterFileMap[Character::JIM] = TEXTURE_PATH + "Characters/Jimmy/Textures";
-	characterFileMap[Character::LIGHT_GRAY_PLATFORM] = TEXTURE_PATH + "Platform/LandPiece_LightGray";
-	characterFileMap[Character::LIGHT_GREEN_PLATFORM] = TEXTURE_PATH + "Platform/LandPiece_LightGreen";
+	characterFileMap[Character::LIGHT_GRAY_PLATFORM] = TEXTURE_PATH + "Platform/LandPiece_LightGray.png";
+	characterFileMap[Character::LIGHT_GREEN_PLATFORM] = TEXTURE_PATH + "Platform/LandPiece_LightGreen.png";
 	characterFileMap[Character::NONE] = "";
 }
 
@@ -43,7 +43,7 @@ std::list<std::string> Utility::findAllPngs(std::string directory){
 			std::string fileName = ent->d_name;
 			if (fileName.size() > 4){
 				if (fileName.substr(fileName.size() - 4, 4) == ".png"){
-					pngs.push_front(fileName);
+					pngs.push_back(fileName);
 				}
 			}
 		}
@@ -67,8 +67,8 @@ void Utility::initializeAmountOfObjects(){
 }
 
 void Utility::deleteTextures(Character character){
-	if (amountOfObjects[character] > 0){
-		PrintErrors("A character with " + std::to_string(amountOfObjects[character]) + " was going to be removed from the cache");
+	if (amountOfObjects[character] >= 0){
+		PrintErrors("A character with " + std::to_string(amountOfObjects[character]) + " associated textures was going to be removed from the cache");
 	}
 	if (character == Character::NONE){
 		return;

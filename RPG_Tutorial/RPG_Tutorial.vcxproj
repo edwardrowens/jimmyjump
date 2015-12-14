@@ -87,6 +87,7 @@
     <ClInclude Include="Errors.h" />
     <ClInclude Include="MainCharacter.h" />
     <ClInclude Include="MovableObject.h" />
+    <ClInclude Include="Movements.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="TheGame.h" />

@@ -10,6 +10,7 @@
 #include <vector>
 #include "Platform.h"
 #include "CollisionDetector.h"
+#include "Movements.h"
 
 enum class GameState {PLAY,EXIT};
 
