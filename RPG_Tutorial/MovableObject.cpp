@@ -4,24 +4,24 @@
 //initiating stats to arbitrary values
 MovableObject::MovableObject() : health(100.0f), strength(10.0f), speed(5),
 isStable(true), previousXYPosition(new int[2]),
-currentMovement(Movements::none){
+currentMovement(Movements::NONE), stepCount(0){
 	isMovable = true;
-	previousXYPosition[0] = x;
-	previousXYPosition[1] = y;
+	previousXYPosition[0] = position.x;
+	previousXYPosition[1] = position.y;
 }
 
-MovableObject::MovableObject(int x, int y, int width, int height) : Object(x, y, width, height), health(100.0f),
+MovableObject::MovableObject(Position position) : Object(position), health(100.0f),
 strength(10.0f), speed(5), isStable(true), previousXYPosition(new int[2]),
-currentMovement(Movements::none){
+currentMovement(Movements::NONE), stepCount(0){
 	isMovable = true;
-	previousXYPosition[0] = x;
-	previousXYPosition[1] = y;
+	previousXYPosition[0] = position.x;
+	previousXYPosition[1] = position.y;
 }
 
 MovableObject::MovableObject(const MovableObject &movableObject): Object(movableObject),
-previousXYPosition(new int[2]), currentMovement(Movements::none){
-	previousXYPosition[0] = x;
-	previousXYPosition[1] = y;
+previousXYPosition(new int[2]), currentMovement(Movements::NONE), stepCount(0){
+	previousXYPosition[0] = position.x;
+	previousXYPosition[1] = position.y;
 }
 
 MovableObject::~MovableObject(){
@@ -97,18 +97,31 @@ void MovableObject::setPreviousXY(const int& x, const int& y){
 
 
 void MovableObject::jump(){
-	setY(y - 10);
+	setY(position.y - 10);
 	currentMovement = Movements::JUMP;
 }
 
 void MovableObject::moveRight(){
-	setX(x += speed);
+	setX(position.x += speed);
+	if (currentMovement == Movements::LEFT || stepCount >= walkCycles['R'].size()){
+		stepCount = 0;
+	}
 	currentMovement = Movements::RIGHT;
+	std::set<string> rightWalkCycleFiles = walkCycles['R'];
+	texturePath = *(walkCycles['R'].find("R" + std::to_string(stepCount)));
+	++stepCount;
 }
 
 void MovableObject::moveLeft(){
-	setX(x -= speed);
+	setX(position.x -= speed);
+	if (currentMovement == Movements::RIGHT || stepCount >= walkCycles['L'].size()){
+		stepCount = 0;
+	}
+
 	currentMovement = Movements::LEFT;
+	std::set<string> rightWalkCycleFiles = walkCycles['L'];
+	texturePath = *(walkCycles['L'].find("L" + std::to_string(stepCount)));
+	++stepCount;
 }
 
 void MovableObject::useItem(){
@@ -120,8 +133,8 @@ float MovableObject::attack(){
 }
 
 float MovableObject::calcAngleOfMovement() const{
-	float deltaY = y - previousXYPosition[1];
-	float deltaX = previousXYPosition[0] - x;
+	float deltaY = position.y - previousXYPosition[1];
+	float deltaX = previousXYPosition[0] - position.x;
 
 	// no movement
 	if (deltaX == 0 && deltaY == 0)
@@ -165,8 +178,8 @@ float MovableObject::calcAngleOfMovement() const{
 }
 
 float MovableObject::calcSlopeOfMovement() const{
-	float deltaY = y - previousXYPosition[1];
-	float deltaX = previousXYPosition[0] - x;
+	float deltaY = position.y - previousXYPosition[1];
+	float deltaX = previousXYPosition[0] - position.x;
 
 	if (deltaX == 0.0f){
 		return 0;

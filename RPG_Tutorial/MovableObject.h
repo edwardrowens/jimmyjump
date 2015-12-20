@@ -8,7 +8,7 @@ class MovableObject : public Object
 {
 public:
 	MovableObject();
-	MovableObject(int x, int y, int width, int height);
+	MovableObject(Position position);
 
 	~MovableObject();
 	MovableObject(const MovableObject &moveableObject);
@@ -51,5 +51,8 @@ protected:
 	int* previousXYPosition;
 	//is the object's y position greater than then floor but should not be decremented
 	bool isStable;
+
+private:
+	int stepCount;
 };
 

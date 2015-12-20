@@ -90,6 +90,7 @@
     <ClInclude Include="Movements.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Platform.h" />
+    <ClInclude Include="Position.h" />
     <ClInclude Include="TheGame.h" />
     <ClInclude Include="Utility.h" />
   </ItemGroup>

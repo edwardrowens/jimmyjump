@@ -11,6 +11,8 @@
 #include "Platform.h"
 #include "CollisionDetector.h"
 #include "Movements.h"
+#include "Utility.h"
+#include "Position.h"
 
 enum class GameState {PLAY,EXIT};
 
@@ -29,11 +31,12 @@ private:
 	int gravity;
 	void calcGravity();
 	void detectCollisions();
+	void instantiateLevelObjects();
 
 	GameState currentState;
 	SDL_Window* currentWindow;
-	SDL_Renderer* currentRenderContext;
 	SDL_Event currentEvent;
+	SDL_Renderer* context;
 
 	//processes input
 	const Uint8* keyState;

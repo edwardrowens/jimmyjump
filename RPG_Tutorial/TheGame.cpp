@@ -22,15 +22,6 @@ may be assigned to them
 void TheGame::run(){
 	initGame();
 
-	Object background(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-	Platform platform(125, WINDOW_HEIGHT - 210, 100, 100);
-	Platform platform2(0, WINDOW_HEIGHT - 150, 100, 100);
-
-	background.load(Character::BACKGROUND, currentRenderContext);
-	platform2.load(Character::LIGHT_GRAY_PLATFORM, currentRenderContext);
-	platform.load(Character::LIGHT_GREEN_PLATFORM, currentRenderContext);
-	jim->load(Character::JIM, currentRenderContext);
-
 	const int SKIPFRAMES = 1000 / FPS;
 	const int MAXFRAMESKIP = 5;
 
@@ -59,7 +50,7 @@ void TheGame::run(){
 
 void TheGame::initGame(){
 	currentWindow = WindowInitialization();
-	currentRenderContext = SDL_CreateRenderer(currentWindow, -1, SDL_RENDERER_ACCELERATED);
+	context = SDL_CreateRenderer(currentWindow, -1, SDL_RENDERER_ACCELERATED);
 
 	gameFloor = new Platform();
 	gameFloor->setIsRenderable(false);
@@ -69,7 +60,9 @@ void TheGame::initGame(){
 	gameFloor->setWidth(WINDOW_WIDTH);
 
 	int startingY = gameFloor->getY() - jimHeight;
-	jim = new MainCharacter(150, 0, jimWidth, jimHeight);
+	jim = new MainCharacter(Position(150, 0, jimWidth, jimHeight));
+
+	instantiateLevelObjects();
 }
 
 SDL_Window* TheGame::WindowInitialization(){
@@ -124,17 +117,17 @@ void TheGame::update(){
 }
 
 void TheGame::draw(){
-	if (SDL_RenderClear(currentRenderContext)){
+	if (SDL_RenderClear(context)){
 		PrintErrors("Renderer failed to clear", SDL_GetError);
 	}
 
 	std::vector<Object*>::iterator iter = levelObjects.begin();
 	for (iter; iter != levelObjects.end(); ++iter){
 		if ((*iter)->getIsRenderable())
-			(*iter)->draw(currentRenderContext);
+			(*iter)->draw();
 	}
 
-	SDL_RenderPresent(currentRenderContext);
+	SDL_RenderPresent(context);
 }
 
 void TheGame::calcGravity(){
@@ -155,4 +148,20 @@ void TheGame::detectCollisions(){
 			CollisionDetector::detectDynamicCollisions(tempObject, levelObjects);
 		}
 	}
+}
+
+void TheGame::instantiateLevelObjects(){
+	Object background(Position(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT));
+	Platform platform(Position(125, WINDOW_HEIGHT - 210, 100, 100));
+	Platform platform2(Position(0, WINDOW_HEIGHT - 150, 100, 100));
+
+	background.load(Character::BACKGROUND);
+	platform2.load(Character::LIGHT_GRAY_PLATFORM);
+	platform.load(Character::LIGHT_GREEN_PLATFORM);
+	jim->load(Character::JIM);
+
+	background.setContext(context);
+	platform2.setContext(context);
+	platform.setContext(context);
+	jim->setContext(context);
 }

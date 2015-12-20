@@ -7,31 +7,45 @@
 #include "Errors.h"
 #include <list>
 #include "Object.h"
+#include <set>
+#include <regex>
 
 //TODO - ADD ALL TEXTURES ASSOCIATED WITH A CHARACTER
+using std::string;
+using std::cout;
+using std::endl;
+
 class Utility
 {
 public:
 	Utility();
 	~Utility();
 
-	std::map<Character, std::string> getCharacterToFileMap() const;
-	std::hash_map<std::string, SDL_Texture*> textureCache;
+	std::map<Character, string> getCharacterToFileMap() const;
+
+	std::hash_map<string, SDL_Texture*> textureCache;
+
 	std::map<Character, int> amountOfObjects;
+
+	std::map<char, std::set<string>> findAllWalkCycleFiles(const Character& character);
 
 	// all objects (characters) that are currently loaded into memory
 	std::list<Object*> levelObjects;
+	
+	string getDefaultTexturePath(Character character);
 
 	void deleteTextures(Character character);
 private:
-	std::map<Character, std::string> characterFileMap;
-	
+	std::map<Character, string> characterFileMap;
 	void createCharacterFileMap();
-	std::list<std::string> findAllPngs(std::string fileName);
+	std::list<string> findAllPngs(string fileName);
 	void loadAllCharacterTextures();
 	void initializeAmountOfObjects();
-
-	const std::string TEXTURE_PATH = "Textures/jimmyJump_pack/PNG/";
+	std::set<string> findPngsWithPrefix(string directory, string prefix);
+	bool fileExists(string file);
+	string findPng(string fileOrDirectory);
+	bool isPng(string file);
+	const string TEXTURE_PATH = "Textures/jimmyJump_pack/PNG/";
 
 };
 

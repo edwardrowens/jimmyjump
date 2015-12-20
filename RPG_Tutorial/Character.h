@@ -1,5 +1,9 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
+#include <string>
+
+using std::string;
+
 /*
 An enum containing all objects in the game.
 */

@@ -5,7 +5,7 @@ Platform::Platform() : Object(){
 	isPlatform = true;
 }
 
-Platform::Platform(int x, int y, int width, int height) : Object(x, y, width, height){
+Platform::Platform(Position position) : Object(position){
 	isPlatform = true;
 }
 
