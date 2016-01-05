@@ -6,7 +6,6 @@
 #include <dirent/dirent.h>
 #include "Errors.h"
 #include <list>
-#include "Object.h"
 #include <set>
 #include <regex>
 
@@ -15,25 +14,19 @@ using std::string;
 using std::cout;
 using std::endl;
 
+class Object;
 class Utility
 {
 public:
 	Utility();
 	~Utility();
 
-	std::map<Character, string> getCharacterToFileMap() const;
-
 	std::hash_map<string, SDL_Texture*> textureCache;
-
 	std::map<Character, int> amountOfObjects;
 
 	std::map<char, std::set<string>> findAllWalkCycleFiles(const Character& character);
-
-	// all objects (characters) that are currently loaded into memory
-	std::list<Object*> levelObjects;
-	
 	string getDefaultTexturePath(Character character);
-
+	std::map<Character, string> getCharacterToFileMap() const;
 	void deleteTextures(Character character);
 private:
 	std::map<Character, string> characterFileMap;

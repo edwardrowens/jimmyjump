@@ -1,6 +1,7 @@
 #include "Object.h"
+using std::string;
 
-// default
+// utility constructor
 Object::Object() :
 objectTexture(nullptr),
 objectRect(new SDL_Rect),
@@ -9,22 +10,7 @@ isRenderable(true),
 isPlatform(false),
 hitbox(new SDL_Rect()),
 character(Character::NONE){
-	utility.levelObjects.push_back(this);
-}
-
-// copy
-Object::Object(const Object &object) :
-position(object.getPosition()),
-objectTexture(object.getObjectTexture()),
-isRenderable(true),
-isPlatform(false),
-hitbox(new SDL_Rect),
-character(object.getCharacter()){
-	*(hitbox) = *(object.getHitbox());
-	objectRect = new SDL_Rect;
-	*objectRect = *(object.getSDLRect());
-	texturePath = utility.getDefaultTexturePath(object.getCharacter());
-	utility.levelObjects.push_back(this);
+	++utility.amountOfObjects[Character::NONE];
 }
 
 // position constructor
@@ -41,7 +27,22 @@ character(Character::NONE){
 	objectRect->h = position.h;
 
 	createHitbox();
-	utility.levelObjects.push_back(this);
+	++utility.amountOfObjects[Character::NONE];
+}
+
+// copy
+Object::Object(const Object &object) :
+position(object.getPosition()),
+objectTexture(object.getObjectTexture()),
+isRenderable(true),
+isPlatform(false),
+hitbox(new SDL_Rect),
+character(object.getCharacter()){
+	*(hitbox) = *(object.getHitbox());
+	objectRect = new SDL_Rect;
+	*objectRect = *(object.getSDLRect());
+	texturePath = utility.getDefaultTexturePath(object.getCharacter());
+	++utility.amountOfObjects[Character::NONE];
 }
 
 //assignment operator overload
@@ -63,30 +64,13 @@ Object& Object::operator= (const Object &object){
 	character = object.getCharacter();
 
 	delete movableRect;
-	utility.levelObjects.push_back(this);
+	++utility.amountOfObjects[Character::NONE];
 
 	return *this;
 }
 
 //destructor
 Object::~Object(){
-	std::list<Object*>::iterator it;
-	it = utility.levelObjects.begin();
-
-	for (auto it : utility.levelObjects){
-		if (it == this){
-			utility.levelObjects.remove(it);
-			break;
-		}
-	}
-
-	--utility.amountOfObjects[this->character];
-	if (utility.amountOfObjects[this->character] <= 0){
-		utility.deleteTextures(utility.getCharacterToFileMap[this->character]);
-	}
-
-	delete objectRect;
-	delete hitbox;
 }
 
 int Object::getHeight() const{
@@ -238,4 +222,19 @@ void Object::load(Character character){
 	walkCycles = utility.findAllWalkCycleFiles(character);
 	++utility.amountOfObjects[character];
 	setObjectTexture();
+}
+
+/*
+Removes the object from the cache.
+
+Must be called when an object leavs memory.
+*/
+void Object::destroy(){
+	--utility.amountOfObjects[this->character];
+	if (utility.amountOfObjects[this->character] <= 0){
+		utility.deleteTextures(this->character);
+	}
+
+	delete objectRect;
+	delete hitbox;
 }

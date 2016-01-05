@@ -3,6 +3,7 @@
 #include "Errors.h"
 #include <vector>
 #include "MovableObject.h"
+#include "Movements.h"
 
 class CollisionDetector
 {

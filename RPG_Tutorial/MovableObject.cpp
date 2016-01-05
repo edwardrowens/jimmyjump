@@ -2,17 +2,29 @@
 
 
 //initiating stats to arbitrary values
-MovableObject::MovableObject() : health(100.0f), strength(10.0f), speed(5),
-isStable(true), previousXYPosition(new int[2]),
-currentMovement(Movements::NONE), stepCount(0){
+MovableObject::MovableObject() : 
+Object(),
+health(100.0f), 
+strength(10.0f), 
+speed(5),
+isStable(true), 
+previousXYPosition(new int[2]),
+currentMovement(Movements::NONE), 
+stepCount(0){
 	isMovable = true;
 	previousXYPosition[0] = position.x;
 	previousXYPosition[1] = position.y;
 }
 
-MovableObject::MovableObject(Position position) : Object(position), health(100.0f),
-strength(10.0f), speed(5), isStable(true), previousXYPosition(new int[2]),
-currentMovement(Movements::NONE), stepCount(0){
+MovableObject::MovableObject(Position position) : 
+Object(position),
+health(100.0f),
+strength(10.0f), 
+speed(5), 
+isStable(true), 
+previousXYPosition(new int[2]),
+currentMovement(Movements::NONE), 
+stepCount(0){
 	isMovable = true;
 	previousXYPosition[0] = position.x;
 	previousXYPosition[1] = position.y;

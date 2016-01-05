@@ -20,7 +20,7 @@ void CollisionDetector::detectStaticCollisions(MovableObject* object, const std:
 	for (int i = 0; i < levelObjects.size(); ++i){
 		if (levelObjects[i]->getIsPlatform()){
 			if (SDL_IntersectRect(levelObjects[i]->getHitbox(), object->getHitbox(), &intersection)){
-				MovableObject::Movements m = object->getCurrentMovement();
+				Movements m = object->getCurrentMovement();
 				// get line parameters
 				slope = object->calcSlopeOfMovement();
 				angle = object->calcAngleOfMovement();

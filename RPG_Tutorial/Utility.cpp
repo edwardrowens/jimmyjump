@@ -1,18 +1,17 @@
 #include "Utility.h"
 
-
 Utility::Utility(){
 	createCharacterFileMap();
 	// map that contains how many of what characters are currently in the level
 	initializeAmountOfObjects();
 }
 
-
 Utility::~Utility(){
 }
 
 /*
-Create enum to character file path mapping.
+Create enum to character file path mapping. If this mapping ends with a file extension, that file will be the default
+texture for that character.
 */
 void Utility::createCharacterFileMap(){
 	characterFileMap[Character::BACKGROUND] = TEXTURE_PATH + "Background.png";
@@ -37,7 +36,7 @@ std::list<string> Utility::findAllPngs(string directory){
 	std::list<string>::iterator it = pngs.begin();
 	DIR *dir;
 	struct dirent *ent;
-	if ((dir = opendir(directory.c_str())) != NULL) {
+	if ((dir = opendir(("./"+directory).c_str())) != NULL) {
 		while ((ent = readdir(dir)) != NULL) {
 			string fileName = ent->d_name;
 			if (fileName.size() > 4){
@@ -47,7 +46,7 @@ std::list<string> Utility::findAllPngs(string directory){
 			}
 		}
 		closedir(dir);
-		if (pngs.size() >= 0){
+		if (pngs.size() <= 0){
 			PrintErrors("No png files could be found in " + directory + ".");
 		}
 		return pngs;
@@ -62,7 +61,7 @@ std::list<string> Utility::findAllPngs(string directory){
 @returns An ordered set of PNG files with the prefix.
 */
 std::set<string> Utility::findPngsWithPrefix(string directory, string prefix){
-	if (directory.substr(directory.size() - 4, 4) == ".png" || directory == ""){
+	if (isPng(directory) || directory == ""){
 		std::set<string> toReturn = { directory };
 		return toReturn;
 	}
@@ -81,6 +80,13 @@ std::set<string> Utility::findPngsWithPrefix(string directory, string prefix){
 
 std::map<char, std::set<string>> Utility::findAllWalkCycleFiles(const Character& character){
 	std::map<char, std::set<string>> rightAndLeftFiles;
+
+	// If the character is tied to a single image, simply list that image as both the right and left direction walkcycles.
+	if (isPng(characterFileMap[character])){
+		rightAndLeftFiles['R'] = { characterFileMap[character] };
+		rightAndLeftFiles['L'] = { characterFileMap[character] };
+		return rightAndLeftFiles;
+	}
 	rightAndLeftFiles['R'] = findPngsWithPrefix(characterFileMap[character], "R");
 	rightAndLeftFiles['L'] = findPngsWithPrefix(characterFileMap[character], "L");
 
@@ -90,11 +96,27 @@ std::map<char, std::set<string>> Utility::findAllWalkCycleFiles(const Character&
 	set. This is used to eliminate all PNGs that are not apart of a walkcycle.
 	*/
 	std::map<char, std::set<string>>::iterator it = rightAndLeftFiles.begin();
-	for (it; it != rightAndLeftFiles.end(); ++it){
-		for (string filePath : rightAndLeftFiles[it->first]){
-			if (!std::regex_match(filePath, std::regex(".[0-9].+"))){
-				rightAndLeftFiles[it->first].erase(rightAndLeftFiles[it->first].find(filePath));
+	for (it; it != rightAndLeftFiles.end(); ){
+		std::set<string>::iterator setIt = it->second.begin();
+		for (setIt; setIt != it->second.end(); ){
+			if (!std::regex_match(*setIt, std::regex(".[0-9].+"))){
+				setIt = it->second.erase(setIt);
+				if (it->second.empty()){
+					break;
+				}
 			}
+			else{
+				++setIt;
+			}
+		}
+		if (it->second.empty()){
+			it = rightAndLeftFiles.erase(it);
+			if (rightAndLeftFiles.empty()){
+				PrintErrors("No valid walkcycles were found for " + characterFileMap[character]);
+			}
+		}
+		else{
+			++it;
 		}
 	}
 
@@ -112,11 +134,15 @@ void Utility::initializeAmountOfObjects(){
 }
 
 void Utility::deleteTextures(Character character){
-	if (amountOfObjects[character] >= 0){
+	if (amountOfObjects[character] <= 0){
 		PrintErrors("A character with " + std::to_string(amountOfObjects[character]) + " associated textures was going to be removed from the cache");
 	}
-	if (character == Character::NONE){
+	else if (character == Character::NONE){
 		return;
+	}
+	else if (isPng(characterFileMap[character])){
+		delete textureCache[characterFileMap[character]];
+		textureCache.erase(characterFileMap[character]);
 	}
 	else{
 		std::list<string> pngs = findAllPngs(characterFileMap[character]);

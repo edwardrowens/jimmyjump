@@ -1,6 +1,5 @@
 #include "TheGame.h"
 
-
 TheGame::TheGame() : currentWindow(nullptr), WINDOW_HEIGHT(600), WINDOW_WIDTH(768), FPS(10),
 currentState(GameState::PLAY), jimHeight(50), jimWidth(50), eventMade(0), jim(nullptr), 
 gravity(10), gameFloor(nullptr)
@@ -164,4 +163,9 @@ void TheGame::instantiateLevelObjects(){
 	platform2.setContext(context);
 	platform.setContext(context);
 	jim->setContext(context);
+
+	levelObjects.push_back(&background);
+	levelObjects.push_back(&platform2);
+	levelObjects.push_back(&platform);
+	levelObjects.push_back(jim);
 }

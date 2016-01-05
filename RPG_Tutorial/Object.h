@@ -4,11 +4,11 @@
 #include <SDL2.0\SDL_image.h>
 #include "Errors.h"
 #include "Character.h"
-#include "Utility.h"
 #include <list>
 #include "Position.h"
 #include <map>
 #include <set>
+#include "Utility.h"
 
 using std::string;
 
@@ -22,6 +22,7 @@ public:
 	Object& operator= (const Object &object);
 
 	void load(Character character);
+	void destroy();
 
 	const float HITBOXMODIFIER = .93;
 

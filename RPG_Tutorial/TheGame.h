@@ -45,6 +45,7 @@ private:
 	/*vector that contains all objects but the main character. the background of a level should
 	always be pushed first*/
 	std::vector<Object*> levelObjects;
+	Utility utility;
 	Platform* gameFloor;
 
 	//game loop
