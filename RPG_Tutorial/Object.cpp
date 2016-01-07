@@ -154,9 +154,15 @@ void Object::setIsMovable(const bool& isMovable){
 }
 
 void Object::setObjectTexture(){
+	if (context == nullptr){
+		PrintErrors("The context was not set before loading an object. Call setContext before calling load on a newly created object.");
+	}
 	// cannot be found in map
 	if (utility.textureCache.find(texturePath) == utility.textureCache.end()){
 		objectTexture = IMG_LoadTexture(context, texturePath.c_str());
+		if (objectTexture == NULL && isRenderable){
+			PrintErrors(texturePath + " did not load properly! Make sure the path is correct.");
+		}
 		utility.textureCache.insert(std::pair<std::string, SDL_Texture*>(texturePath, objectTexture));
 	}
 	else{
@@ -220,6 +226,9 @@ void Object::load(Character character){
 	this->character = character;
 	texturePath = utility.getDefaultTexturePath(character);
 	walkCycles = utility.findAllWalkCycleFiles(character);
+	if (character == Character::NONE){
+		--utility.amountOfObjects[Character::NONE];
+	}
 	++utility.amountOfObjects[character];
 	setObjectTexture();
 }

@@ -154,15 +154,16 @@ void TheGame::instantiateLevelObjects(){
 	Platform platform(Position(125, WINDOW_HEIGHT - 210, 100, 100));
 	Platform platform2(Position(0, WINDOW_HEIGHT - 150, 100, 100));
 
+	background.setContext(context);
+	platform2.setContext(context);
+	platform.setContext(context);
+	jim->setContext(context);
+
 	background.load(Character::BACKGROUND);
 	platform2.load(Character::LIGHT_GRAY_PLATFORM);
 	platform.load(Character::LIGHT_GREEN_PLATFORM);
 	jim->load(Character::JIM);
 
-	background.setContext(context);
-	platform2.setContext(context);
-	platform.setContext(context);
-	jim->setContext(context);
 
 	levelObjects.push_back(&background);
 	levelObjects.push_back(&platform2);
