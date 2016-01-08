@@ -1,7 +1,7 @@
 #include "Object.h"
 using std::string;
 
-// utility constructor
+// Default constructor
 Object::Object() :
 objectTexture(nullptr),
 objectRect(new SDL_Rect),
@@ -10,16 +10,15 @@ isRenderable(true),
 isPlatform(false),
 hitbox(new SDL_Rect()),
 character(Character::NONE){
-	++utility.amountOfObjects[Character::NONE];
 }
 
-// position constructor
-Object::Object(Position position) :
+// Position constructor
+Object::Object(Position position, Character character) :
 position(position),
 isRenderable(true),
 isPlatform(false),
 hitbox(new SDL_Rect),
-character(Character::NONE){
+character(character){
 	objectRect = new SDL_Rect();
 	objectRect->x = position.x;
 	objectRect->y = position.y;
@@ -27,7 +26,7 @@ character(Character::NONE){
 	objectRect->h = position.h;
 
 	createHitbox();
-	++utility.amountOfObjects[Character::NONE];
+	Object::load(character);
 }
 
 // copy
@@ -42,7 +41,6 @@ character(object.getCharacter()){
 	objectRect = new SDL_Rect;
 	*objectRect = *(object.getSDLRect());
 	texturePath = utility.getDefaultTexturePath(object.getCharacter());
-	++utility.amountOfObjects[Character::NONE];
 }
 
 //assignment operator overload
@@ -64,13 +62,14 @@ Object& Object::operator= (const Object &object){
 	character = object.getCharacter();
 
 	delete movableRect;
-	++utility.amountOfObjects[Character::NONE];
 
 	return *this;
 }
 
 //destructor
 Object::~Object(){
+	delete objectRect;
+	delete hitbox;
 }
 
 int Object::getHeight() const{
@@ -153,23 +152,6 @@ void Object::setIsMovable(const bool& isMovable){
 	this->isMovable = isMovable;
 }
 
-void Object::setObjectTexture(){
-	if (context == nullptr){
-		PrintErrors("The context was not set before loading an object. Call setContext before calling load on a newly created object.");
-	}
-	// cannot be found in map
-	if (utility.textureCache.find(texturePath) == utility.textureCache.end()){
-		objectTexture = IMG_LoadTexture(context, texturePath.c_str());
-		if (objectTexture == NULL && isRenderable){
-			PrintErrors(texturePath + " did not load properly! Make sure the path is correct.");
-		}
-		utility.textureCache.insert(std::pair<std::string, SDL_Texture*>(texturePath, objectTexture));
-	}
-	else{
-		objectTexture = utility.textureCache[texturePath];
-	}
-}
-
 void Object::setIsPlatform(const bool& isPlatform){
 	this->isPlatform = isPlatform;
 }
@@ -179,6 +161,10 @@ void Object::setContext(SDL_Renderer* context){
 		PrintErrors("The context passed into a level object was null.");
 	}
 	this->context = context;
+}
+
+void Object::setObjectTexture(SDL_Texture* texture){
+	objectTexture = texture;
 }
 
 bool Object::getIsPlatform() const{
@@ -226,24 +212,4 @@ void Object::load(Character character){
 	this->character = character;
 	texturePath = utility.getDefaultTexturePath(character);
 	walkCycles = utility.findAllWalkCycleFiles(character);
-	if (character == Character::NONE){
-		--utility.amountOfObjects[Character::NONE];
-	}
-	++utility.amountOfObjects[character];
-	setObjectTexture();
-}
-
-/*
-Removes the object from the cache.
-
-Must be called when an object leavs memory.
-*/
-void Object::destroy(){
-	--utility.amountOfObjects[this->character];
-	if (utility.amountOfObjects[this->character] <= 0){
-		utility.deleteTextures(this->character);
-	}
-
-	delete objectRect;
-	delete hitbox;
 }

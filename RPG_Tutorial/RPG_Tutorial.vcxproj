@@ -71,24 +71,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CharacterInformation.cpp" />
     <ClCompile Include="CollisionDetector.cpp" />
     <ClCompile Include="Errors.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainCharacter.cpp" />
     <ClCompile Include="MovableObject.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="TheGame.cpp" />
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h" />
+    <ClInclude Include="CharacterInformation.h" />
     <ClInclude Include="CollisionDetector.h" />
     <ClInclude Include="Errors.h" />
     <ClInclude Include="MainCharacter.h" />
     <ClInclude Include="MovableObject.h" />
     <ClInclude Include="Movements.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="TheGame.h" />

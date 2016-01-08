@@ -15,17 +15,19 @@ using std::string;
 class Object
 {
 public:
+	// Constructors, destructor
 	Object();
-	Object(Position position);
+	Object(Position position, Character character);
 	Object(const Object &object);
 	~Object();
+
+	// Operator overloads
 	Object& operator= (const Object &object);
 
-	void load(Character character);
-	void destroy();
-
+	// Public fields
 	const float HITBOXMODIFIER = .93;
 
+	// Getters
 	int getX() const;
 	int getY() const;
 	int getWidth() const;
@@ -40,6 +42,7 @@ public:
 	Character getCharacter() const;
 	Position getPosition() const;
 
+	// Setters
 	void setX(const int& x);
 	void setY(const int& y);
 	void setWidth(const int& width);
@@ -51,13 +54,15 @@ public:
 	void setCharacter(const Character& character);
 	void setContext(SDL_Renderer* context);
 	void setPosition(const Position& position);
+	void setObjectTexture(SDL_Texture* texture);
 
+	// Public functions
 	void createHitbox();
-
-	void die();
 	virtual void draw();
+	void load(Character character);
 
 protected:
+	// Protected fields
 	bool isMovable;
 	bool isRenderable;
 	bool isPlatform;
@@ -69,8 +74,9 @@ protected:
 	Character character;
 	SDL_Renderer* context;
 	std::map<char, std::set<string>> walkCycles;
-
-	void setObjectTexture();
 	Utility utility;
+
+	// Protected functions
+	void setObjectTexture();
 };
 

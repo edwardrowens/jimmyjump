@@ -18,27 +18,29 @@ class Object;
 class Utility
 {
 public:
+	// Constructors and destructor
 	Utility();
 	~Utility();
 
-	std::hash_map<string, SDL_Texture*> textureCache;
-	std::map<Character, int> amountOfObjects;
-
+	// Fields
 	std::map<char, std::set<string>> findAllWalkCycleFiles(const Character& character);
 	string getDefaultTexturePath(Character character);
 	std::map<Character, string> getCharacterToFileMap() const;
-	void deleteTextures(Character character);
-private:
-	std::map<Character, string> characterFileMap;
-	void createCharacterFileMap();
+
+	// Functions
+	bool isPng(string file);
 	std::list<string> findAllPngs(string fileName);
-	void loadAllCharacterTextures();
-	void initializeAmountOfObjects();
+
+private:
+	// Fields
+	std::map<Character, string> characterFileMap;
+	const string TEXTURE_PATH = "Textures/jimmyJump_pack/PNG/";
+
+	// Functions
+	void createCharacterFileMap();
 	std::set<string> findPngsWithPrefix(string directory, string prefix);
 	bool fileExists(string file);
 	string findPng(string fileOrDirectory);
-	bool isPng(string file);
-	const string TEXTURE_PATH = "Textures/jimmyJump_pack/PNG/";
 
 };
 

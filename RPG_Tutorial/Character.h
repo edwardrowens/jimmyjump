@@ -1,13 +1,7 @@
-#ifndef CHARACTER_H
-#define CHARACTER_H
-#include <string>
+#pragma once
 
-using std::string;
-
-/*
-An enum containing all objects in the game.
-*/
-enum Character: int{
+// BEGINNING and END need to be at the beginning and end respectively.
+enum Character : int{
 	BEGINNING,
 	NONE,
 	JIM,
@@ -18,4 +12,3 @@ enum Character: int{
 	LIGHT_GREEN_PLATFORM,
 	END
 };
-#endif

@@ -2,8 +2,6 @@
 
 Utility::Utility(){
 	createCharacterFileMap();
-	// map that contains how many of what characters are currently in the level
-	initializeAmountOfObjects();
 }
 
 Utility::~Utility(){
@@ -25,10 +23,6 @@ void Utility::createCharacterFileMap(){
 
 std::map<Character, string> Utility::getCharacterToFileMap() const{
 	return characterFileMap;
-}
-
-void Utility::loadAllCharacterTextures(){
-
 }
 
 std::list<string> Utility::findAllPngs(string directory){
@@ -121,36 +115,6 @@ std::map<char, std::set<string>> Utility::findAllWalkCycleFiles(const Character&
 	}
 
 	return rightAndLeftFiles;
-}
-
-void Utility::initializeAmountOfObjects(){
-	// populate the map if it hasn't been done yet.
-	if (amountOfObjects.size() == 0){
-		for (int i = Character::BEGINNING + 1; i < Character::END; ++i){
-			Character cmp = (Character)i;
-			amountOfObjects[cmp] = 0;
-		}
-	}
-}
-
-void Utility::deleteTextures(Character character){
-	if (amountOfObjects[character] <= 0){
-		PrintErrors("A character with " + std::to_string(amountOfObjects[character]) + " associated textures was going to be removed from the cache");
-	}
-	else if (character == Character::NONE){
-		return;
-	}
-	else if (isPng(characterFileMap[character])){
-		delete textureCache[characterFileMap[character]];
-		textureCache.erase(characterFileMap[character]);
-	}
-	else{
-		std::list<string> pngs = findAllPngs(characterFileMap[character]);
-		for (string file : pngs){
-			delete textureCache[characterFileMap[character] + file];
-			textureCache.erase(characterFileMap[character] + file);
-		}
-	}
 }
 
 //Potential speed up is to simply manually add this to a map.

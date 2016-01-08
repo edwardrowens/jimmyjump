@@ -51,6 +51,7 @@ void TheGame::initGame(){
 	currentWindow = WindowInitialization();
 	context = SDL_CreateRenderer(currentWindow, -1, SDL_RENDERER_ACCELERATED);
 
+
 	gameFloor = new Platform();
 	gameFloor->setIsRenderable(false);
 	gameFloor->setX(0);
@@ -60,6 +61,7 @@ void TheGame::initGame(){
 
 	int startingY = gameFloor->getY() - jimHeight;
 	jim = new MainCharacter(Position(150, 0, jimWidth, jimHeight));
+	objectManager = new ObjectManager(context, jim);
 
 	instantiateLevelObjects();
 }
@@ -87,7 +89,6 @@ void TheGame::update(){
 	jim->setPreviousXY(jim->getX(), jim->getY());
 	calcGravity();
 
-	//change walkcycles!!!
 	if (keyState[SDL_SCANCODE_D] && !keyState[SDL_SCANCODE_W]){
 		jim->moveRight();
 	}
@@ -150,7 +151,10 @@ void TheGame::detectCollisions(){
 }
 
 void TheGame::instantiateLevelObjects(){
-	Object background(Position(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT));
+	objectManager.createObject(Character::BACKGROUND, Position(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT), true);
+	objectManager.createObject(Character::LIGHT_GRAY_PLATFORM, Position(125, WINDOW_HEIGHT - 210, 100, 100), true);
+	objectManager.createObject(Character::LIGHT_GREEN_PLATFORM, Position(0, WINDOW_HEIGHT - 150, 100, 100), true);
+	/*Object background(Position(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT));
 	Platform platform(Position(125, WINDOW_HEIGHT - 210, 100, 100));
 	Platform platform2(Position(0, WINDOW_HEIGHT - 150, 100, 100));
 
@@ -168,5 +172,5 @@ void TheGame::instantiateLevelObjects(){
 	levelObjects.push_back(&background);
 	levelObjects.push_back(&platform2);
 	levelObjects.push_back(&platform);
-	levelObjects.push_back(jim);
+	levelObjects.push_back(jim);*/
 }
