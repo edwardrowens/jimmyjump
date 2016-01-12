@@ -1,11 +1,13 @@
 #pragma once
 #include <SDL2.0/SDL.h>
-#include "Character.h"
+#include "CharacterInformation.h"
 #include "Object.h"
 #include "Position.h"
 #include <vector>
 #include "Utility.h"
 #include "MainCharacter.h"
+#include "Platform.h"
+#include "CollisionDetector.h"
 
 /*
 The entire point of this class is to create instances of objects. This class will ensure that the background is the first instance
@@ -27,6 +29,10 @@ public:
 	// public functions
 	Object createObject(const Character& character, const Position& position, bool isRenderable);
 	void destroyObject(Object object);
+	CharacterGrouping retrieveCharacterGrouping(const Character& character);
+	void detectCollisions();
+	void applyGravity(const int& gravity);
+	void drawAllObjects();
 
 private:
 	// Fields

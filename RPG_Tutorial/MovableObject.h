@@ -3,17 +3,21 @@
 #include <math.h>
 #include <string>
 #include "Movements.h"
+#include "CharacterInformation.h"
 
 class MovableObject : public Object
 {
 public:
+	// Constructors and destructor.
 	MovableObject();
-	MovableObject(Position position);
-
+	MovableObject(Position position, Character character);
 	~MovableObject();
 	MovableObject(const MovableObject &moveableObject);
+
+	// Operator overloads.
 	MovableObject& operator=(const MovableObject &moveableObject);
 
+	// Getters
 	float getStrength() const;
 	float getHealth() const;
 	int getSpeed() const;
@@ -23,6 +27,7 @@ public:
 	Movements getPreviousMovement() const;
 	int* getPreviousXY() const;
 
+	// Setters
 	void setStrength(const float& newStrength);
 	void setHealth(const float& newHealth);
 	void setSpeed(const int& newSpeed);
@@ -32,7 +37,7 @@ public:
 	void setPreviousMovement(const Movements& movement);
 	void setPreviousXY(const int& x, const int& y);
 
-
+	// Funcitons
 	void jump();
 	void moveRight();
 	void moveLeft();
@@ -41,13 +46,13 @@ public:
 	float calcSlopeOfMovement() const;
 	float attack();
 
+	// Fields
 	Movements currentMovement;
 	Movements previousMovement;
 
 protected:
 	float strength, health;
 	int speed;
-	// 0 = x, 1 = y
 	int* previousXYPosition;
 	//is the object's y position greater than then floor but should not be decremented
 	bool isStable;

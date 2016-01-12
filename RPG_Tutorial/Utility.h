@@ -1,5 +1,5 @@
 #pragma once
-#include "Character.h"
+#include "CharacterInformation.h"
 #include <map>
 #include <hash_map>
 #include <SDL2.0\SDL.h>

@@ -11,11 +11,6 @@ TheGame::~TheGame()
 }
 
 /* TODO
-1. implement safety checks for background and platform objects so only the appropriate textures
-may be assigned to them
-2. improve walkcycles to be more generalizable
-3. institute collision detection
-3.5 make gamefloor
 */
 
 void TheGame::run(){
@@ -51,16 +46,8 @@ void TheGame::initGame(){
 	currentWindow = WindowInitialization();
 	context = SDL_CreateRenderer(currentWindow, -1, SDL_RENDERER_ACCELERATED);
 
-
-	gameFloor = new Platform();
-	gameFloor->setIsRenderable(false);
-	gameFloor->setX(0);
-	gameFloor->setY(WINDOW_HEIGHT - ((2.0 / 23)*WINDOW_HEIGHT));
-	gameFloor->setHeight(15);
-	gameFloor->setWidth(WINDOW_WIDTH);
-
-	int startingY = gameFloor->getY() - jimHeight;
-	jim = new MainCharacter(Position(150, 0, jimWidth, jimHeight));
+	int startingY = WINDOW_HEIGHT - ((2.0 / 23)*WINDOW_HEIGHT);
+	jim = new MainCharacter(Position(150, 0, jimWidth, jimHeight), Character::JIM);
 	objectManager = new ObjectManager(context, jim);
 
 	instantiateLevelObjects();
@@ -117,60 +104,19 @@ void TheGame::update(){
 }
 
 void TheGame::draw(){
-	if (SDL_RenderClear(context)){
-		PrintErrors("Renderer failed to clear", SDL_GetError);
-	}
-
-	std::vector<Object*>::iterator iter = levelObjects.begin();
-	for (iter; iter != levelObjects.end(); ++iter){
-		if ((*iter)->getIsRenderable())
-			(*iter)->draw();
-	}
-
-	SDL_RenderPresent(context);
+	objectManager->drawAllObjects();
 }
 
 void TheGame::calcGravity(){
-	std::vector<Object*>::iterator iter = levelObjects.begin();
-	for (iter; iter != levelObjects.end(); ++iter){
-		if ((*iter)->getIsMovable()){
-			(*iter)->setY((*iter)->getY() + gravity);
-		}
-	}
+	objectManager->applyGravity(gravity);
 }
 
 void TheGame::detectCollisions(){
-	std::vector<Object*>::iterator i = levelObjects.begin();
-	for (i; i != levelObjects.end(); ++i){
-		if ((*i)->getIsMovable()){
-			MovableObject* tempObject = dynamic_cast<MovableObject*>(*i);
-			CollisionDetector::detectStaticCollisions(tempObject, levelObjects);
-			CollisionDetector::detectDynamicCollisions(tempObject, levelObjects);
-		}
-	}
+	objectManager->detectCollisions();
 }
 
 void TheGame::instantiateLevelObjects(){
-	objectManager.createObject(Character::BACKGROUND, Position(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT), true);
-	objectManager.createObject(Character::LIGHT_GRAY_PLATFORM, Position(125, WINDOW_HEIGHT - 210, 100, 100), true);
-	objectManager.createObject(Character::LIGHT_GREEN_PLATFORM, Position(0, WINDOW_HEIGHT - 150, 100, 100), true);
-	/*Object background(Position(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT));
-	Platform platform(Position(125, WINDOW_HEIGHT - 210, 100, 100));
-	Platform platform2(Position(0, WINDOW_HEIGHT - 150, 100, 100));
-
-	background.setContext(context);
-	platform2.setContext(context);
-	platform.setContext(context);
-	jim->setContext(context);
-
-	background.load(Character::BACKGROUND);
-	platform2.load(Character::LIGHT_GRAY_PLATFORM);
-	platform.load(Character::LIGHT_GREEN_PLATFORM);
-	jim->load(Character::JIM);
-
-
-	levelObjects.push_back(&background);
-	levelObjects.push_back(&platform2);
-	levelObjects.push_back(&platform);
-	levelObjects.push_back(jim);*/
+	objectManager->createObject(Character::BACKGROUND, Position(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT), true);
+	objectManager->createObject(Character::LIGHT_GRAY_PLATFORM, Position(125, WINDOW_HEIGHT - 210, 100, 100), true);
+	objectManager->createObject(Character::LIGHT_GREEN_PLATFORM, Position(0, WINDOW_HEIGHT - 150, 100, 100), true);
 }

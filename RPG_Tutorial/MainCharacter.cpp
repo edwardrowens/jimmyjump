@@ -9,6 +9,6 @@ MainCharacter::~MainCharacter()
 {
 }
 
-MainCharacter::MainCharacter(Position position): MovableObject(position){
+MainCharacter::MainCharacter(Position position, Character character): MovableObject(position, character){
 
 }

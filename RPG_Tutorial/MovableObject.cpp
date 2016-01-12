@@ -1,7 +1,6 @@
 #include "MovableObject.h"
 
-
-//initiating stats to arbitrary values
+// Default constructor
 MovableObject::MovableObject() : 
 Object(),
 health(100.0f), 
@@ -16,8 +15,9 @@ stepCount(0){
 	previousXYPosition[1] = position.y;
 }
 
-MovableObject::MovableObject(Position position) : 
-Object(position),
+// Position and character constructor.
+MovableObject::MovableObject(Position position, Character character) : 
+Object(position, character),
 health(100.0f),
 strength(10.0f), 
 speed(5), 

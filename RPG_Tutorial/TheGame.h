@@ -13,6 +13,7 @@
 #include "Movements.h"
 #include "Utility.h"
 #include "Position.h"
+#include "ObjectManager.h"
 
 enum class GameState {PLAY,EXIT};
 
@@ -30,21 +31,20 @@ public:
 
 private:
 	// Fields
-	int gravity;
 	GameState currentState;
 	SDL_Window* currentWindow;
 	SDL_Event currentEvent;
 	SDL_Renderer* context;
 	Utility utility;
 	Platform* gameFloor;
-	int jimWidth, jimHeight, jimStartY;
 	MainCharacter* jim;
-	const int WINDOW_WIDTH;
-	const int WINDOW_HEIGHT;
-	const int FPS;
+	ObjectManager* objectManager;
+	int jimWidth, jimHeight, jimStartY, eventMade, gravity;
+	const int WINDOW_WIDTH = 768;
+	const int WINDOW_HEIGHT = 600;
+	const int FPS = 10;
 	//processes input
 	const Uint8* keyState;
-	int eventMade;
 	
 	// Functions
 	SDL_Window* WindowInitialization();

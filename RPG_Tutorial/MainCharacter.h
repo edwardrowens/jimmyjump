@@ -6,6 +6,6 @@ class MainCharacter: public MovableObject
 public:
 	MainCharacter();
 	~MainCharacter();
-	MainCharacter(Position position);
+	MainCharacter(Position position, Character character);
 };
 

@@ -71,7 +71,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CharacterInformation.cpp" />
     <ClCompile Include="CollisionDetector.cpp" />
     <ClCompile Include="Errors.cpp" />
     <ClCompile Include="main.cpp" />
@@ -84,7 +83,6 @@
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Character.h" />
     <ClInclude Include="CharacterInformation.h" />
     <ClInclude Include="CollisionDetector.h" />
     <ClInclude Include="Errors.h" />

@@ -1,5 +1,6 @@
 #pragma once
 
+// Contains the information which pertains to all associated characters within the game.
 // BEGINNING and END need to be at the beginning and end respectively.
 enum Character : int{
 	BEGINNING,
@@ -10,5 +11,14 @@ enum Character : int{
 	BACKGROUND,
 	LIGHT_GRAY_PLATFORM,
 	LIGHT_GREEN_PLATFORM,
+	END
+};
+
+enum CharacterGrouping : int{
+	BEGINNING,
+	OBJECT,
+	MAIN_CHARACTER,
+	PLATFORM,
+	MOVABLE_OBJECT,
 	END
 };

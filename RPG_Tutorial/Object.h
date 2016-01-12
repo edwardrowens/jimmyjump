@@ -3,7 +3,7 @@
 #include <string>
 #include <SDL2.0\SDL_image.h>
 #include "Errors.h"
-#include "Character.h"
+#include "CharacterInformation.h"
 #include <list>
 #include "Position.h"
 #include <map>

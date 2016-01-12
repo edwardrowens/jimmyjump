@@ -5,11 +5,12 @@ ObjectManager::ObjectManager() : context(nullptr){
 	initializeAmountOfObjects();
 }
 
-// Context constructor
-ObjectManager::ObjectManager(SDL_Renderer* context, MainCharacter* playableCharacter) : 
-context(context), 
+// Context and main character constructor
+ObjectManager::ObjectManager(SDL_Renderer* context, MainCharacter* playableCharacter) :
+context(context),
 playableCharacter(playableCharacter){
 	initializeAmountOfObjects();
+	objectsInLevel.push_back(playableCharacter);
 }
 
 // Destructor
@@ -20,12 +21,34 @@ ObjectManager::~ObjectManager(){
 TODO - Everything is currently an object rather than a platform or whatever.
 */
 Object ObjectManager::createObject(const Character &character, const Position &position, bool isRenderable){
-	if (objectsInLevel.size() <= 1 && character != Character::BACKGROUND){
-		PrintErrors("The background must be added prior to any other characters.");
+	if (character == Character::BACKGROUND){
+		if (amountOfObjects[character] == 0){
+			objectsInLevel.insert(objectsInLevel.begin(), new Object(position, character));
+		}
+		else{
+			PrintErrors("You are trying to add " + std::to_string(amountOfObjects[character]) + " backgrounds to the level.");
+		}
 	}
+	else{
+		CharacterGrouping characterGrouping = retrieveCharacterGrouping(character);
+		switch (characterGrouping){
+		case CharacterGrouping::MAIN_CHARACTER:
+			objectsInLevel.push_back(new MainCharacter(position, character));
+			break;
+		case CharacterGrouping::MOVABLE_OBJECT:
+			objectsInLevel.push_back(new MovableObject(position, character));
+			break;
+		case CharacterGrouping::OBJECT:
+			objectsInLevel.push_back(new Object(position, character));
+			break;
+		case CharacterGrouping::PLATFORM:
+			objectsInLevel.push_back(new Platform(position, character));
+			break;
+		}
+	}
+
 	++amountOfObjects[character];
 
-	objectsInLevel.push_back(new Object(position, character));
 	(*objectsInLevel[objectsInLevel.size() - 1]).setIsRenderable(isRenderable);
 	if (isRenderable){
 		setObjectTexture(*objectsInLevel[objectsInLevel.size() - 1]);
@@ -35,7 +58,7 @@ Object ObjectManager::createObject(const Character &character, const Position &p
 }
 
 /*
-Map that keeps track of the amount of a certain character on a map in the given level.
+Map that keeps track of the amount of a characters in the current level.
 */
 void ObjectManager::initializeAmountOfObjects(){
 	for (int i = Character::BEGINNING + 1; i < Character::END; ++i){
@@ -104,6 +127,66 @@ void ObjectManager::destroyObject(Object object){
 	}
 }
 
+CharacterGrouping ObjectManager::retrieveCharacterGrouping(const Character& character){
+	switch (character){
+	case Character::NONE:
+		return CharacterGrouping::OBJECT;
+		break;
+	case Character::BACKGROUND:
+		return CharacterGrouping::OBJECT;
+		break;
+	case Character::FLYING_HEART_LARGE:
+		return CharacterGrouping::MOVABLE_OBJECT;
+		break;
+	case Character::FLYING_HEART_SMALL:
+		return CharacterGrouping::MOVABLE_OBJECT;
+		break;
+	case Character::JIM:
+		return CharacterGrouping::MAIN_CHARACTER;
+		break;
+	case Character::LIGHT_GRAY_PLATFORM:
+		return CharacterGrouping::PLATFORM;
+		break;
+	case Character::LIGHT_GREEN_PLATFORM:
+		return CharacterGrouping::PLATFORM;
+		break;
+	}
+}
+
 MainCharacter* ObjectManager::getPlayableCharacter() const{
 	return playableCharacter;
+}
+
+void ObjectManager::detectCollisions(){
+	std::vector<Object*>::iterator i = objectsInLevel.begin();
+	for (i; i != objectsInLevel.end(); ++i){
+		if ((*i)->getIsMovable()){
+			MovableObject* tempObject = dynamic_cast<MovableObject*>(*i);
+			CollisionDetector::detectStaticCollisions(tempObject, objectsInLevel);
+			CollisionDetector::detectDynamicCollisions(tempObject, objectsInLevel);
+		}
+	}
+}
+
+void ObjectManager::applyGravity(const int& gravity){
+	std::vector<Object*>::iterator iter = objectsInLevel.begin();
+	for (iter; iter != objectsInLevel.end(); ++iter){
+		if ((*iter)->getIsMovable()){
+			(*iter)->setY((*iter)->getY() + gravity);
+		}
+	}
+}
+
+void ObjectManager::drawAllObjects(){
+	if (SDL_RenderClear(context)){
+		PrintErrors("Renderer failed to clear", SDL_GetError);
+	}
+
+	std::vector<Object*>::iterator iter = objectsInLevel.begin();
+	for (iter; iter != objectsInLevel.end(); ++iter){
+		if ((*iter)->getIsRenderable())
+			(*iter)->draw();
+	}
+
+	SDL_RenderPresent(context);
 }
