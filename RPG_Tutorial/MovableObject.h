@@ -39,8 +39,8 @@ public:
 
 	// Funcitons
 	void jump();
-	void moveRight();
-	void moveLeft();
+	string moveRight();
+	string moveLeft();
 	void useItem();
 	float calcAngleOfMovement() const;
 	float calcSlopeOfMovement() const;

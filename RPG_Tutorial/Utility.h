@@ -30,6 +30,7 @@ public:
 	// Functions
 	bool isPng(string file);
 	std::list<string> findAllPngs(string fileName);
+	int getFileLocFromPath(const string& filePath);
 
 private:
 	// Fields
@@ -41,6 +42,5 @@ private:
 	std::set<string> findPngsWithPrefix(string directory, string prefix);
 	bool fileExists(string file);
 	string findPng(string fileOrDirectory);
-
 };
 

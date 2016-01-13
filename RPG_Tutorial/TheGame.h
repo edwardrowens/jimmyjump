@@ -3,11 +3,9 @@
 #include <SDL2.0\SDL_image.h>
 #include <string>
 #include <iostream>
+#include <vector>
 #include "Errors.h"
 #include "MainCharacter.h"
-#include "ObjectManager.h"
-#include <ctime>
-#include <vector>
 #include "Platform.h"
 #include "CollisionDetector.h"
 #include "Movements.h"
@@ -16,8 +14,6 @@
 #include "ObjectManager.h"
 
 enum class GameState {PLAY,EXIT};
-
-ObjectManager* objectManager;
 
 class TheGame
 {

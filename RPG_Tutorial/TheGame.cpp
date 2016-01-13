@@ -47,7 +47,7 @@ void TheGame::initGame(){
 	context = SDL_CreateRenderer(currentWindow, -1, SDL_RENDERER_ACCELERATED);
 
 	int startingY = WINDOW_HEIGHT - ((2.0 / 23)*WINDOW_HEIGHT);
-	jim = new MainCharacter(Position(150, 0, jimWidth, jimHeight), Character::JIM);
+	jim = new MainCharacter(Position(150, startingY, jimWidth, jimHeight), Character::JIM);
 	objectManager = new ObjectManager(context, jim);
 
 	instantiateLevelObjects();
@@ -98,8 +98,9 @@ void TheGame::update(){
 		jim->setY(0);
 
 	if ((jim->getY() + jim->getHeight()) > WINDOW_HEIGHT)
-		jim->setY(WINDOW_HEIGHT - jim->getY());
+		jim->setY(WINDOW_HEIGHT - jim->getHeight());
 
+	objectManager->setObjectTexture(*jim);
 	detectCollisions();
 }
 

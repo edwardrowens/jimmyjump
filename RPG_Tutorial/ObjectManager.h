@@ -33,6 +33,7 @@ public:
 	void detectCollisions();
 	void applyGravity(const int& gravity);
 	void drawAllObjects();
+	void setObjectTexture(Object& object);
 
 private:
 	// Fields
@@ -45,7 +46,6 @@ private:
 
 	// Functions
 	void initializeAmountOfObjects();
-	void setObjectTexture(Object& object);
 	void deleteTextures(Character character);
 };
 

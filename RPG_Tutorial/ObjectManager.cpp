@@ -11,6 +11,7 @@ context(context),
 playableCharacter(playableCharacter){
 	initializeAmountOfObjects();
 	objectsInLevel.push_back(playableCharacter);
+	setObjectTexture(*playableCharacter);
 }
 
 // Destructor
@@ -24,9 +25,14 @@ Object ObjectManager::createObject(const Character &character, const Position &p
 	if (character == Character::BACKGROUND){
 		if (amountOfObjects[character] == 0){
 			objectsInLevel.insert(objectsInLevel.begin(), new Object(position, character));
+			(*objectsInLevel[0]).setIsRenderable(isRenderable);
+			if (isRenderable){
+				setObjectTexture(*objectsInLevel[0]);
+			}
+			return *objectsInLevel[0];
 		}
 		else{
-			PrintErrors("You are trying to add " + std::to_string(amountOfObjects[character]) + " backgrounds to the level.");
+			PrintErrors("There can only be a single background per level.");
 		}
 	}
 	else{
@@ -45,16 +51,14 @@ Object ObjectManager::createObject(const Character &character, const Position &p
 			objectsInLevel.push_back(new Platform(position, character));
 			break;
 		}
+
+		(*objectsInLevel[objectsInLevel.size() - 1]).setIsRenderable(isRenderable);
+		if (isRenderable){
+			setObjectTexture(*objectsInLevel[objectsInLevel.size() - 1]);
+		}
+
+		return *objectsInLevel[objectsInLevel.size() - 1];
 	}
-
-	++amountOfObjects[character];
-
-	(*objectsInLevel[objectsInLevel.size() - 1]).setIsRenderable(isRenderable);
-	if (isRenderable){
-		setObjectTexture(*objectsInLevel[objectsInLevel.size() - 1]);
-	}
-
-	return *objectsInLevel[objectsInLevel.size() - 1];
 }
 
 /*
@@ -71,7 +75,9 @@ void ObjectManager::setObjectTexture(Object &object){
 	if (context == nullptr){
 		PrintErrors("The context passed in was null. A texture cannot be set without a context.");
 	}
-	// cannot be found in map
+	++amountOfObjects[object.getCharacter()];
+	object.setContext(context);
+	// cannot be found in cache
 	if (textureCache.find(object.getTexturePath()) == textureCache.end()){
 		SDL_Texture* texture = IMG_LoadTexture(context, object.getTexturePath().c_str());
 		if (texture == nullptr){

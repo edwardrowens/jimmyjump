@@ -163,3 +163,16 @@ string Utility::findPng(string directory){
 bool Utility::isPng(string file){
 	return file.substr(file.size() - 4, 4) == ".png";
 }
+
+// POTENITIAL PROBLEM: This is not OS-agnostic (probably idk, im not a scientist)
+/*
+Grabs the index of the actual file name from the path.
+*/
+int Utility::getFileLocFromPath(const string& filePath){
+	int index = filePath.size() - 1;
+	for (int i = index; i != 0 && filePath[i] != '/' && filePath[i] != '\\'; --i){
+		char asd = filePath[i];
+		index = i;
+	}
+	return index;
+}

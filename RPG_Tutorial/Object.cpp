@@ -181,7 +181,7 @@ SDL_Texture* Object::getObjectTexture() const{
 
 void Object::draw(){
 	if (objectTexture == nullptr)
-		PrintErrors("No texture has been loaded. A texture must be set with the method: load.", SDL_GetError);
+		PrintErrors("No texture has been loaded.", SDL_GetError);
 	if (SDL_RenderCopy(context, objectTexture, NULL, objectRect))
 		PrintErrors("Failed to render " + texturePath, SDL_GetError);
 }

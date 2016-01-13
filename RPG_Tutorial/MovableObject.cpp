@@ -113,27 +113,36 @@ void MovableObject::jump(){
 	currentMovement = Movements::JUMP;
 }
 
-void MovableObject::moveRight(){
+string MovableObject::moveRight(){
 	setX(position.x += speed);
 	if (currentMovement == Movements::LEFT || stepCount >= walkCycles['R'].size()){
 		stepCount = 0;
 	}
+
+	// POTENTIAL PROBLEM: If I use another type of file for textures, I would have to make a more general solution rather than
+	// hard-coding this string.
 	currentMovement = Movements::RIGHT;
-	std::set<string> rightWalkCycleFiles = walkCycles['R'];
-	texturePath = *(walkCycles['R'].find("R" + std::to_string(stepCount)));
+	texturePath = texturePath.substr(0, utility.getFileLocFromPath(texturePath));
+	texturePath = texturePath + "R" + std::to_string(stepCount) + ".png";
 	++stepCount;
+
+	return texturePath;
 }
 
-void MovableObject::moveLeft(){
+string MovableObject::moveLeft(){
 	setX(position.x -= speed);
 	if (currentMovement == Movements::RIGHT || stepCount >= walkCycles['L'].size()){
 		stepCount = 0;
 	}
 
+	// POTENTIAL PROBLEM: If I use another type of file for textures, I would have to make a more general solution rather than
+	// hard-coding this string.
 	currentMovement = Movements::LEFT;
-	std::set<string> rightWalkCycleFiles = walkCycles['L'];
-	texturePath = *(walkCycles['L'].find("L" + std::to_string(stepCount)));
+	texturePath = texturePath.substr(0, utility.getFileLocFromPath(texturePath));
+	texturePath = texturePath + "L" + std::to_string(stepCount) + ".png";
 	++stepCount;
+
+	return texturePath;
 }
 
 void MovableObject::useItem(){
