@@ -35,7 +35,8 @@ private:
 	Platform* gameFloor;
 	MainCharacter* jim;
 	ObjectManager* objectManager;
-	int jimWidth, jimHeight, jimStartY, eventMade, gravity;
+	int jimWidth, jimHeight, jimStartY, eventMade;
+	float gravity, keyPressLength;
 	const int WINDOW_WIDTH = 768;
 	const int WINDOW_HEIGHT = 600;
 	const int FPS = 10;

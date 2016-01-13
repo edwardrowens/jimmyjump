@@ -31,7 +31,7 @@ public:
 	void destroyObject(Object object);
 	CharacterGrouping retrieveCharacterGrouping(const Character& character);
 	void detectCollisions();
-	void applyGravity(const int& gravity);
+	void applyGravity(const float& gravity);
 	void drawAllObjects();
 	void setObjectTexture(Object& object);
 

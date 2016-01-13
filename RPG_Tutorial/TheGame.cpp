@@ -1,7 +1,7 @@
 #include "TheGame.h"
 
 TheGame::TheGame() : currentWindow(nullptr), WINDOW_HEIGHT(600), WINDOW_WIDTH(768), FPS(10),
-currentState(GameState::PLAY), jimHeight(50), jimWidth(50), eventMade(0), jim(nullptr), 
+currentState(GameState::PLAY), jimHeight(50), jimWidth(50), eventMade(0), jim(nullptr),
 gravity(10), gameFloor(nullptr)
 {}
 
@@ -56,7 +56,7 @@ void TheGame::initGame(){
 SDL_Window* TheGame::WindowInitialization(){
 	SDL_Init(SDL_INIT_EVENTS | SDL_INIT_VIDEO);
 
-	SDL_Window* win = SDL_CreateWindow("The Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN );
+	SDL_Window* win = SDL_CreateWindow("The Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
 
 	if (win == nullptr){
 		PrintErrors("Failed to create SDL window!", SDL_GetError);
@@ -74,6 +74,7 @@ int TheGame::processInput(){
 void TheGame::update(){
 	jim->setPreviousMovement(jim->getCurrentMovement());
 	jim->setPreviousXY(jim->getX(), jim->getY());
+	jim->jump();
 	calcGravity();
 
 	if (keyState[SDL_SCANCODE_D] && !keyState[SDL_SCANCODE_W]){
@@ -83,8 +84,9 @@ void TheGame::update(){
 	else if (keyState[SDL_SCANCODE_A] && !keyState[SDL_SCANCODE_W]){
 		jim->moveLeft();
 	}
-	else if (keyState[SDL_SCANCODE_W]){
-		jim->jump();
+	else if (keyState[SDL_SCANCODE_W] && currentEvent.key.state == SDL_PRESSED){
+		keyPressLength = SDL_GetTicks();
+		jim->jump(SDL_GetTicks() - keyPressLength);
 	}
 
 	// make sure jim doesn't exit screen

@@ -1,14 +1,14 @@
 #include "MovableObject.h"
 
 // Default constructor
-MovableObject::MovableObject() : 
+MovableObject::MovableObject() :
 Object(),
-health(100.0f), 
-strength(10.0f), 
+health(100.0f),
+strength(10.0f),
 speed(5),
-isStable(true), 
+isStable(true),
 previousXYPosition(new int[2]),
-currentMovement(Movements::NONE), 
+currentMovement(Movements::NONE),
 stepCount(0){
 	isMovable = true;
 	previousXYPosition[0] = position.x;
@@ -16,21 +16,21 @@ stepCount(0){
 }
 
 // Position and character constructor.
-MovableObject::MovableObject(Position position, Character character) : 
+MovableObject::MovableObject(Position position, Character character) :
 Object(position, character),
 health(100.0f),
-strength(10.0f), 
-speed(5), 
-isStable(true), 
+strength(10.0f),
+speed(5),
+isStable(true),
 previousXYPosition(new int[2]),
-currentMovement(Movements::NONE), 
+currentMovement(Movements::NONE),
 stepCount(0){
 	isMovable = true;
 	previousXYPosition[0] = position.x;
 	previousXYPosition[1] = position.y;
 }
 
-MovableObject::MovableObject(const MovableObject &movableObject): Object(movableObject),
+MovableObject::MovableObject(const MovableObject &movableObject) : Object(movableObject),
 previousXYPosition(new int[2]), currentMovement(Movements::NONE), stepCount(0){
 	previousXYPosition[0] = position.x;
 	previousXYPosition[1] = position.y;
@@ -42,7 +42,7 @@ MovableObject::~MovableObject(){
 
 MovableObject& MovableObject::operator=(const MovableObject &moveableObject){
 	Object::operator=(moveableObject);
-	
+
 	return *this;
 }
 
@@ -77,6 +77,10 @@ int* MovableObject::getPreviousXY() const{
 	return previousXYPosition;
 }
 
+float MovableObject::getGravity() const{
+	return gravity;
+}
+
 void MovableObject::setStrength(const float& strength){
 	this->strength = strength;
 }
@@ -107,10 +111,19 @@ void MovableObject::setPreviousXY(const int& x, const int& y){
 	previousXYPosition[1] = y;
 }
 
+void MovableObject::setGravity(const float& gravity){
+	this->gravity = gravity;
+}
 
-void MovableObject::jump(){
-	setY(position.y - 10);
-	currentMovement = Movements::JUMP;
+void MovableObject::jump(float keyPressLength){
+	if (currentMovement != Movements::JUMP)
+		currentJumpTicks = 0;
+	else
+		++currentJumpTicks;
+	if (currentJumpTicks <= JUMP_MAX_TICKS){
+		currentMovement = Movements::JUMP;
+		setY(position.y - (gravity + JUMP_INCREMENTS));
+	}
 }
 
 string MovableObject::moveRight(){

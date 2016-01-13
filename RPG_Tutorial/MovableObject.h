@@ -26,6 +26,7 @@ public:
 	Movements getCurrentMovement() const;
 	Movements getPreviousMovement() const;
 	int* getPreviousXY() const;
+	float getGravity() const;
 
 	// Setters
 	void setStrength(const float& newStrength);
@@ -36,9 +37,10 @@ public:
 	void setCurrentMovement(const Movements& movement);
 	void setPreviousMovement(const Movements& movement);
 	void setPreviousXY(const int& x, const int& y);
+	void setGravity(const float& gravity);
 
 	// Funcitons
-	void jump();
+	void jump(float keyPressLength);
 	string moveRight();
 	string moveLeft();
 	void useItem();
@@ -51,7 +53,7 @@ public:
 	Movements previousMovement;
 
 protected:
-	float strength, health;
+	float strength, health, gravity;
 	int speed;
 	int* previousXYPosition;
 	//is the object's y position greater than then floor but should not be decremented
@@ -59,5 +61,9 @@ protected:
 
 private:
 	int stepCount;
+	bool isJumping;
+	const float JUMP_INCREMENTS = 2;
+	const int JUMP_MAX_TICKS = 5;
+	int currentJumpTicks;
 };
 

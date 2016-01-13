@@ -174,11 +174,15 @@ void ObjectManager::detectCollisions(){
 	}
 }
 
-void ObjectManager::applyGravity(const int& gravity){
+void ObjectManager::applyGravity(const float& gravity){
 	std::vector<Object*>::iterator iter = objectsInLevel.begin();
 	for (iter; iter != objectsInLevel.end(); ++iter){
 		if ((*iter)->getIsMovable()){
 			(*iter)->setY((*iter)->getY() + gravity);
+			MovableObject* tmp = (MovableObject*)*iter;
+			if (tmp->getGravity() != gravity){
+				tmp->setGravity(gravity);
+			}
 		}
 	}
 }
