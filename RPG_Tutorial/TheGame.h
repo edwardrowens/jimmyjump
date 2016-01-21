@@ -42,6 +42,7 @@ private:
 	const int FPS = 10;
 	//processes input
 	const Uint8* keyState;
+	Uint8* fakeKeyState;
 	
 	// Functions
 	SDL_Window* WindowInitialization();

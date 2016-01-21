@@ -68,25 +68,26 @@ SDL_Window* TheGame::WindowInitialization(){
 int TheGame::processInput(){
 	int size;
 	keyState = SDL_GetKeyboardState(&size);
+	fakeKeyState = new Uint8[size];
+	fakeKeyState[SDL_SCANCODE_D] = 1;
+	fakeKeyState[SDL_SCANCODE_W] = 1;
+	
 	return eventMade = SDL_PollEvent(&currentEvent);
 }
 
 void TheGame::update(){
-	jim->setPreviousMovement(jim->getCurrentMovement());
-	jim->setPreviousXY(jim->getX(), jim->getY());
-	jim->jump();
 	calcGravity();
+	detectCollisions();
 
-	if (keyState[SDL_SCANCODE_D] && !keyState[SDL_SCANCODE_W]){
+	if (fakeKeyState[SDL_SCANCODE_D]){
 		jim->moveRight();
 	}
 
-	else if (keyState[SDL_SCANCODE_A] && !keyState[SDL_SCANCODE_W]){
+	if (keyState[SDL_SCANCODE_A]){
 		jim->moveLeft();
 	}
-	else if (keyState[SDL_SCANCODE_W] && currentEvent.key.state == SDL_PRESSED){
-		keyPressLength = SDL_GetTicks();
-		jim->jump(SDL_GetTicks() - keyPressLength);
+	if (fakeKeyState[SDL_SCANCODE_W]){
+		jim->jump();
 	}
 
 	// make sure jim doesn't exit screen
@@ -103,7 +104,6 @@ void TheGame::update(){
 		jim->setY(WINDOW_HEIGHT - jim->getHeight());
 
 	objectManager->setObjectTexture(*jim);
-	detectCollisions();
 }
 
 void TheGame::draw(){
@@ -121,5 +121,5 @@ void TheGame::detectCollisions(){
 void TheGame::instantiateLevelObjects(){
 	objectManager->createObject(Character::BACKGROUND, Position(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT), true);
 	objectManager->createObject(Character::LIGHT_GRAY_PLATFORM, Position(125, WINDOW_HEIGHT - 210, 100, 100), true);
-	objectManager->createObject(Character::LIGHT_GREEN_PLATFORM, Position(0, WINDOW_HEIGHT - 150, 100, 100), true);
+	objectManager->createObject(Character::LIGHT_GREEN_PLATFORM, Position(200, WINDOW_HEIGHT - 100, 100, 100), true);
 }

@@ -6,13 +6,12 @@ Object(),
 health(100.0f),
 strength(10.0f),
 speed(5),
-isStable(true),
-previousXYPosition(new int[2]),
+isStable(false),
 currentMovement(Movements::NONE),
 stepCount(0){
 	isMovable = true;
-	previousXYPosition[0] = position.x;
-	previousXYPosition[1] = position.y;
+	previousXYPosition.push_back(position.x);
+	previousXYPosition.push_back(position.y);
 }
 
 // Position and character constructor.
@@ -21,23 +20,21 @@ Object(position, character),
 health(100.0f),
 strength(10.0f),
 speed(5),
-isStable(true),
-previousXYPosition(new int[2]),
+isStable(false),
 currentMovement(Movements::NONE),
 stepCount(0){
 	isMovable = true;
-	previousXYPosition[0] = position.x;
-	previousXYPosition[1] = position.y;
+	previousXYPosition.push_back(position.x);
+	previousXYPosition.push_back(position.y);
 }
 
 MovableObject::MovableObject(const MovableObject &movableObject) : Object(movableObject),
-previousXYPosition(new int[2]), currentMovement(Movements::NONE), stepCount(0){
-	previousXYPosition[0] = position.x;
-	previousXYPosition[1] = position.y;
+currentMovement(Movements::NONE), stepCount(0){
+	previousXYPosition.push_back(position.x);
+	previousXYPosition.push_back(position.y);
 }
 
 MovableObject::~MovableObject(){
-	delete previousXYPosition;
 }
 
 MovableObject& MovableObject::operator=(const MovableObject &moveableObject){
@@ -73,7 +70,7 @@ Movements MovableObject::getPreviousMovement() const{
 	return previousMovement;
 }
 
-int* MovableObject::getPreviousXY() const{
+std::vector<int> MovableObject::getPreviousXY() const{
 	return previousXYPosition;
 }
 
@@ -115,18 +112,25 @@ void MovableObject::setGravity(const float& gravity){
 	this->gravity = gravity;
 }
 
-void MovableObject::jump(float keyPressLength){
-	if (currentMovement != Movements::JUMP)
-		currentJumpTicks = 0;
-	else
-		++currentJumpTicks;
-	if (currentJumpTicks <= JUMP_MAX_TICKS){
-		currentMovement = Movements::JUMP;
-		setY(position.y - (gravity + JUMP_INCREMENTS));
+void MovableObject::jump(){
+	if (!isStable && currentMovement == Movements::JUMP || (isStable && currentJumpTicks == 0)){
+		if (currentJumpTicks <= JUMP_MAX_TICKS){
+			isStable = false;
+			currentMovement = Movements::JUMP;
+			setPreviousXY(position.x, position.y);
+			setY(position.y - (gravity + JUMP_INCREMENTS));
+			++currentJumpTicks;
+		}
+		else{
+			currentJumpTicks = 0;
+			currentMovement = Movements::NONE;
+		}
 	}
 }
 
 string MovableObject::moveRight(){
+	isStable = previousXYPosition[1] == position.y;
+	setPreviousXY(position.x, position.y);
 	setX(position.x += speed);
 	if (currentMovement == Movements::LEFT || stepCount >= walkCycles['R'].size()){
 		stepCount = 0;
@@ -143,6 +147,8 @@ string MovableObject::moveRight(){
 }
 
 string MovableObject::moveLeft(){
+	isStable = previousXYPosition[1] == position.y;
+	setPreviousXY(position.x, position.y);
 	setX(position.x -= speed);
 	if (currentMovement == Movements::RIGHT || stepCount >= walkCycles['L'].size()){
 		stepCount = 0;

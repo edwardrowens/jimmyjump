@@ -25,7 +25,7 @@ public:
 	bool getIsStable() const;
 	Movements getCurrentMovement() const;
 	Movements getPreviousMovement() const;
-	int* getPreviousXY() const;
+	std::vector<int> getPreviousXY() const;
 	float getGravity() const;
 
 	// Setters
@@ -33,14 +33,14 @@ public:
 	void setHealth(const float& newHealth);
 	void setSpeed(const int& newSpeed);
 	void setIsJumping(const bool& isJumping);
-	void setIsStable(const bool& isStable);
+	void setIsStable(const bool& isColliding);
 	void setCurrentMovement(const Movements& movement);
 	void setPreviousMovement(const Movements& movement);
 	void setPreviousXY(const int& x, const int& y);
 	void setGravity(const float& gravity);
 
 	// Funcitons
-	void jump(float keyPressLength);
+	void jump();
 	string moveRight();
 	string moveLeft();
 	void useItem();
@@ -55,14 +55,12 @@ public:
 protected:
 	float strength, health, gravity;
 	int speed;
-	int* previousXYPosition;
-	//is the object's y position greater than then floor but should not be decremented
-	bool isStable;
+	std::vector<int> previousXYPosition;
 
 private:
 	int stepCount;
-	bool isJumping;
-	const float JUMP_INCREMENTS = 2;
+	bool isJumping, isStable;
+	const float JUMP_INCREMENTS = 20.0f;
 	const int JUMP_MAX_TICKS = 5;
 	int currentJumpTicks;
 };

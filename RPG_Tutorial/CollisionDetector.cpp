@@ -25,6 +25,7 @@ void CollisionDetector::detectStaticCollisions(MovableObject* object, const std:
 				slope = object->calcSlopeOfMovement();
 				angle = object->calcAngleOfMovement();
 				intercept = object->getY() - (object->getX() * (-1 * slope));
+				//object->setIsStable(calcStability(*(object->getHitbox()), intersection, angle));
 
 				// find the smaller rectangle
 				SDL_Rect smallerRect = SDL_Rect();
@@ -77,6 +78,9 @@ void CollisionDetector::detectStaticCollisions(MovableObject* object, const std:
 				i = -1;
 			}
 		}
+		else{
+			object->setIsStable(false);
+		}
 	}
 }
 
@@ -107,4 +111,11 @@ int CollisionDetector::calcDepthOfPenetration(const SDL_Rect &smallerRect, const
 	else{
 		return round(sqrt(i.w ^ 2 + i.h ^ 2));
 	}
+}
+
+bool CollisionDetector::calcStability(SDL_Rect object, SDL_Rect intersection, float angle){
+	if (angle < 360 && angle > 180)
+		return true;
+	else
+		return false;
 }
