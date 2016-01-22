@@ -200,3 +200,15 @@ void ObjectManager::drawAllObjects(){
 
 	SDL_RenderPresent(context);
 }
+
+/*
+Update all previous positions for all MovableObjects in the vector.
+*/
+void ObjectManager::updatePreviousPositions(){
+	for (auto object : objectsInLevel){
+		if (object->getIsMovable()){
+			MovableObject* movable = dynamic_cast<MovableObject*>(object);
+			movable->setPreviousXY(movable->getX(), movable->getY());
+		}
+	}
+}

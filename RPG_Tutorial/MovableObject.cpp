@@ -6,9 +6,10 @@ Object(),
 health(100.0f),
 strength(10.0f),
 speed(5),
-isStable(false),
+isStable(true),
 currentMovement(Movements::NONE),
-stepCount(0){
+stepCount(0),
+currentJumpTicks(1){
 	isMovable = true;
 	previousXYPosition.push_back(position.x);
 	previousXYPosition.push_back(position.y);
@@ -20,9 +21,10 @@ Object(position, character),
 health(100.0f),
 strength(10.0f),
 speed(5),
-isStable(false),
+isStable(true),
 currentMovement(Movements::NONE),
-stepCount(0){
+stepCount(0),
+currentJumpTicks(1){
 	isMovable = true;
 	previousXYPosition.push_back(position.x);
 	previousXYPosition.push_back(position.y);
@@ -113,24 +115,23 @@ void MovableObject::setGravity(const float& gravity){
 }
 
 void MovableObject::jump(){
-	if (!isStable && currentMovement == Movements::JUMP || (isStable && currentJumpTicks == 0)){
-		if (currentJumpTicks <= JUMP_MAX_TICKS){
-			isStable = false;
+	if ((previousXYPosition[1] != position.y && currentJumpTicks > 1) || (previousXYPosition[1] == position.y && currentJumpTicks == 1)){
+		if ((JUMP_VECTOR - (currentJumpTicks*gravity)) > 0){
 			currentMovement = Movements::JUMP;
-			setPreviousXY(position.x, position.y);
-			setY(position.y - (gravity + JUMP_INCREMENTS));
+			setY(position.y - (JUMP_VECTOR - (currentJumpTicks*gravity)));
+			isStable = previousXYPosition[1] == position.y;
 			++currentJumpTicks;
 		}
 		else{
-			currentJumpTicks = 0;
+			currentJumpTicks = 1;
 			currentMovement = Movements::NONE;
+			isStable = previousXYPosition[1] == position.y;
 		}
 	}
 }
 
 string MovableObject::moveRight(){
 	isStable = previousXYPosition[1] == position.y;
-	setPreviousXY(position.x, position.y);
 	setX(position.x += speed);
 	if (currentMovement == Movements::LEFT || stepCount >= walkCycles['R'].size()){
 		stepCount = 0;
@@ -148,7 +149,6 @@ string MovableObject::moveRight(){
 
 string MovableObject::moveLeft(){
 	isStable = previousXYPosition[1] == position.y;
-	setPreviousXY(position.x, position.y);
 	setX(position.x -= speed);
 	if (currentMovement == Movements::RIGHT || stepCount >= walkCycles['L'].size()){
 		stepCount = 0;
@@ -192,7 +192,7 @@ float MovableObject::calcAngleOfMovement() const{
 
 	// horizontal movement
 	if (deltaY == 0){
-		if (deltaX > 0)
+		if (deltaX < 0)
 			return 0.0f;
 		else
 			return 180.0f;

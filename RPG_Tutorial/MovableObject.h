@@ -60,8 +60,7 @@ protected:
 private:
 	int stepCount;
 	bool isJumping, isStable;
-	const float JUMP_INCREMENTS = 20.0f;
-	const int JUMP_MAX_TICKS = 5;
+	const float JUMP_VECTOR = 40.0f;
 	int currentJumpTicks;
 };
 

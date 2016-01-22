@@ -34,6 +34,7 @@ public:
 	void applyGravity(const float& gravity);
 	void drawAllObjects();
 	void setObjectTexture(Object& object);
+	void updatePreviousPositions();
 
 private:
 	// Fields

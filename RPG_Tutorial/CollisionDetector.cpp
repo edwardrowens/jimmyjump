@@ -78,9 +78,6 @@ void CollisionDetector::detectStaticCollisions(MovableObject* object, const std:
 				i = -1;
 			}
 		}
-		else{
-			object->setIsStable(false);
-		}
 	}
 }
 
