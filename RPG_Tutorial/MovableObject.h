@@ -5,6 +5,8 @@
 #include "Movements.h"
 #include "CharacterInformation.h"
 
+using std::string;
+
 class MovableObject : public Object
 {
 public:
@@ -56,9 +58,9 @@ protected:
 	float strength, health, gravity;
 	int speed;
 	std::vector<int> previousXYPosition;
+	int stepCount;
 
 private:
-	int stepCount;
 	bool isJumping, isStable;
 	const float JUMP_VECTOR = 40.0f;
 	int currentJumpTicks;

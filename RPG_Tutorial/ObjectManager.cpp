@@ -212,3 +212,8 @@ void ObjectManager::updatePreviousPositions(){
 		}
 	}
 }
+
+void ObjectManager::setMousePosition() const{
+	SDL_GetMouseState(mouseX, mouseY);
+	playableCharacter->setMousePosition(*mouseX, *mouseY);
+}

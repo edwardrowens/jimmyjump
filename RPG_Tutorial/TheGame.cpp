@@ -69,19 +69,23 @@ int TheGame::processInput(){
 	int size;
 	keyState = SDL_GetKeyboardState(&size);
 	fakeKeyState = new Uint8[size];
-	/*fakeKeyState[SDL_SCANCODE_D] = 0;
-	fakeKeyState[SDL_SCANCODE_W] = 0;*/
+	fakeKeyState[SDL_SCANCODE_D] = 1;
+	fakeKeyState[SDL_SCANCODE_W] = 0;
 	
 	return eventMade = SDL_PollEvent(&currentEvent);
 }
 
 void TheGame::update(){
 	objectManager->updatePreviousPositions();
+	int mouseX = 0;
+	int mouseY = 0;
+
+	SDL_GetMouseState(&mouseX, &mouseY);
+
+	objectManager->setMousePosition();
 
 	calcGravity();
 	detectCollisions();
-	jim->moveRight();
-	jim->jump();
 
 	if (keyState[SDL_SCANCODE_D]){
 		jim->moveRight();

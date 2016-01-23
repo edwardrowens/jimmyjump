@@ -35,6 +35,7 @@ public:
 	void drawAllObjects();
 	void setObjectTexture(Object& object);
 	void updatePreviousPositions();
+	void setMousePosition() const;
 
 private:
 	// Fields

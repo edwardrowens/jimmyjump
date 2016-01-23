@@ -128,6 +128,9 @@ void MovableObject::jump(){
 			isStable = previousXYPosition[1] == position.y;
 		}
 	}
+	else{
+		currentJumpTicks = 1;
+	}
 }
 
 string MovableObject::moveRight(){
