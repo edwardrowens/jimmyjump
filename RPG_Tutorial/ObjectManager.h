@@ -33,7 +33,8 @@ public:
 	void detectCollisions();
 	void applyGravity(const float& gravity);
 	void drawAllObjects();
-	void setObjectTexture(Object& object);
+	void setTexture(Object& object);
+	void setTextures();
 	void updatePreviousPositions();
 	void setMousePosition() const;
 

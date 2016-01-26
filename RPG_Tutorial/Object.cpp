@@ -3,7 +3,7 @@ using std::string;
 
 // Default constructor
 Object::Object() :
-objectTexture(nullptr),
+texture(nullptr),
 objectRect(new SDL_Rect),
 isMovable(false),
 isRenderable(true),
@@ -32,7 +32,7 @@ character(character){
 // copy
 Object::Object(const Object &object) :
 position(object.getPosition()),
-objectTexture(object.getObjectTexture()),
+texture(object.getTexture()),
 isRenderable(true),
 isPlatform(false),
 hitbox(new SDL_Rect),
@@ -50,7 +50,7 @@ Object& Object::operator= (const Object &object){
 
 	objectRect = new SDL_Rect;
 	*objectRect = *(object.getSDLRect());
-	objectTexture = object.getObjectTexture();
+	texture = object.getTexture();
 	position = object.getPosition();
 	SDL_Rect* movableRect = object.getHitbox();
 	hitbox->x = movableRect->x;
@@ -163,8 +163,8 @@ void Object::setContext(SDL_Renderer* context){
 	this->context = context;
 }
 
-void Object::setObjectTexture(SDL_Texture* texture){
-	objectTexture = texture;
+void Object::setTexture(SDL_Texture* texture){
+	this->texture = texture;
 }
 
 bool Object::getIsPlatform() const{
@@ -175,14 +175,18 @@ SDL_Rect* Object::getSDLRect() const{
 	return objectRect;
 }
 
-SDL_Texture* Object::getObjectTexture() const{
-	return objectTexture;
+SDL_Texture* Object::getTexture() const{
+	return texture;
+}
+
+SDL_Texture* Object::getPreviousTexture() const{
+	return previousTexture;
 }
 
 void Object::draw(){
-	if (objectTexture == nullptr)
+	if (texture == nullptr)
 		PrintErrors("No texture has been loaded.", SDL_GetError);
-	if (SDL_RenderCopy(context, objectTexture, NULL, objectRect))
+	if (SDL_RenderCopy(context, texture, NULL, objectRect))
 		PrintErrors("Failed to render " + texturePath, SDL_GetError);
 }
 

@@ -171,7 +171,6 @@ Grabs the index of the actual file name from the path.
 int Utility::getFileLocFromPath(const string& filePath){
 	int index = filePath.size() - 1;
 	for (int i = index; i != 0 && filePath[i] != '/' && filePath[i] != '\\'; --i){
-		char asd = filePath[i];
 		index = i;
 	}
 	return index;

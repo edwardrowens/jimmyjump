@@ -33,8 +33,9 @@ public:
 	int getWidth() const;
 	int getHeight() const;
 	bool getIsMovable() const;
-	SDL_Texture* getObjectTexture() const;
+	SDL_Texture* getTexture() const;
 	std::string getTexturePath() const;
+	SDL_Texture* getPreviousTexture() const;
 	SDL_Rect* getSDLRect() const;
 	bool getIsRenderable() const;
 	bool getIsPlatform() const;
@@ -48,13 +49,13 @@ public:
 	void setWidth(const int& width);
 	void setHeight(const int& height);
 	void setTexturePath(const std::string& newTexturePath);
+	void setTexture(SDL_Texture* texture);
 	void setIsMovable(const bool& isMovable);
 	void setIsRenderable(const bool& isRenderable);
 	void setIsPlatform(const bool& isPlatform);
 	void setCharacter(const Character& character);
 	void setContext(SDL_Renderer* context);
 	void setPosition(const Position& position);
-	void setObjectTexture(SDL_Texture* texture);
 
 	// Public functions
 	void createHitbox();
@@ -66,7 +67,8 @@ protected:
 	bool isMovable;
 	bool isRenderable;
 	bool isPlatform;
-	SDL_Texture* objectTexture;
+	SDL_Texture* texture;
+	SDL_Texture* previousTexture;
 	std::string texturePath;
 	SDL_Rect* objectRect;
 	SDL_Rect* hitbox;

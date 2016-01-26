@@ -11,7 +11,7 @@ context(context),
 playableCharacter(playableCharacter){
 	initializeAmountOfObjects();
 	objectsInLevel.push_back(playableCharacter);
-	setObjectTexture(*playableCharacter);
+	setTexture(*playableCharacter);
 }
 
 // Destructor
@@ -27,7 +27,7 @@ Object ObjectManager::createObject(const Character &character, const Position &p
 			objectsInLevel.insert(objectsInLevel.begin(), new Object(position, character));
 			(*objectsInLevel[0]).setIsRenderable(isRenderable);
 			if (isRenderable){
-				setObjectTexture(*objectsInLevel[0]);
+				setTexture(*objectsInLevel[0]);
 			}
 			return *objectsInLevel[0];
 		}
@@ -54,7 +54,7 @@ Object ObjectManager::createObject(const Character &character, const Position &p
 
 		(*objectsInLevel[objectsInLevel.size() - 1]).setIsRenderable(isRenderable);
 		if (isRenderable){
-			setObjectTexture(*objectsInLevel[objectsInLevel.size() - 1]);
+			setTexture(*objectsInLevel[objectsInLevel.size() - 1]);
 		}
 
 		return *objectsInLevel[objectsInLevel.size() - 1];
@@ -71,7 +71,15 @@ void ObjectManager::initializeAmountOfObjects(){
 	}
 }
 
-void ObjectManager::setObjectTexture(Object &object){
+void ObjectManager::setTextures(){
+	for (auto object : objectsInLevel){
+		if (object->getPreviousTexture() != object->getTexture()){
+			setTexture(*object);
+		}
+	}
+}
+
+void ObjectManager::setTexture(Object &object){
 	if (context == nullptr){
 		PrintErrors("The context passed in was null. A texture cannot be set without a context.");
 	}
@@ -84,12 +92,12 @@ void ObjectManager::setObjectTexture(Object &object){
 			PrintErrors(object.getTexturePath() + " did not load properly! Make sure the path is correct.");
 		}
 		else{
-			object.setObjectTexture(texture);
+			object.setTexture(texture);
 		}
-		textureCache.insert(std::pair<std::string, SDL_Texture*>(object.getTexturePath(), object.getObjectTexture()));
+		textureCache.insert(std::pair<std::string, SDL_Texture*>(object.getTexturePath(), object.getTexture()));
 	}
 	else{
-		object.setObjectTexture(textureCache[object.getTexturePath()]);
+		object.setTexture(textureCache[object.getTexturePath()]);
 	}
 }
 
@@ -214,6 +222,7 @@ void ObjectManager::updatePreviousPositions(){
 }
 
 void ObjectManager::setMousePosition() const{
-	SDL_GetMouseState(mouseX, mouseY);
-	playableCharacter->setMousePosition(*mouseX, *mouseY);
+	int mouseX, mouseY;
+	SDL_GetMouseState(&mouseX, &mouseY);
+	playableCharacter->setMousePosition(mouseX, mouseY);
 }
