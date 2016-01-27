@@ -47,7 +47,7 @@ void TheGame::initGame(){
 	context = SDL_CreateRenderer(currentWindow, -1, SDL_RENDERER_ACCELERATED);
 
 	int startingY = WINDOW_HEIGHT - ((2.0 / 23)*WINDOW_HEIGHT);
-	jim = new MainCharacter(Position(195, 504, jimWidth, jimHeight), Character::JIM);
+	jim = new MainCharacter(Position(50, 504, jimWidth, jimHeight), Character::JIM);
 	objectManager = new ObjectManager(context, jim);
 
 	instantiateLevelObjects();
@@ -76,16 +76,14 @@ int TheGame::processInput(){
 }
 
 void TheGame::update(){
-	objectManager->updatePreviousPositions();
 	int mouseX = 0;
 	int mouseY = 0;
+	bool positionChange = false;
 
 	Uint32 a = SDL_GetMouseState(&mouseX, &mouseY);
+	objectManager->updatePreviousPositions();
 
 	objectManager->setMousePosition();
-
-	calcGravity();
-	detectCollisions();
 
 	if (keyState[SDL_SCANCODE_D]){
 		jim->moveRight();
@@ -98,7 +96,7 @@ void TheGame::update(){
 		jim->jump();
 	}
 	if (SDL_BUTTON(SDL_BUTTON_LEFT) & a){
-		std::cout << "(" + std::to_string(jim->getX()) + ", " + std::to_string(jim->getY()) +")\n";
+		std::cout << "(" + std::to_string(jim->getX()) + ", " + std::to_string(jim->getY()) + ")\n";
 	}
 
 	// make sure jim doesn't exit screen
@@ -114,6 +112,8 @@ void TheGame::update(){
 	if ((jim->getY() + jim->getHeight()) > WINDOW_HEIGHT)
 		jim->setY(WINDOW_HEIGHT - jim->getHeight());
 
+	calcGravity();
+	detectCollisions();
 	objectManager->setTextures();
 }
 

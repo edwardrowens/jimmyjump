@@ -41,6 +41,7 @@ void MainCharacter::setMousePosition(const int x, const int y){
 
 string MainCharacter::moveLeft(){
 	setX(position.x -= speed);
+	setPreviousXY(position.x, position.y);
 	if (currentMovement == Movements::RIGHT || stepCount >= walkCycles[face[0]].size()){
 		stepCount = 0;
 	}
@@ -57,6 +58,7 @@ string MainCharacter::moveLeft(){
 
 string MainCharacter::moveRight(){
 	setX(position.x += speed);
+	setPreviousXY(position.x, position.y);
 	if (currentMovement == Movements::LEFT || stepCount >= walkCycles[face[0]].size()){
 		stepCount = 0;
 	}

@@ -29,6 +29,7 @@ public:
 	Movements getPreviousMovement() const;
 	std::vector<int> getPreviousXY() const;
 	float getGravity() const;
+	std::vector<float> getMotionVector() const;
 
 	// Setters
 	void setStrength(const float& newStrength);
@@ -40,11 +41,14 @@ public:
 	void setPreviousMovement(const Movements& movement);
 	void setPreviousXY(const int& x, const int& y);
 	void setGravity(const float& gravity);
+	void setMotionVectorX(const float& x);
+	void setMotionVectorY(const float& y);
+	void setMotionVector(const float& x, const float& y);
 
-	// Funcitons
-	void jump();
-	string moveRight();
-	string moveLeft();
+	// Functions
+	bool jump();
+	bool moveRight();
+	bool moveLeft();
 	void useItem();
 	float calcAngleOfMovement() const;
 	float calcSlopeOfMovement() const;
@@ -62,7 +66,8 @@ protected:
 
 private:
 	bool isJumping, isStable;
-	const float JUMP_VECTOR = 40.0f;
+	const float JUMP_VECTOR = 100.0f;
 	int currentJumpTicks;
+	std::vector<float> motionVector;
 };
 

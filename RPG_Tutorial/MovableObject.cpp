@@ -9,7 +9,8 @@ speed(5),
 isStable(true),
 currentMovement(Movements::NONE),
 stepCount(0),
-currentJumpTicks(1){
+currentJumpTicks(1),
+motionVector({ 0, 0 }){
 	isMovable = true;
 	previousXYPosition.push_back(position.x);
 	previousXYPosition.push_back(position.y);
@@ -24,14 +25,22 @@ speed(5),
 isStable(true),
 currentMovement(Movements::NONE),
 stepCount(0),
-currentJumpTicks(1){
+currentJumpTicks(1),
+motionVector({ 0, 0 }){
 	isMovable = true;
 	previousXYPosition.push_back(position.x);
 	previousXYPosition.push_back(position.y);
 }
 
-MovableObject::MovableObject(const MovableObject &movableObject) : Object(movableObject),
-currentMovement(Movements::NONE), stepCount(0){
+MovableObject::MovableObject(const MovableObject &movableObject) : 
+Object(movableObject),
+currentMovement(Movements::NONE), 
+stepCount(0),
+motionVector({ 0, 0 }),
+isStable(true),
+health(100.0f),
+strength(10.0f),
+speed(5){
 	previousXYPosition.push_back(position.x);
 	previousXYPosition.push_back(position.y);
 }
@@ -80,6 +89,10 @@ float MovableObject::getGravity() const{
 	return gravity;
 }
 
+std::vector<float> MovableObject::getMotionVector() const{
+	return motionVector;
+}
+
 void MovableObject::setStrength(const float& strength){
 	this->strength = strength;
 }
@@ -114,27 +127,42 @@ void MovableObject::setGravity(const float& gravity){
 	this->gravity = gravity;
 }
 
-void MovableObject::jump(){
-	if ((previousXYPosition[1] != position.y && currentJumpTicks > 1) || (previousXYPosition[1] == position.y && currentJumpTicks == 1)){
+void MovableObject::setMotionVectorX(const float& x){
+	motionVector[0] = x;
+}
+
+void MovableObject::setMotionVectorY(const float& y){
+	motionVector[1] = y;
+}
+
+void MovableObject::setMotionVector(const float& x, const float& y){
+	motionVector[0] = x;
+	motionVector[1] = y;
+}
+
+bool MovableObject::jump(){
+	if ((!isStable && currentJumpTicks > 1) || (isStable && currentJumpTicks == 1)){
 		if ((JUMP_VECTOR - (currentJumpTicks*gravity)) > 0){
 			currentMovement = Movements::JUMP;
 			setY(position.y - (JUMP_VECTOR - (currentJumpTicks*gravity)));
 			isStable = previousXYPosition[1] == position.y;
 			++currentJumpTicks;
+			return true;
 		}
 		else{
 			currentJumpTicks = 1;
 			currentMovement = Movements::NONE;
 			isStable = previousXYPosition[1] == position.y;
+			return false;
 		}
 	}
 	else{
 		currentJumpTicks = 1;
+		return false;
 	}
 }
 
-string MovableObject::moveRight(){
-	isStable = previousXYPosition[1] == position.y;
+bool MovableObject::moveRight(){
 	setX(position.x += speed);
 	if (currentMovement == Movements::LEFT || stepCount >= walkCycles['R'].size()){
 		stepCount = 0;
@@ -147,11 +175,10 @@ string MovableObject::moveRight(){
 	texturePath = texturePath + "R" + std::to_string(stepCount) + ".png";
 	++stepCount;
 
-	return texturePath;
+	return true;
 }
 
-string MovableObject::moveLeft(){
-	isStable = previousXYPosition[1] == position.y;
+bool MovableObject::moveLeft(){
 	setX(position.x -= speed);
 	if (currentMovement == Movements::RIGHT || stepCount >= walkCycles['L'].size()){
 		stepCount = 0;
@@ -164,7 +191,7 @@ string MovableObject::moveLeft(){
 	texturePath = texturePath + "L" + std::to_string(stepCount) + ".png";
 	++stepCount;
 
-	return texturePath;
+	return true;
 }
 
 void MovableObject::useItem(){

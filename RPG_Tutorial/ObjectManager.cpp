@@ -216,6 +216,10 @@ void ObjectManager::updatePreviousPositions(){
 	for (auto object : objectsInLevel){
 		if (object->getIsMovable()){
 			MovableObject* movable = dynamic_cast<MovableObject*>(object);
+			if (movable->getY() == movable->getPreviousXY()[1])
+				movable->setIsStable(true);
+			else
+				movable->setIsStable(false);
 			movable->setPreviousXY(movable->getX(), movable->getY());
 		}
 	}
