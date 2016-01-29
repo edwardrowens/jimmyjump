@@ -22,7 +22,8 @@ public:
 	// Getters
 	float getStrength() const;
 	float getHealth() const;
-	int getSpeed() const;
+	int getSpeedX() const;
+	int getSpeedY() const;
 	bool getIsJumping() const;
 	bool getIsStable() const;
 	Movements getCurrentMovement() const;
@@ -30,11 +31,14 @@ public:
 	std::vector<int> getPreviousXY() const;
 	float getGravity() const;
 	std::vector<float> getMotionVector() const;
+	float getMotionVectorY() const;
+	float getMotionVectorX() const;
 
 	// Setters
 	void setStrength(const float& newStrength);
 	void setHealth(const float& newHealth);
-	void setSpeed(const int& newSpeed);
+	void setSpeedX(const int& speedX);
+	void setSpeedY(const int& speedY);
 	void setIsJumping(const bool& isJumping);
 	void setIsStable(const bool& isColliding);
 	void setCurrentMovement(const Movements& movement);
@@ -59,10 +63,18 @@ public:
 	Movements previousMovement;
 
 protected:
+	// Functions
+	void accelerateLeftward();
+	void accelerateRightward();
+
+	// Fields
 	float strength, health, gravity;
-	int speed;
+	int speedX;
+	float speedY;
 	std::vector<int> previousXYPosition;
 	int stepCount;
+	float maxXVelocity;
+	float maxYVelocity;
 
 private:
 	bool isJumping, isStable;

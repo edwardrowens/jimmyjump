@@ -78,13 +78,12 @@ int TheGame::processInput(){
 void TheGame::update(){
 	int mouseX = 0;
 	int mouseY = 0;
-	bool positionChange = false;
 
 	Uint32 a = SDL_GetMouseState(&mouseX, &mouseY);
 	objectManager->updatePreviousPositions();
-
 	objectManager->setMousePosition();
 
+	jim->jump();
 	if (keyState[SDL_SCANCODE_D]){
 		jim->moveRight();
 	}

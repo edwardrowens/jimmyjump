@@ -14,7 +14,6 @@ public:
 	// Public functions
 	virtual string moveLeft();
 	virtual string moveRight();
-	virtual void draw();
 	void setMousePosition(const int x, const int y);
 private:
 	int mouseX, mouseY;

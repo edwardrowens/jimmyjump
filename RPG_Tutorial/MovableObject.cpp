@@ -5,12 +5,15 @@ MovableObject::MovableObject() :
 Object(),
 health(100.0f),
 strength(10.0f),
-speed(5),
+speedX(5),
+speedY(40.0f),
 isStable(true),
 currentMovement(Movements::NONE),
 stepCount(0),
 currentJumpTicks(1),
-motionVector({ 0, 0 }){
+motionVector({ 0, 0 }),
+maxXVelocity(40.0f),
+maxYVelocity(40.0f){
 	isMovable = true;
 	previousXYPosition.push_back(position.x);
 	previousXYPosition.push_back(position.y);
@@ -21,12 +24,15 @@ MovableObject::MovableObject(Position position, Character character) :
 Object(position, character),
 health(100.0f),
 strength(10.0f),
-speed(5),
+speedX(1),
+speedY(10),
 isStable(true),
 currentMovement(Movements::NONE),
 stepCount(0),
 currentJumpTicks(1),
-motionVector({ 0, 0 }){
+motionVector({ 0, 0 }),
+maxXVelocity(5.0f),
+maxYVelocity(40.0f){
 	isMovable = true;
 	previousXYPosition.push_back(position.x);
 	previousXYPosition.push_back(position.y);
@@ -40,7 +46,10 @@ motionVector({ 0, 0 }),
 isStable(true),
 health(100.0f),
 strength(10.0f),
-speed(5){
+speedX(5),
+speedY(10),
+maxXVelocity(40.0f),
+maxYVelocity(40.0f){
 	previousXYPosition.push_back(position.x);
 	previousXYPosition.push_back(position.y);
 }
@@ -48,6 +57,7 @@ speed(5){
 MovableObject::~MovableObject(){
 }
 
+// PROBLEM: does not include fields unique to MovableObject's
 MovableObject& MovableObject::operator=(const MovableObject &moveableObject){
 	Object::operator=(moveableObject);
 
@@ -64,10 +74,13 @@ float MovableObject::getHealth() const{
 	return health;
 }
 
-int MovableObject::getSpeed() const{
-	return speed;
+int MovableObject::getSpeedX() const{
+	return speedX;
 }
 
+int MovableObject::getSpeedY() const{
+	return speedY;
+}
 
 bool MovableObject::getIsStable() const{
 	return isStable;
@@ -93,6 +106,14 @@ std::vector<float> MovableObject::getMotionVector() const{
 	return motionVector;
 }
 
+float MovableObject::getMotionVectorX() const{
+	return motionVector[0];
+}
+
+float MovableObject::getMotionVectorY() const{
+	return motionVector[1];
+}
+
 void MovableObject::setStrength(const float& strength){
 	this->strength = strength;
 }
@@ -101,10 +122,13 @@ void MovableObject::setHealth(const float& health){
 	this->health = health;
 }
 
-void MovableObject::setSpeed(const int& speed){
-	this->speed = speed;
+void MovableObject::setSpeedX(const int& speedX){
+	this->speedX = speedX;
 }
 
+void MovableObject::setSpeedY(const int& speedY){
+	this->speedY = speedY;
+}
 
 void MovableObject::setIsStable(const bool& isStable){
 	this->isStable = isStable;
@@ -141,29 +165,18 @@ void MovableObject::setMotionVector(const float& x, const float& y){
 }
 
 bool MovableObject::jump(){
-	if ((!isStable && currentJumpTicks > 1) || (isStable && currentJumpTicks == 1)){
-		if ((JUMP_VECTOR - (currentJumpTicks*gravity)) > 0){
+	if ((!isStable && getMotionVectorY() < 0) || isStable){
 			currentMovement = Movements::JUMP;
-			setY(position.y - (JUMP_VECTOR - (currentJumpTicks*gravity)));
-			isStable = previousXYPosition[1] == position.y;
-			++currentJumpTicks;
+			setMotionVectorY(getMotionVectorY() - (speedY * currentJumpTicks));
+			setY(position.y + getMotionVectorY());
 			return true;
-		}
-		else{
-			currentJumpTicks = 1;
-			currentMovement = Movements::NONE;
-			isStable = previousXYPosition[1] == position.y;
-			return false;
-		}
 	}
-	else{
-		currentJumpTicks = 1;
-		return false;
-	}
+	return false;
 }
 
 bool MovableObject::moveRight(){
-	setX(position.x += speed);
+	accelerateRightward();
+
 	if (currentMovement == Movements::LEFT || stepCount >= walkCycles['R'].size()){
 		stepCount = 0;
 	}
@@ -179,7 +192,8 @@ bool MovableObject::moveRight(){
 }
 
 bool MovableObject::moveLeft(){
-	setX(position.x -= speed);
+	accelerateLeftward();
+
 	if (currentMovement == Movements::RIGHT || stepCount >= walkCycles['L'].size()){
 		stepCount = 0;
 	}
@@ -256,4 +270,26 @@ float MovableObject::calcSlopeOfMovement() const{
 	}
 
 	return (deltaY / deltaX);
+}
+
+void MovableObject::accelerateLeftward(){
+	if (getMotionVectorX() > (-1 * maxXVelocity)){
+		setMotionVectorX(getMotionVectorX() - speedX);
+		setX(position.x + getMotionVectorX());
+	}
+	else {
+		setMotionVectorX(-1 * maxXVelocity);
+		setX(position.x - maxXVelocity);
+	}
+}
+
+void MovableObject::accelerateRightward(){
+	if (getMotionVectorX() < maxXVelocity){
+		setMotionVectorX(getMotionVectorX() + speedX);
+		setX(position.x + getMotionVectorX());
+	}
+	else {
+		setMotionVectorX(maxXVelocity);
+		setX(position.x + maxXVelocity);
+	}
 }

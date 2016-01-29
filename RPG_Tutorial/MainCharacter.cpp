@@ -35,13 +35,14 @@ void MainCharacter::setMousePosition(const int x, const int y){
 		int fileLoc = utility.getFileLocFromPath(texturePath);
 		string file = texturePath.substr(fileLoc, texturePath.length() - 1);
 		texturePath = texturePath.substr(0, fileLoc);
-		texturePath = texturePath + face + file.substr(1, file.length()-1);
+		texturePath = texturePath + face + file.substr(1, file.length() - 1);
 	}
 }
 
 string MainCharacter::moveLeft(){
-	setX(position.x -= speed);
-	setPreviousXY(position.x, position.y);
+	accelerateLeftward();
+
+	std::cout << std::to_string(getMotionVectorX()) << std::endl;
 	if (currentMovement == Movements::RIGHT || stepCount >= walkCycles[face[0]].size()){
 		stepCount = 0;
 	}
@@ -57,8 +58,9 @@ string MainCharacter::moveLeft(){
 }
 
 string MainCharacter::moveRight(){
-	setX(position.x += speed);
-	setPreviousXY(position.x, position.y);
+	accelerateRightward();
+
+	std::cout << std::to_string(getMotionVectorX()) << std::endl;
 	if (currentMovement == Movements::LEFT || stepCount >= walkCycles[face[0]].size()){
 		stepCount = 0;
 	}
@@ -71,11 +73,4 @@ string MainCharacter::moveRight(){
 	++stepCount;
 
 	return texturePath;
-}
-
-void MainCharacter::draw(){
-	if (texture == nullptr)
-		PrintErrors("No texture has been loaded.", SDL_GetError);
-	if (SDL_RenderCopy(context, texture, NULL, objectRect))
-		PrintErrors("Failed to render " + texturePath, SDL_GetError);
 }

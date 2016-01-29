@@ -191,6 +191,8 @@ void ObjectManager::applyGravity(const float& gravity){
 			if (tmp->getGravity() != gravity){
 				tmp->setGravity(gravity);
 			}
+			if (!tmp->getIsStable())
+				tmp->setMotionVectorY(tmp->getMotionVectorY() + gravity);
 		}
 	}
 }
