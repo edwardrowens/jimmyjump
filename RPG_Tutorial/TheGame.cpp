@@ -83,7 +83,6 @@ void TheGame::update(){
 	objectManager->updatePreviousPositions();
 	objectManager->setMousePosition();
 
-	jim->jump();
 	if (keyState[SDL_SCANCODE_D]){
 		jim->moveRight();
 	}
@@ -96,6 +95,9 @@ void TheGame::update(){
 	}
 	if (SDL_BUTTON(SDL_BUTTON_LEFT) & a){
 		std::cout << "(" + std::to_string(jim->getX()) + ", " + std::to_string(jim->getY()) + ")\n";
+	}
+	if (SDL_BUTTON(SDL_BUTTON_RIGHT) & a){
+		std::cout << "Y velocity = " + std::to_string(jim->getMotionVectorY()) << std::endl;
 	}
 
 	// make sure jim doesn't exit screen

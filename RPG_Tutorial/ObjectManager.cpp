@@ -191,8 +191,8 @@ void ObjectManager::applyGravity(const float& gravity){
 			if (tmp->getGravity() != gravity){
 				tmp->setGravity(gravity);
 			}
-			if (!tmp->getIsStable())
-				tmp->setMotionVectorY(tmp->getMotionVectorY() + gravity);
+			tmp->setMotionVectorY(tmp->getMotionVectorY() + gravity);
+			tmp->setY(tmp->getY() + tmp->getMotionVectorY());
 		}
 	}
 }
@@ -231,4 +231,13 @@ void ObjectManager::setMousePosition() const{
 	int mouseX, mouseY;
 	SDL_GetMouseState(&mouseX, &mouseY);
 	playableCharacter->setMousePosition(mouseX, mouseY);
+}
+
+void ObjectManager::putInMotion() const{
+	for (auto object : objectsInLevel){
+		if (object->getIsMovable()){
+			MovableObject* movable = dynamic_cast<MovableObject*>(object);
+			movable->executeMovement();
+		}
+	}
 }

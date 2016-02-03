@@ -76,6 +76,10 @@ void CollisionDetector::detectStaticCollisions(MovableObject* object, const std:
 
 				// reiterate through the loop to ensure there are no other resolutions required
 				i = -1;
+
+				// set the motion vector to 0 because we are assuming that the collision has been resolved. however, this is not
+				// a good way to do this since the collision doesnt necessarily have to be with the stability of the feet.
+				object->setMotionVectorY(0.0f);
 			}
 		}
 	}

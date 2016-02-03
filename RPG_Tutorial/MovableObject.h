@@ -6,6 +6,8 @@
 #include "CharacterInformation.h"
 
 using std::string;
+const float INIT_SPEEDY = 30.0f;
+const int INIT_SPEED_X = 3;
 
 class MovableObject : public Object
 {
@@ -53,6 +55,7 @@ public:
 	bool jump();
 	bool moveRight();
 	bool moveLeft();
+	void executeMovement();
 	void useItem();
 	float calcAngleOfMovement() const;
 	float calcSlopeOfMovement() const;
@@ -81,5 +84,6 @@ private:
 	const float JUMP_VECTOR = 100.0f;
 	int currentJumpTicks;
 	std::vector<float> motionVector;
+
 };
 

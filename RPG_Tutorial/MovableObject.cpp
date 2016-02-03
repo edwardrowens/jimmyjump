@@ -5,8 +5,8 @@ MovableObject::MovableObject() :
 Object(),
 health(100.0f),
 strength(10.0f),
-speedX(5),
-speedY(40.0f),
+speedX(INIT_SPEED_X),
+speedY(INIT_SPEEDY),
 isStable(true),
 currentMovement(Movements::NONE),
 stepCount(0),
@@ -24,8 +24,8 @@ MovableObject::MovableObject(Position position, Character character) :
 Object(position, character),
 health(100.0f),
 strength(10.0f),
-speedX(1),
-speedY(10),
+speedX(INIT_SPEED_X),
+speedY(INIT_SPEEDY),
 isStable(true),
 currentMovement(Movements::NONE),
 stepCount(0),
@@ -38,16 +38,17 @@ maxYVelocity(40.0f){
 	previousXYPosition.push_back(position.y);
 }
 
-MovableObject::MovableObject(const MovableObject &movableObject) : 
+MovableObject::MovableObject(const MovableObject &movableObject) :
 Object(movableObject),
-currentMovement(Movements::NONE), 
+currentMovement(Movements::NONE),
 stepCount(0),
 motionVector({ 0, 0 }),
 isStable(true),
 health(100.0f),
 strength(10.0f),
-speedX(5),
-speedY(10),
+speedX(INIT_SPEED_X),
+speedY(INIT_SPEEDY),
+currentJumpTicks(1),
 maxXVelocity(40.0f),
 maxYVelocity(40.0f){
 	previousXYPosition.push_back(position.x);
@@ -132,6 +133,8 @@ void MovableObject::setSpeedY(const int& speedY){
 
 void MovableObject::setIsStable(const bool& isStable){
 	this->isStable = isStable;
+	if (isStable)
+		currentJumpTicks = 1;
 }
 
 void MovableObject::setCurrentMovement(const Movements& movement){
@@ -166,11 +169,13 @@ void MovableObject::setMotionVector(const float& x, const float& y){
 
 bool MovableObject::jump(){
 	if ((!isStable && getMotionVectorY() < 0) || isStable){
-			currentMovement = Movements::JUMP;
-			setMotionVectorY(getMotionVectorY() - (speedY * currentJumpTicks));
-			setY(position.y + getMotionVectorY());
-			return true;
+		currentMovement = Movements::JUMP;
+		setMotionVectorY(getMotionVectorY() - (speedY / currentJumpTicks));
+		setY(position.y + getMotionVectorY());
+		++currentJumpTicks;
+		return true;
 	}
+	currentJumpTicks = 1;
 	return false;
 }
 
@@ -292,4 +297,9 @@ void MovableObject::accelerateRightward(){
 		setMotionVectorX(maxXVelocity);
 		setX(position.x + maxXVelocity);
 	}
+}
+
+void MovableObject::executeMovement(){
+	setY(getY() + getMotionVectorY());
+	setX(getX() + getMotionVectorX());
 }
