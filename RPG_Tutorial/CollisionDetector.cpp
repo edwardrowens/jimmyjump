@@ -18,7 +18,7 @@ void CollisionDetector::detectStaticCollisions(MovableObject* object, const std:
 	float slope, angle = 0.0f;
 
 	for (int i = 0; i < levelObjects.size(); ++i){
-		if (levelObjects[i]->getIsPlatform()){
+		if (!levelObjects[i]->getIsMovable()){
 			if (SDL_IntersectRect(levelObjects[i]->getHitbox(), object->getHitbox(), &intersection)){
 				Movements m = object->getCurrentMovement();
 				// get line parameters
@@ -86,7 +86,31 @@ void CollisionDetector::detectStaticCollisions(MovableObject* object, const std:
 }
 
 void CollisionDetector::detectDynamicCollisions(MovableObject* object, const std::vector<Object*> &levelObjects){
+	for (auto i : levelObjects){
+		if (i->getIsMovable()){
+			SDL_Rect intersection;
+			if (SDL_IntersectRect(i->getHitbox(), object->getHitbox(), &intersection)){
+				MovableObject* objectA = (MovableObject*)object;
+				MovableObject* objectB = (MovableObject*)i;
+				SDL_Rect objectAHitbox = *(object->getHitbox());
+				SDL_Rect objectBHitbox = *(i->getHitbox());
 
+				float angleA = objectA->calcAngleOfMovement();
+				float angleB = objectB->calcAngleOfMovement();
+
+				// A is the aggressor
+				if (objectA->getMotionVectorX() != 0.0f && objectB->getMotionVectorX() == 0.0f){
+					objectA->setMotionVectorX(0.0f);
+
+					if (angleA > 270.0f || angleA < 90.0f)
+						objectA->setX(objectA->getX() - intersection.w);
+					else
+						objectA->setX(objectA->getX() + intersection.w);
+				}
+			}
+
+		}
+	}
 }
 
 std::string CollisionDetector::generateResolutionErrorMessage(const Object &a, const Object &b, const SDL_Rect &i){
