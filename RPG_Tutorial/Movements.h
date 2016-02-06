@@ -4,10 +4,10 @@
 enum class Movements{
 	RIGHT, 
 	LEFT, 
-	NONE, 
 	JUMP, 
 	DOWN,
-	STANDING
+	PATROL,
+	NONE
 };
 
 #endif

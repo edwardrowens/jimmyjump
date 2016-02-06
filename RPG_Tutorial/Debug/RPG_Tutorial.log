@@ -1,16 +1,10 @@
-﻿Build started 2/3/2016 2:24:52 PM.
+﻿Build started 2/5/2016 4:22:22 PM.
      1>Project "C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\RPG_Tutorial\RPG_Tutorial.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt CollisionDetector.cpp TheGame.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt TheGame.cpp
          TheGame.cpp
      1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(28): warning C4305: 'initializing' : truncation from 'double' to 'const float'
      1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\thegame.cpp(49): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
-         CollisionDetector.cpp
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(28): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\collisiondetector.cpp(20): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\collisiondetector.cpp(27): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\collisiondetector.cpp(137): warning C4244: 'return' : conversion from 'double' to 'int', possible loss of data
-         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.exe" /INCREMENTAL /NOLOGO SDL2.0/SDL2.lib SDL2.0/SDL2main.lib SDL2.0/SDL2test.lib SDL2.0/SDL2_image.lib SDL2.0/SDL2_mixer.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.lib" /MACHINE:X86 Debug\CollisionDetector.obj
          Debug\Errors.obj
@@ -27,4 +21,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:06.31
+Time Elapsed 00:00:02.69

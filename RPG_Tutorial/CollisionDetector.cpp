@@ -18,7 +18,7 @@ void CollisionDetector::detectStaticCollisions(MovableObject* object, const std:
 	float slope, angle = 0.0f;
 
 	for (int i = 0; i < levelObjects.size(); ++i){
-		if (!levelObjects[i]->getIsMovable()){
+		if (!levelObjects[i]->getIsMovable() && levelObjects[i]->getCharacter() != Character::BACKGROUND){
 			if (SDL_IntersectRect(levelObjects[i]->getHitbox(), object->getHitbox(), &intersection)){
 				Movements m = object->getCurrentMovement();
 				// get line parameters
@@ -87,7 +87,7 @@ void CollisionDetector::detectStaticCollisions(MovableObject* object, const std:
 
 void CollisionDetector::detectDynamicCollisions(MovableObject* object, const std::vector<Object*> &levelObjects){
 	for (auto i : levelObjects){
-		if (i->getIsMovable()){
+		if (i->getIsMovable() && i->getIsRenderable()){
 			SDL_Rect intersection;
 			if (SDL_IntersectRect(i->getHitbox(), object->getHitbox(), &intersection)){
 				MovableObject* objectA = (MovableObject*)object;

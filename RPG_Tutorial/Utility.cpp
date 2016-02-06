@@ -13,8 +13,8 @@ texture for that character.
 */
 void Utility::createCharacterFileMap(){
 	characterFileMap[Character::BACKGROUND] = TEXTURE_PATH + "Background.png";
-	characterFileMap[Character::FLYING_HEART_SMALL] = TEXTURE_PATH + "Characters/FlyingHeartSmall/Textures/";
-	characterFileMap[Character::FLYING_HEART_LARGE] = TEXTURE_PATH + "Character/FlyingHeartLarge/Textures/";
+	characterFileMap[Character::FLYING_HEART_SMALL] = TEXTURE_PATH + "Characters/FlyingHeartSmall/Textures/FlyingHeartSmall.png";
+	characterFileMap[Character::FLYING_HEART_LARGE] = TEXTURE_PATH + "Characters/FlyingHeartLarge/Textures/FlyingHeartLarge.png";
 	characterFileMap[Character::JIM] = TEXTURE_PATH + "Characters/Jimmy/Textures";
 	characterFileMap[Character::LIGHT_GRAY_PLATFORM] = TEXTURE_PATH + "Platform/LandPiece_LightGray.png";
 	characterFileMap[Character::LIGHT_GREEN_PLATFORM] = TEXTURE_PATH + "Platform/LandPiece_LightGreen.png";

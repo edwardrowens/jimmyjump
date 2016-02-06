@@ -2,6 +2,7 @@
 #include "Object.h"
 #include <math.h>
 #include <string>
+#include <random>
 #include "Movements.h"
 #include "CharacterInformation.h"
 
@@ -28,8 +29,7 @@ public:
 	int getSpeedY() const;
 	bool getIsJumping() const;
 	bool getIsStable() const;
-	Movements getCurrentMovement() const;
-	Movements getPreviousMovement() const;
+	std::vector<Movements> getCurrentMovements() const;
 	std::vector<int> getPreviousXY() const;
 	float getGravity() const;
 	std::vector<float> getMotionVector() const;
@@ -43,8 +43,6 @@ public:
 	void setSpeedY(const int& speedY);
 	void setIsJumping(const bool& isJumping);
 	void setIsStable(const bool& isColliding);
-	void setCurrentMovement(const Movements& movement);
-	void setPreviousMovement(const Movements& movement);
 	void setPreviousXY(const int& x, const int& y);
 	void setGravity(const float& gravity);
 	void setMotionVectorX(const float& x);
@@ -55,6 +53,8 @@ public:
 	bool jump();
 	bool moveRight();
 	bool moveLeft();
+	void patrol();
+	void addMovement(const Movements& movement);
 	void executeMovement();
 	void useItem();
 	float calcAngleOfMovement() const;
@@ -62,8 +62,7 @@ public:
 	float attack();
 
 	// Fields
-	Movements currentMovement;
-	Movements previousMovement;
+	std::vector<Movements> currentMovements;
 
 protected:
 	// Functions
@@ -80,10 +79,12 @@ protected:
 	float maxYVelocity;
 
 private:
-	bool isJumping, isStable;
+	bool isJumping, isStable, isPatrolling;
 	const float JUMP_VECTOR = 100.0f;
 	int currentJumpTicks;
 	std::vector<float> motionVector;
+	int patrolDistance = 500;
+	int patrolDistanceTraveled;
 
 };
 

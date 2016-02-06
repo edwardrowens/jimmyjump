@@ -8,7 +8,6 @@ strength(10.0f),
 speedX(INIT_SPEED_X),
 speedY(INIT_SPEEDY),
 isStable(true),
-currentMovement(Movements::NONE),
 stepCount(0),
 currentJumpTicks(1),
 motionVector({ 0, 0 }),
@@ -27,7 +26,6 @@ strength(10.0f),
 speedX(INIT_SPEED_X),
 speedY(INIT_SPEEDY),
 isStable(true),
-currentMovement(Movements::NONE),
 stepCount(0),
 currentJumpTicks(1),
 motionVector({ 0, 0 }),
@@ -40,7 +38,6 @@ maxYVelocity(40.0f){
 
 MovableObject::MovableObject(const MovableObject &movableObject) :
 Object(movableObject),
-currentMovement(Movements::NONE),
 stepCount(0),
 motionVector({ 0, 0 }),
 isStable(true),
@@ -87,12 +84,8 @@ bool MovableObject::getIsStable() const{
 	return isStable;
 }
 
-Movements MovableObject::getCurrentMovement() const{
-	return currentMovement;
-}
-
-Movements MovableObject::getPreviousMovement() const{
-	return previousMovement;
+std::vector<Movements> MovableObject::getCurrentMovements() const{
+	return currentMovements;
 }
 
 std::vector<int> MovableObject::getPreviousXY() const{
@@ -137,14 +130,6 @@ void MovableObject::setIsStable(const bool& isStable){
 		currentJumpTicks = 1;
 }
 
-void MovableObject::setCurrentMovement(const Movements& movement){
-	currentMovement = movement;
-}
-
-void MovableObject::setPreviousMovement(const Movements& movement){
-	previousMovement = movement;
-}
-
 void MovableObject::setPreviousXY(const int& x, const int& y){
 	previousXYPosition[0] = x;
 	previousXYPosition[1] = y;
@@ -169,7 +154,6 @@ void MovableObject::setMotionVector(const float& x, const float& y){
 
 bool MovableObject::jump(){
 	if ((!isStable && getMotionVectorY() < 0) || isStable){
-		currentMovement = Movements::JUMP;
 		setMotionVectorY(getMotionVectorY() - (speedY / currentJumpTicks));
 		setY(position.y + getMotionVectorY());
 		++currentJumpTicks;
@@ -182,13 +166,12 @@ bool MovableObject::jump(){
 bool MovableObject::moveRight(){
 	accelerateRightward();
 
-	if (currentMovement == Movements::LEFT || stepCount >= walkCycles['R'].size()){
+	if (stepCount >= walkCycles['R'].size()){
 		stepCount = 0;
 	}
 
 	// POTENTIAL PROBLEM: If I use another type of file for textures, I would have to make a more general solution rather than
 	// hard-coding this string.
-	currentMovement = Movements::RIGHT;
 	texturePath = texturePath.substr(0, utility.getFileLocFromPath(texturePath));
 	texturePath = texturePath + "R" + std::to_string(stepCount) + ".png";
 	++stepCount;
@@ -199,18 +182,23 @@ bool MovableObject::moveRight(){
 bool MovableObject::moveLeft(){
 	accelerateLeftward();
 
-	if (currentMovement == Movements::RIGHT || stepCount >= walkCycles['L'].size()){
+	if (stepCount >= walkCycles['L'].size()){
 		stepCount = 0;
 	}
 
 	// POTENTIAL PROBLEM: If I use another type of file for textures, I would have to make a more general solution rather than
 	// hard-coding this string.
-	currentMovement = Movements::LEFT;
 	texturePath = texturePath.substr(0, utility.getFileLocFromPath(texturePath));
 	texturePath = texturePath + "L" + std::to_string(stepCount) + ".png";
 	++stepCount;
 
 	return true;
+}
+
+void MovableObject::patrol(){
+	if (patrolDistanceTraveled >= patrolDistance) {
+		currentMovements.push_back()
+	}
 }
 
 void MovableObject::useItem(){
@@ -300,6 +288,29 @@ void MovableObject::accelerateRightward(){
 }
 
 void MovableObject::executeMovement(){
-	setY(getY() + getMotionVectorY());
-	setX(getX() + getMotionVectorX());
+	if (isPatrolling)
+	for (Movements currentMovement : currentMovements){
+		switch (currentMovement){
+		case Movements::RIGHT:
+			moveRight();
+			break;
+		case Movements::LEFT:
+			moveLeft();
+			break;
+		case Movements::JUMP:
+			jump();
+			break;
+		case Movements::PATROL:
+			patrol();
+			break;
+		case Movements::NONE:
+			break;
+		}
+	}
+
+	currentMovements.clear();
+}
+
+void MovableObject::addMovement(const Movements& movement){
+	currentMovements.push_back(movement);
 }

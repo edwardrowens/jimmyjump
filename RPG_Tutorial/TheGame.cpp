@@ -134,5 +134,6 @@ void TheGame::instantiateLevelObjects(){
 	objectManager->createObject(Character::BACKGROUND, Position(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT), true);
 	objectManager->createObject(Character::LIGHT_GRAY_PLATFORM, Position(125, WINDOW_HEIGHT - 210, 100, 100), true);
 	objectManager->createObject(Character::LIGHT_GREEN_PLATFORM, Position(0, WINDOW_HEIGHT - 50, WINDOW_WIDTH, 50), true);
-	objectManager->createObject(Character::FLYING_HEART_LARGE, Position(300, 504, 100, 100), true);
+	MovableObject* flyingHeartSmall = (MovableObject*) objectManager->createObject(Character::FLYING_HEART_SMALL, Position(300, 504, 50, 50), true);
+
 }
