@@ -50,10 +50,6 @@ public:
 	void setMotionVector(const float& x, const float& y);
 
 	// Functions
-	bool jump();
-	bool moveRight();
-	bool moveLeft();
-	void patrol();
 	void addMovement(const Movements& movement);
 	void executeMovement();
 	void useItem();
@@ -79,12 +75,21 @@ protected:
 	float maxYVelocity;
 
 private:
+	// Fields
 	bool isJumping, isStable, isPatrolling;
+	char patrolDirection;
 	const float JUMP_VECTOR = 100.0f;
 	int currentJumpTicks;
 	std::vector<float> motionVector;
-	int patrolDistance = 500;
+	int patrolDistance = 100;
 	int patrolDistanceTraveled;
+	int stuckCount = 0;
 
+	// Functions
+	void switchPatrolDirection();
+	bool jump();
+	bool moveRight();
+	bool moveLeft();
+	void patrol();
 };
 

@@ -12,7 +12,8 @@ stepCount(0),
 currentJumpTicks(1),
 motionVector({ 0, 0 }),
 maxXVelocity(40.0f),
-maxYVelocity(40.0f){
+maxYVelocity(40.0f),
+patrolDirection('R'){
 	isMovable = true;
 	previousXYPosition.push_back(position.x);
 	previousXYPosition.push_back(position.y);
@@ -30,7 +31,8 @@ stepCount(0),
 currentJumpTicks(1),
 motionVector({ 0, 0 }),
 maxXVelocity(5.0f),
-maxYVelocity(40.0f){
+maxYVelocity(40.0f),
+patrolDirection('R'){
 	isMovable = true;
 	previousXYPosition.push_back(position.x);
 	previousXYPosition.push_back(position.y);
@@ -47,7 +49,8 @@ speedX(INIT_SPEED_X),
 speedY(INIT_SPEEDY),
 currentJumpTicks(1),
 maxXVelocity(40.0f),
-maxYVelocity(40.0f){
+maxYVelocity(40.0f),
+patrolDirection('R'){
 	previousXYPosition.push_back(position.x);
 	previousXYPosition.push_back(position.y);
 }
@@ -172,8 +175,18 @@ bool MovableObject::moveRight(){
 
 	// POTENTIAL PROBLEM: If I use another type of file for textures, I would have to make a more general solution rather than
 	// hard-coding this string.
-	texturePath = texturePath.substr(0, utility.getFileLocFromPath(texturePath));
-	texturePath = texturePath + "R" + std::to_string(stepCount) + ".png";
+	// POTENTIAL PROBLEM: If I use another type of file for textures, I would have to make a more general solution rather than
+	// hard-coding this string.
+	int fileLocInPath = utility.getFileLocFromPath(texturePath);
+	char firstCharInFileName = texturePath.substr(fileLocInPath, texturePath.size())[0];
+
+	// This checks if they have a directionality in their image files. If they don't, then we don't want to see their texturePath to
+	// an invalid file.
+	if (firstCharInFileName == 'R' || firstCharInFileName == 'L'){
+		texturePath = texturePath.substr(0, fileLocInPath);
+		texturePath = texturePath + "R" + std::to_string(stepCount) + ".png";
+	}
+
 	++stepCount;
 
 	return true;
@@ -188,16 +201,44 @@ bool MovableObject::moveLeft(){
 
 	// POTENTIAL PROBLEM: If I use another type of file for textures, I would have to make a more general solution rather than
 	// hard-coding this string.
-	texturePath = texturePath.substr(0, utility.getFileLocFromPath(texturePath));
-	texturePath = texturePath + "L" + std::to_string(stepCount) + ".png";
+	int fileLocInPath = utility.getFileLocFromPath(texturePath);
+	char firstCharInFileName = texturePath.substr(fileLocInPath, texturePath.size())[0];
+
+	// This checks if they have a directionality in their image files. If they don't, then we don't want to see their texturePath to
+	// an invalid file.
+	if (firstCharInFileName == 'L' || firstCharInFileName == 'R'){
+		texturePath = texturePath.substr(0, fileLocInPath);
+		texturePath = texturePath + "L" + std::to_string(stepCount) + ".png";
+	}
+
 	++stepCount;
 
 	return true;
 }
 
 void MovableObject::patrol(){
-	if (patrolDistanceTraveled >= patrolDistance) {
-		currentMovements.push_back()
+
+	switch (patrolDirection){
+	case 'L':
+		moveLeft();
+		break;
+	case 'R':
+		moveRight();
+		break;
+	}
+
+	int distanceTraveledInOneFrame = std::abs(position.x - previousXYPosition[0]);
+	patrolDistanceTraveled += distanceTraveledInOneFrame;
+	if (distanceTraveledInOneFrame == 0){
+		++stuckCount;
+	}
+
+	// If you've exceeded the patrol distance limit or did not move in the last frame (meaning you're stuck).
+	// then switch direction.
+	if (patrolDistanceTraveled >= patrolDistance || stuckCount > 3){
+		patrolDistanceTraveled = 0;
+		stuckCount = 0;
+		switchPatrolDirection();
 	}
 }
 
@@ -288,7 +329,6 @@ void MovableObject::accelerateRightward(){
 }
 
 void MovableObject::executeMovement(){
-	if (isPatrolling)
 	for (Movements currentMovement : currentMovements){
 		switch (currentMovement){
 		case Movements::RIGHT:
@@ -302,6 +342,7 @@ void MovableObject::executeMovement(){
 			break;
 		case Movements::PATROL:
 			patrol();
+			return;
 			break;
 		case Movements::NONE:
 			break;
@@ -313,4 +354,15 @@ void MovableObject::executeMovement(){
 
 void MovableObject::addMovement(const Movements& movement){
 	currentMovements.push_back(movement);
+}
+
+void MovableObject::switchPatrolDirection(){
+	switch (patrolDirection){
+	case 'L':
+		patrolDirection = 'R';
+		break;
+	case 'R':
+		patrolDirection = 'L';
+		break;
+	}
 }

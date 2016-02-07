@@ -21,7 +21,7 @@ ObjectManager::~ObjectManager(){
 /*
 TODO - Everything is currently an object rather than a platform or whatever.
 */
-Object ObjectManager::createObject(const Character &character, const Position &position, bool isRenderable){
+Object* ObjectManager::createObject(const Character &character, const Position &position, bool isRenderable){
 	if (character == Character::BACKGROUND){
 		if (amountOfObjects[character] == 0){
 			objectsInLevel.insert(objectsInLevel.begin(), new Object(position, character));
@@ -29,15 +29,15 @@ Object ObjectManager::createObject(const Character &character, const Position &p
 			if (isRenderable){
 				setTexture(*objectsInLevel[0]);
 			}
-			return *objectsInLevel[0];
+			return objectsInLevel[0];
 		}
 		else{
 			PrintErrors("There can only be a single background per level.");
 		}
 	}
 	else{
-		CharacterGrouping characterGrouping = retrieveCharacterGrouping(character);
-		switch (characterGrouping){
+		
+		switch (retrieveCharacterGrouping(character)){
 		case CharacterGrouping::MAIN_CHARACTER:
 			objectsInLevel.push_back(new MainCharacter(position, character));
 			break;
@@ -57,7 +57,7 @@ Object ObjectManager::createObject(const Character &character, const Position &p
 			setTexture(*objectsInLevel[objectsInLevel.size() - 1]);
 		}
 
-		return *objectsInLevel[objectsInLevel.size() - 1];
+		return objectsInLevel[objectsInLevel.size() - 1];
 	}
 }
 

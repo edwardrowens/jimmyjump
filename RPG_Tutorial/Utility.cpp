@@ -30,7 +30,7 @@ std::list<string> Utility::findAllPngs(string directory){
 	std::list<string>::iterator it = pngs.begin();
 	DIR *dir;
 	struct dirent *ent;
-	if ((dir = opendir(("./"+directory).c_str())) != NULL) {
+	if ((dir = opendir(("./" + directory).c_str())) != NULL) {
 		while ((ent = readdir(dir)) != NULL) {
 			string fileName = ent->d_name;
 			if (fileName.size() > 4){
@@ -90,9 +90,9 @@ std::map<char, std::set<string>> Utility::findAllWalkCycleFiles(const Character&
 	set. This is used to eliminate all PNGs that are not apart of a walkcycle.
 	*/
 	std::map<char, std::set<string>>::iterator it = rightAndLeftFiles.begin();
-	for (it; it != rightAndLeftFiles.end(); ){
+	for (it; it != rightAndLeftFiles.end();){
 		std::set<string>::iterator setIt = it->second.begin();
-		for (setIt; setIt != it->second.end(); ){
+		for (setIt; setIt != it->second.end();){
 			if (!std::regex_match(*setIt, std::regex(".[0-9].+"))){
 				setIt = it->second.erase(setIt);
 				if (it->second.empty()){
@@ -131,7 +131,7 @@ string Utility::getDefaultTexturePath(Character character){
 	}
 	// if none of the others work, just find the first texture in the character's directory.
 	else{
-		return findPng(defaultTextureDirectory);
+		return defaultTextureDirectory + "/" + findPng(defaultTextureDirectory);
 	}
 }
 
@@ -148,8 +148,10 @@ string Utility::findPng(string directory){
 	struct dirent *ent;
 	if ((dir = opendir(directory.c_str())) != NULL) {
 		while ((ent = readdir(dir)) != NULL) {
-			if (ent->d_name != "." && ent->d_name != ".." && isPng((string)ent->d_name)){
-				return ent->d_name;
+			string fileName = ent->d_name;
+			if (fileName != "." && fileName != ".."){
+				if (isPng(fileName))
+					return fileName;
 			}
 		}
 		PrintErrors("No textures are located in " + directory);

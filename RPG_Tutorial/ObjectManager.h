@@ -27,7 +27,7 @@ public:
 	MainCharacter* getPlayableCharacter() const;
 
 	// public functions
-	Object createObject(const Character& character, const Position& position, bool isRenderable);
+	Object* createObject(const Character& character, const Position& position, bool isRenderable);
 	void destroyObject(Object object);
 	CharacterGrouping retrieveCharacterGrouping(const Character& character);
 	void detectCollisions();

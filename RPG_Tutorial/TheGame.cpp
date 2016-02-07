@@ -1,6 +1,6 @@
 #include "TheGame.h"
 
-TheGame::TheGame() : currentWindow(nullptr), WINDOW_HEIGHT(600), WINDOW_WIDTH(768), FPS(10),
+TheGame::TheGame() : currentWindow(nullptr), WINDOW_HEIGHT(600), WINDOW_WIDTH(768), FPS(15),
 currentState(GameState::PLAY), jimHeight(50), jimWidth(50), eventMade(0), jim(nullptr),
 gravity(10), gameFloor(nullptr)
 {}
@@ -28,10 +28,8 @@ void TheGame::run(){
 	while (currentState != GameState::EXIT){
 		loops = 0;
 
-
 		while (SDL_GetTicks() > nextframe && loops < MAXFRAMESKIP){
 			processInput();
-
 			update();
 
 			nextframe += SKIPFRAMES;
@@ -84,14 +82,17 @@ void TheGame::update(){
 	objectManager->setMousePosition();
 
 	if (keyState[SDL_SCANCODE_D]){
-		jim->moveRight();
+		jim->addMovement(Movements::RIGHT);
 	}
 
 	if (keyState[SDL_SCANCODE_A]){
-		jim->moveLeft();
+		jim->addMovement(Movements::LEFT);
 	}
 	if (keyState[SDL_SCANCODE_W]){
-		jim->jump();
+		jim->addMovement(Movements::JUMP);
+	}
+	if (keyState[SDL_SCANCODE_P]){
+		jim->addMovement(Movements::PATROL);
 	}
 	if (SDL_BUTTON(SDL_BUTTON_LEFT) & a){
 		std::cout << "(" + std::to_string(jim->getX()) + ", " + std::to_string(jim->getY()) + ")\n";
@@ -113,6 +114,8 @@ void TheGame::update(){
 	if ((jim->getY() + jim->getHeight()) > WINDOW_HEIGHT)
 		jim->setY(WINDOW_HEIGHT - jim->getHeight());
 
+	objectManager->putInMotion();
+
 	calcGravity();
 	detectCollisions();
 	objectManager->setTextures();
@@ -132,8 +135,9 @@ void TheGame::detectCollisions(){
 
 void TheGame::instantiateLevelObjects(){
 	objectManager->createObject(Character::BACKGROUND, Position(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT), true);
-	objectManager->createObject(Character::LIGHT_GRAY_PLATFORM, Position(125, WINDOW_HEIGHT - 210, 100, 100), true);
-	objectManager->createObject(Character::LIGHT_GREEN_PLATFORM, Position(0, WINDOW_HEIGHT - 50, WINDOW_WIDTH, 50), true);
-	MovableObject* flyingHeartSmall = (MovableObject*) objectManager->createObject(Character::FLYING_HEART_SMALL, Position(300, 504, 50, 50), true);
+	objectManager->createObject(Character::LIGHT_GRAY_PLATFORM, Position(375, WINDOW_HEIGHT - 150, 100, 100), true);
+	objectManager->createObject(Character::LIGHT_GREEN_PLATFORM, Position(0, WINDOW_HEIGHT - 50, WINDOW_WIDTH + 50, 50), true);
+	MovableObject* flyingHeartSmall = (MovableObject*)objectManager->createObject(Character::FLYING_HEART_SMALL, Position(300, 504, 50, 50), true);
+	flyingHeartSmall->addMovement(Movements::PATROL);
 
 }

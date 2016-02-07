@@ -43,13 +43,12 @@ string MainCharacter::moveLeft(){
 	accelerateLeftward();
 
 	std::cout << std::to_string(getMotionVectorX()) << std::endl;
-	if (currentMovement == Movements::RIGHT || stepCount >= walkCycles[face[0]].size()){
+	if (stepCount >= walkCycles[face[0]].size()){
 		stepCount = 0;
 	}
 
 	// POTENTIAL PROBLEM: If I use another type of file for textures, I would have to make a more general solution rather than
 	// hard-coding this string.
-	currentMovement = Movements::LEFT;
 	texturePath = texturePath.substr(0, utility.getFileLocFromPath(texturePath));
 	texturePath = texturePath + face + std::to_string(stepCount) + ".png";
 	++stepCount;
@@ -61,13 +60,12 @@ string MainCharacter::moveRight(){
 	accelerateRightward();
 
 	std::cout << std::to_string(getMotionVectorX()) << std::endl;
-	if (currentMovement == Movements::LEFT || stepCount >= walkCycles[face[0]].size()){
+	if (stepCount >= walkCycles[face[0]].size()){
 		stepCount = 0;
 	}
 
 	// POTENTIAL PROBLEM: If I use another type of file for textures, I would have to make a more general solution rather than
 	// hard-coding this string.
-	currentMovement = Movements::RIGHT;
 	texturePath = texturePath.substr(0, utility.getFileLocFromPath(texturePath));
 	texturePath = texturePath + face + std::to_string(stepCount) + ".png";
 	++stepCount;

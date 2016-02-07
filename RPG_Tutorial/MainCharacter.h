@@ -12,11 +12,14 @@ public:
 	MainCharacter(Position position, Character character);
 
 	// Public functions
-	virtual string moveLeft();
-	virtual string moveRight();
 	void setMousePosition(const int x, const int y);
 private:
+	// Fields
 	int mouseX, mouseY;
 	string face;
+
+	// Functions
+	virtual string moveLeft();
+	virtual string moveRight();
 };
 
