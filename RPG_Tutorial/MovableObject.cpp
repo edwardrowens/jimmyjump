@@ -6,13 +6,13 @@ Object(),
 health(100.0f),
 strength(10.0f),
 speedX(INIT_SPEED_X),
-speedY(INIT_SPEEDY),
+speedY(INIT_SPEED_Y),
 isStable(true),
 stepCount(0),
 currentJumpTicks(1),
 motionVector({ 0, 0 }),
-maxXVelocity(40.0f),
-maxYVelocity(40.0f),
+maxXVelocity(INIT_MAX_VELOCITY_X),
+maxYVelocity(INIT_MAX_VELOCITY_Y),
 patrolDirection('R'){
 	isMovable = true;
 	previousXYPosition.push_back(position.x);
@@ -25,13 +25,13 @@ Object(position, character),
 health(100.0f),
 strength(10.0f),
 speedX(INIT_SPEED_X),
-speedY(INIT_SPEEDY),
+speedY(INIT_SPEED_Y),
 isStable(true),
 stepCount(0),
 currentJumpTicks(1),
 motionVector({ 0, 0 }),
-maxXVelocity(5.0f),
-maxYVelocity(40.0f),
+maxXVelocity(INIT_MAX_VELOCITY_X),
+maxYVelocity(INIT_MAX_VELOCITY_Y),
 patrolDirection('R'){
 	isMovable = true;
 	previousXYPosition.push_back(position.x);
@@ -46,10 +46,10 @@ isStable(true),
 health(100.0f),
 strength(10.0f),
 speedX(INIT_SPEED_X),
-speedY(INIT_SPEEDY),
+speedY(INIT_SPEED_Y),
 currentJumpTicks(1),
-maxXVelocity(40.0f),
-maxYVelocity(40.0f),
+maxXVelocity(INIT_MAX_VELOCITY_X),
+maxYVelocity(INIT_MAX_VELOCITY_Y),
 patrolDirection('R'){
 	previousXYPosition.push_back(position.x);
 	previousXYPosition.push_back(position.y);
@@ -155,10 +155,20 @@ void MovableObject::setMotionVector(const float& x, const float& y){
 	motionVector[1] = y;
 }
 
+void MovableObject::setMaxVelocityX(const float& xVelocity) {
+	maxXVelocity = xVelocity;
+}
+
+void MovableObject::setSpeedX(const float& speedX) {
+	this->speedX = speedX;
+}
+
 bool MovableObject::jump(){
 	if ((!isStable && getMotionVectorY() < 0) || isStable){
 		setMotionVectorY(getMotionVectorY() - (speedY / currentJumpTicks));
 		setY(position.y + getMotionVectorY());
+		if (!isStable && getMotionVectorY() < 0)
+			setX(position.x + getMotionVectorX());
 		++currentJumpTicks;
 		return true;
 	}
@@ -166,7 +176,7 @@ bool MovableObject::jump(){
 	return false;
 }
 
-bool MovableObject::moveRight(){
+void MovableObject::moveRight(){
 	accelerateRightward();
 
 	if (stepCount >= walkCycles['R'].size()){
@@ -188,11 +198,9 @@ bool MovableObject::moveRight(){
 	}
 
 	++stepCount;
-
-	return true;
 }
 
-bool MovableObject::moveLeft(){
+void MovableObject::moveLeft(){
 	accelerateLeftward();
 
 	if (stepCount >= walkCycles['L'].size()){
@@ -212,8 +220,6 @@ bool MovableObject::moveLeft(){
 	}
 
 	++stepCount;
-
-	return true;
 }
 
 void MovableObject::patrol(){
@@ -345,6 +351,7 @@ void MovableObject::executeMovement(){
 			return;
 			break;
 		case Movements::NONE:
+			setMotionVectorX(0.0f);
 			break;
 		}
 	}

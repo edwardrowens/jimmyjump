@@ -23,6 +23,7 @@ void TheGame::run(){
 	int loops;
 	float interpolation;
 	int i = 0;
+	numberOfFrames = 0;
 
 	//game loop
 	while (currentState != GameState::EXIT){
@@ -35,6 +36,7 @@ void TheGame::run(){
 			nextframe += SKIPFRAMES;
 			++loops;
 		}
+		++numberOfFrames;
 		interpolation = float(SDL_GetTicks() + SKIPFRAMES - nextframe) / float(SKIPFRAMES);
 		draw();
 	}
@@ -45,7 +47,7 @@ void TheGame::initGame(){
 	context = SDL_CreateRenderer(currentWindow, -1, SDL_RENDERER_ACCELERATED);
 
 	int startingY = WINDOW_HEIGHT - ((2.0 / 23)*WINDOW_HEIGHT);
-	jim = new MainCharacter(Position(50, 504, jimWidth, jimHeight), Character::JIM);
+	jim = new MainCharacter(Position(500, 504, jimWidth, jimHeight), Character::JIM);
 	objectManager = new ObjectManager(context, jim);
 
 	instantiateLevelObjects();
@@ -81,6 +83,8 @@ void TheGame::update(){
 	objectManager->updatePreviousPositions();
 	objectManager->setMousePosition();
 
+	//controllableObjects[0]->addMovement(Movements::LEFT);
+	//jim->addMovement(Movements::RIGHT);
 	if (keyState[SDL_SCANCODE_D]){
 		jim->addMovement(Movements::RIGHT);
 	}
@@ -94,31 +98,25 @@ void TheGame::update(){
 	if (keyState[SDL_SCANCODE_P]){
 		jim->addMovement(Movements::PATROL);
 	}
+	if (jim->getCurrentMovements().size() == 0) {
+		jim->addMovement(Movements::NONE);
+	}
 	if (SDL_BUTTON(SDL_BUTTON_LEFT) & a){
 		std::cout << "(" + std::to_string(jim->getX()) + ", " + std::to_string(jim->getY()) + ")\n";
 	}
 	if (SDL_BUTTON(SDL_BUTTON_RIGHT) & a){
-		std::cout << "Y velocity = " + std::to_string(jim->getMotionVectorY()) << std::endl;
+		std::cout << "{ " + std::to_string(jim->getMotionVectorX());
+		std::cout << ", " + std::to_string(jim->getMotionVectorY()) << " }\n";
 	}
 
-	// make sure jim doesn't exit screen
-	if ((jim->getX() + jim->getWidth()) > WINDOW_WIDTH)
-		jim->setX(WINDOW_WIDTH - jim->getWidth());
-
-	if (jim->getX() < 0)
-		jim->setX(0);
-
-	if (jim->getY() < 0)
-		jim->setY(0);
-
-	if ((jim->getY() + jim->getHeight()) > WINDOW_HEIGHT)
-		jim->setY(WINDOW_HEIGHT - jim->getHeight());
 
 	objectManager->putInMotion();
 
 	calcGravity();
 	detectCollisions();
 	objectManager->setTextures();
+	// make sure characters don't exit screen
+	keepInScreen();
 }
 
 void TheGame::draw(){
@@ -135,9 +133,25 @@ void TheGame::detectCollisions(){
 
 void TheGame::instantiateLevelObjects(){
 	objectManager->createObject(Character::BACKGROUND, Position(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT), true);
-	objectManager->createObject(Character::LIGHT_GRAY_PLATFORM, Position(375, WINDOW_HEIGHT - 150, 100, 100), true);
+	objectManager->createObject(Character::LIGHT_GRAY_PLATFORM, Position(600, WINDOW_HEIGHT - 150, 100, 100), true);
 	objectManager->createObject(Character::LIGHT_GREEN_PLATFORM, Position(0, WINDOW_HEIGHT - 50, WINDOW_WIDTH + 50, 50), true);
-	MovableObject* flyingHeartSmall = (MovableObject*)objectManager->createObject(Character::FLYING_HEART_SMALL, Position(300, 504, 50, 50), true);
-	flyingHeartSmall->addMovement(Movements::PATROL);
+	controllableObjects.push_back((MovableObject*)objectManager->createObject(Character::FLYING_HEART_SMALL, Position(550, 504, 50, 50), true));
+	controllableObjects[0]->setMaxVelocityX(4.0f);
+	controllableObjects.push_back(jim);
+}
 
+void TheGame::keepInScreen() {
+	for (auto character : controllableObjects) {
+		if ((character->getX() + character->getWidth()) > WINDOW_WIDTH)
+			character->setX(WINDOW_WIDTH - character->getWidth());
+
+		if (character->getX() < 0)
+			character->setX(0);
+
+		if (character->getY() < 0)
+			character->setY(0);
+
+		if ((character->getY() + character->getHeight()) > WINDOW_HEIGHT)
+			character->setY(WINDOW_HEIGHT - character->getHeight());
+	}
 }

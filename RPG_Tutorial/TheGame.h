@@ -36,6 +36,7 @@ private:
 	MainCharacter* jim;
 	ObjectManager* objectManager;
 	int jimWidth, jimHeight, jimStartY, eventMade;
+	std::vector<MovableObject*> controllableObjects;
 	float gravity, keyPressLength;
 	const int WINDOW_WIDTH = 768;
 	const int WINDOW_HEIGHT = 600;
@@ -43,6 +44,7 @@ private:
 	//processes input
 	const Uint8* keyState;
 	Uint8* fakeKeyState;
+	int numberOfFrames;
 	
 	// Functions
 	SDL_Window* WindowInitialization();
@@ -54,5 +56,6 @@ private:
 	int processInput();
 	void update();
 	void draw();
+	void keepInScreen();
 };
 

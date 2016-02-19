@@ -19,7 +19,7 @@ private:
 	string face;
 
 	// Functions
-	virtual string moveLeft();
-	virtual string moveRight();
+	void moveLeft();
+	void moveRight();
 };
 

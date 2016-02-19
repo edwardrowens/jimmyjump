@@ -176,8 +176,8 @@ void ObjectManager::detectCollisions(){
 	for (i; i != objectsInLevel.end(); ++i){
 		if ((*i)->getIsMovable()){
 			MovableObject* tempObject = dynamic_cast<MovableObject*>(*i);
-			CollisionDetector::detectStaticCollisions(tempObject, objectsInLevel);
 			CollisionDetector::detectDynamicCollisions(tempObject, objectsInLevel);
+			CollisionDetector::detectStaticCollisions(tempObject, objectsInLevel);
 		}
 	}
 }

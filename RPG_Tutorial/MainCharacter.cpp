@@ -39,10 +39,9 @@ void MainCharacter::setMousePosition(const int x, const int y){
 	}
 }
 
-string MainCharacter::moveLeft(){
+void MainCharacter::moveLeft(){
 	accelerateLeftward();
 
-	std::cout << std::to_string(getMotionVectorX()) << std::endl;
 	if (stepCount >= walkCycles[face[0]].size()){
 		stepCount = 0;
 	}
@@ -52,14 +51,11 @@ string MainCharacter::moveLeft(){
 	texturePath = texturePath.substr(0, utility.getFileLocFromPath(texturePath));
 	texturePath = texturePath + face + std::to_string(stepCount) + ".png";
 	++stepCount;
-
-	return texturePath;
 }
 
-string MainCharacter::moveRight(){
+void MainCharacter::moveRight(){
 	accelerateRightward();
 
-	std::cout << std::to_string(getMotionVectorX()) << std::endl;
 	if (stepCount >= walkCycles[face[0]].size()){
 		stepCount = 0;
 	}
@@ -69,6 +65,4 @@ string MainCharacter::moveRight(){
 	texturePath = texturePath.substr(0, utility.getFileLocFromPath(texturePath));
 	texturePath = texturePath + face + std::to_string(stepCount) + ".png";
 	++stepCount;
-
-	return texturePath;
 }

@@ -7,8 +7,11 @@
 #include "CharacterInformation.h"
 
 using std::string;
-const float INIT_SPEEDY = 30.0f;
+const float INIT_SPEED_Y = 20.0f;
 const int INIT_SPEED_X = 3;
+
+const float INIT_MAX_VELOCITY_X = 5.0f;
+const float INIT_MAX_VELOCITY_Y = 40.0f;
 
 class MovableObject : public Object
 {
@@ -48,6 +51,8 @@ public:
 	void setMotionVectorX(const float& x);
 	void setMotionVectorY(const float& y);
 	void setMotionVector(const float& x, const float& y);
+	void setMaxVelocityX(const float& xVelocity);
+	void setSpeedX(const float& speedX);
 
 	// Functions
 	void addMovement(const Movements& movement);
@@ -78,7 +83,7 @@ private:
 	// Fields
 	bool isJumping, isStable, isPatrolling;
 	char patrolDirection;
-	const float JUMP_VECTOR = 100.0f;
+	const float JUMP_VECTOR = 50.0f;
 	int currentJumpTicks;
 	std::vector<float> motionVector;
 	int patrolDistance = 100;
@@ -88,8 +93,8 @@ private:
 	// Functions
 	void switchPatrolDirection();
 	bool jump();
-	bool moveRight();
-	bool moveLeft();
 	void patrol();
+	virtual void moveRight();
+	virtual void moveLeft();
 };
 

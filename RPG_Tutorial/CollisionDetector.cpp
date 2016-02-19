@@ -24,7 +24,6 @@ void CollisionDetector::detectStaticCollisions(MovableObject* object, const std:
 				slope = object->calcSlopeOfMovement();
 				angle = object->calcAngleOfMovement();
 				intercept = object->getY() - (object->getX() * (-1 * slope));
-				//object->setIsStable(calcStability(*(object->getHitbox()), intersection, angle));
 
 				// find the smaller rectangle
 				SDL_Rect smallerRect = SDL_Rect();
@@ -88,26 +87,18 @@ void CollisionDetector::detectDynamicCollisions(MovableObject* object, const std
 	for (auto i : levelObjects){
 		if (i->getIsMovable() && i->getIsRenderable()){
 			SDL_Rect intersection;
-			if (SDL_IntersectRect(i->getHitbox(), object->getHitbox(), &intersection)){
+			if (i != object && SDL_IntersectRect(i->getHitbox(), object->getHitbox(), &intersection)){
 				MovableObject* objectA = (MovableObject*)object;
 				MovableObject* objectB = (MovableObject*)i;
+
 				SDL_Rect objectAHitbox = *(object->getHitbox());
 				SDL_Rect objectBHitbox = *(i->getHitbox());
 
 				float angleA = objectA->calcAngleOfMovement();
 				float angleB = objectB->calcAngleOfMovement();
 
-				// A is the aggressor
-				if (objectA->getMotionVectorX() != 0.0f && objectB->getMotionVectorX() == 0.0f){
-					objectA->setMotionVectorX(0.0f);
-
-					if (angleA > 270.0f || angleA < 90.0f)
-						objectA->setX(objectA->getX() - intersection.w);
-					else
-						objectA->setX(objectA->getX() + intersection.w);
-				}
+				resolveObjectAggression(objectA, objectB, intersection);
 			}
-
 		}
 	}
 }
@@ -142,4 +133,83 @@ bool CollisionDetector::calcStability(SDL_Rect object, SDL_Rect intersection, fl
 		return true;
 	else
 		return false;
+}
+
+void CollisionDetector::resolveObjectAggression(MovableObject* objectA, MovableObject* objectB, const SDL_Rect &intersection) {
+	resolveObjectAggressionInXDirection(objectA, objectB, intersection);
+	if (!objectA->getIsStable() && !objectB->getIsStable())
+		resolveObjectAggressionInYDirection(objectA, objectB, intersection);
+}
+
+void CollisionDetector::resolveObjectAggressionInXDirection(MovableObject* objectA, MovableObject* objectB, const SDL_Rect& intersection){
+	float absoluteXVelocity = std::abs(objectA->getMotionVectorX()) - std::abs(objectB->getMotionVectorX());
+	if (absoluteXVelocity < .001){
+		if (objectB->calcAngleOfMovement() < 90.0f || objectB->calcAngleOfMovement() > 270.0f){
+			objectB->setX(objectB->getX() - (intersection.w / 2));
+			objectA->setX(objectA->getX() + (intersection.w / 2));
+		}
+		else{
+			objectB->setX(objectB->getX() + (intersection.w / 2));
+			objectA->setX(objectA->getX() - (intersection.w / 2));
+		}
+	}
+	else if (absoluteXVelocity > 0.0f) {
+		if (objectB->getPreviousXY()[0] != objectB->getX()){
+			if (objectA->calcAngleOfMovement() < 90.0f || objectA->calcAngleOfMovement() > 270.0f)
+				objectB->setX(objectB->getX() + intersection.w);
+			else
+				objectB->setX(objectB->getX() - intersection.w);
+		}
+	}
+	else {
+		if (objectA->getPreviousXY()[0] != objectA->getX()){
+			if (objectB->calcAngleOfMovement() < 90.0f || objectB->calcAngleOfMovement() > 270.0f)
+				objectA->setX(objectA->getX() + intersection.w);
+			else
+				objectA->setX(objectA->getX() - intersection.w);
+		}
+	}
+}
+
+void CollisionDetector::resolveObjectAggressionInYDirection(MovableObject* objectA, MovableObject* objectB, const SDL_Rect &intersection) {
+	float absoluteYVelocity = std::abs(objectA->getMotionVectorY()) - std::abs(objectB->getMotionVectorY());
+	float angleA = objectA->calcAngleOfMovement();
+	float angleB = objectB->calcAngleOfMovement();
+
+	if (!objectA->getIsStable() && !objectB->getIsStable()) {
+
+	}
+	else if (!objectA->getIsStable()) {
+
+	}
+	else {
+
+	}
+
+	if (absoluteYVelocity < .001){
+		if (angleB < 180.0f && angleB > 0.0f){
+			objectB->setY(objectB->getY() - (intersection.h / 2));
+			objectA->setY(objectA->getY() + (intersection.h / 2));
+		}
+		else{
+			objectB->setY(objectB->getY() + (intersection.h / 2));
+			objectA->setY(objectA->getY() - (intersection.h / 2));
+		}
+	}
+	else if (absoluteYVelocity > 0.0f) {
+		if (!objectB->getIsStable()){
+			if (angleA < 180.0f && angleA > 0.0f)
+				objectB->setY(objectB->getY() - intersection.h);
+			else
+				objectB->setY(objectB->getY() + intersection.h);
+		}
+	}
+	else {
+		if (!objectA->getIsStable()){
+			if (angleB < 180.0f && angleB > 0.0f)
+				objectA->setY(objectA->getY() - intersection.h);
+			else
+				objectA->setY(objectA->getY() + intersection.h);
+		}
+	}
 }
