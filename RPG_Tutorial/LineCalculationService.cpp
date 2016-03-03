@@ -1,9 +1,9 @@
 #include "LineCalculationService.h"
 
 namespace LineCalculationService{
-	float calculateSlopeOfMovement(const int& currentX, const int& currentY, const int& previousX, const int& previousY) {
-		float deltaY = currentY - previousY;
-		float deltaX = previousX - currentX;
+	float calculateSlopeOfMovement(const Point& previous, const Point& current) {
+		float deltaY = current.getY() - previous.getY();
+		float deltaX = previous.getX() - current.getX();
 
 		if (deltaX == 0.0f)
 			return 0;
@@ -11,9 +11,9 @@ namespace LineCalculationService{
 		return (deltaY / deltaX);
 	}
 
-	float calculateAngleOfMovement(const int& currentX, const int& currentY, const int& previousX, const int& previousY) {
-		float deltaY = currentY - previousY;
-		float deltaX = previousX - currentX;
+	float calculateAngleOfMovement(const Point& previous, const Point& current) {
+		float deltaY = current.getY() - previous.getY();
+		float deltaX = previous.getX() - current.getX();
 
 		// no movement
 		if (deltaX == 0 && deltaY == 0)
@@ -36,7 +36,7 @@ namespace LineCalculationService{
 			else
 				return 180.0f;
 		}
-		float angle = atan(deltaY / deltaX) * 180 / M_PI;
+		float angle = atan(deltaY / deltaX) * 180 / 3.14159;
 
 		// Q1
 		if (deltaX < 0 && deltaY < 0){
@@ -56,18 +56,23 @@ namespace LineCalculationService{
 		}
 	}
 
-	int calculateInterceptOfMovement(const int& currentX, const int& currentY, const float& slopeOfMovement) {
-		return currentY - (currentX * (-1 * slopeOfMovement));
+	int calculateInterceptOfMovement(const Point& point, const float& slopeOfMovement) {
+		return point.getY() - (point.getX() * (-1 * slopeOfMovement));
 	}
 
-	std::vector<int> intersectionOfTwoLines(const std::vector<int>& start1, const std::vector<int>& end1, const std::vector<int>& start2, const std::vector<int>& end2) {
-		std::vector<int> s = std::vector<int>();
-		std::vector<int> r = std::vector<int>();
+	Point intersectionOfTwoLines(const Line& line1, const Line& line2) {
+		float lineOneSlope = calculateSlopeOfMovement(line1.getStartPoint(), line1.getEndPoint());
+		float lineTwoSlope = calculateSlopeOfMovement(line2.getStartPoint(), line2.getEndPoint());
 
-		s.push_back(start1[0] - end1[0]);
-		s.push_back(start1[1] - end1[1]);
+		float lineOneIntercept = calculateInterceptOfMovement(line1.getEndPoint(), lineOneSlope);
+		float lineTwoIntercept = calculateInterceptOfMovement(line2.getEndPoint(), lineTwoSlope);
 
-		r.push_back(start2[0] - end2[0]);
-		r.push_back(start2[1] - end2[1]);
+		float interceptSubtraction = lineTwoIntercept - lineOneIntercept;
+		float slopeSubtraction = lineOneSlope - lineTwoSlope;
+
+		float x = interceptSubtraction / slopeSubtraction;
+		float y = (lineOneSlope * x) + lineOneIntercept;
+		
+		return Point(x, y);
 	}
 }

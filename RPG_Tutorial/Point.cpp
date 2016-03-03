@@ -34,3 +34,14 @@ Point& Point::operator+ (const Point& rhs) {
 Point& Point::operator+= (const Point& rhs) {
 	return this->operator+(rhs);
 }
+
+Point& Point::operator- (const Point& rhs) {
+	this->x -= rhs.getX();
+	this->y -= rhs.getY();
+
+	return *this;
+}
+
+Point& Point::operator-= (const Point& rhs) {
+	return this->operator-(rhs);
+}

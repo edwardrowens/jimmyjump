@@ -2,11 +2,12 @@
 
 #include<math.h>
 #include<vector>
+#include "Line.h"
 
 namespace LineCalculationService {
-	float calculateSlopeOfMovement(const int& currentX, const int& currentY, const int& previousX, const int& previousY);
-	float calculateAngleOfMovement(const int& currentX, const int& currentY, const int& previousX, const int& previousY);
-	int calculateInterceptOfMovement(const int& currentX, const int& currentY, const float& slopeOfMovement);
-	std::vector<int> intersectionOfTwoLines(const std::vector<int>& start1, const std::vector<int>& end1, const std::vector<int>& start2, const std::vector<int>& end2);
+	float calculateSlopeOfMovement(const Point& previous, const Point& current);
+	float calculateAngleOfMovement(const Point& previous, const Point& current);
+	int calculateInterceptOfMovement(const Point& point, const float& slopeOfMovement);
+	Point intersectionOfTwoLines(const Line& line1, const Line& line2);
 }
 

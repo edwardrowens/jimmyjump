@@ -14,6 +14,9 @@ public:
 
 	Point& operator+ (const Point& rhs);
 	Point& operator+= (const Point& rhs);
+	Point& operator- (const Point& rhs);
+	Point& operator-= (const Point& rhs);
+
 
 private:
 	int x, y;
