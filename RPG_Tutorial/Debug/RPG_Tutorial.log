@@ -1,8 +1,71 @@
-﻿Build started 2/18/2016 6:32:55 PM.
+﻿Build started 3/1/2016 11:35:36 AM.
      1>Project "C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\RPG_Tutorial\RPG_Tutorial.vcxproj" on node 2 (Build target(s)).
-     1>Link:
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt CollisionDetector.cpp Errors.cpp LineCalculationService.cpp main.cpp MainCharacter.cpp MovableObject.cpp Object.cpp ObjectManager.cpp Platform.cpp TheGame.cpp Utility.cpp
+         LineCalculationService.cpp
+         Generating Code...
+         Compiling...
+         CollisionDetector.cpp
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(28): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\collisiondetector.cpp(18): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\collisiondetector.cpp(16): warning C4101: 'intercept' : unreferenced local variable
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\collisiondetector.cpp(16): warning C4101: 'iteration' : unreferenced local variable
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\collisiondetector.cpp(34): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\collisiondetector.cpp(135): warning C4244: 'return' : conversion from 'double' to 'int', possible loss of data
+         Generating Code...
+         Compiling...
+         Utility.cpp
+         TheGame.cpp
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(28): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\thegame.cpp(49): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+         Platform.cpp
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(28): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+         ObjectManager.cpp
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(28): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\objectmanager.cpp(189): warning C4244: 'argument' : conversion from 'const float' to 'const int', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\objectmanager.cpp(195): warning C4244: 'argument' : conversion from 'float' to 'const int', possible loss of data
+         Object.cpp
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(28): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(203): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(204): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(209): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(210): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(211): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(212): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+         MovableObject.cpp
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(28): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(83): warning C4244: 'return' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(127): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(176): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(182): warning C4244: 'argument' : conversion from 'float' to 'const int', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(184): warning C4244: 'argument' : conversion from 'float' to 'const int', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(195): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(219): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(273): warning C4244: 'initializing' : conversion from 'const int' to 'float', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(274): warning C4244: 'initializing' : conversion from 'const int' to 'float', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(297): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(318): warning C4244: 'initializing' : conversion from 'const int' to 'float', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(319): warning C4244: 'initializing' : conversion from 'const int' to 'float', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(331): warning C4244: 'argument' : conversion from 'float' to 'const int', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(335): warning C4244: 'argument' : conversion from 'float' to 'const int', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(342): warning C4244: 'argument' : conversion from 'float' to 'const int', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(346): warning C4244: 'argument' : conversion from 'float' to 'const int', possible loss of data
+         MainCharacter.cpp
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(28): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\maincharacter.cpp(45): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\maincharacter.cpp(59): warning C4018: '>=' : signed/unsigned mismatch
+         main.cpp
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(28): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+         Errors.cpp
+         Generating Code...
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\objectmanager.cpp(62): warning C4715: 'ObjectManager::createObject' : not all control paths return a value
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\objectmanager.cpp(168): warning C4715: 'ObjectManager::retrieveCharacterGrouping' : not all control paths return a value
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\utility.cpp(52): warning C4715: 'Utility::findAllPngs' : not all control paths return a value
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\utility.cpp(163): warning C4715: 'Utility::findPng' : not all control paths return a value
+       Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.exe" /INCREMENTAL /NOLOGO SDL2.0/SDL2.lib SDL2.0/SDL2main.lib SDL2.0/SDL2test.lib SDL2.0/SDL2_image.lib SDL2.0/SDL2_mixer.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.lib" /MACHINE:X86 Debug\CollisionDetector.obj
          Debug\Errors.obj
+         Debug\LineCalculationService.obj
          Debug\main.obj
          Debug\MainCharacter.obj
          Debug\MovableObject.obj
@@ -17,4 +80,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.18
+Time Elapsed 00:00:13.60

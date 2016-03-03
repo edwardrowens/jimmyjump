@@ -58,8 +58,6 @@ public:
 	void addMovement(const Movements& movement);
 	void executeMovement();
 	void useItem();
-	float calcAngleOfMovement() const;
-	float calcSlopeOfMovement() const;
 	float attack();
 
 	// Fields

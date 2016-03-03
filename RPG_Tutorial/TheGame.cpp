@@ -47,7 +47,7 @@ void TheGame::initGame(){
 	context = SDL_CreateRenderer(currentWindow, -1, SDL_RENDERER_ACCELERATED);
 
 	int startingY = WINDOW_HEIGHT - ((2.0 / 23)*WINDOW_HEIGHT);
-	jim = new MainCharacter(Position(500, 504, jimWidth, jimHeight), Character::JIM);
+	jim = new MainCharacter(Position(500, WINDOW_HEIGHT - 200, jimWidth, jimHeight), Character::JIM);
 	objectManager = new ObjectManager(context, jim);
 
 	instantiateLevelObjects();
@@ -83,8 +83,9 @@ void TheGame::update(){
 	objectManager->updatePreviousPositions();
 	objectManager->setMousePosition();
 
-	//controllableObjects[0]->addMovement(Movements::LEFT);
-	//jim->addMovement(Movements::RIGHT);
+	//controllableObjects[0]->addMovement(Movements::RIGHT);
+
+	jim->addMovement(Movements::RIGHT);
 	if (keyState[SDL_SCANCODE_D]){
 		jim->addMovement(Movements::RIGHT);
 	}
@@ -135,8 +136,7 @@ void TheGame::instantiateLevelObjects(){
 	objectManager->createObject(Character::BACKGROUND, Position(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT), true);
 	objectManager->createObject(Character::LIGHT_GRAY_PLATFORM, Position(600, WINDOW_HEIGHT - 150, 100, 100), true);
 	objectManager->createObject(Character::LIGHT_GREEN_PLATFORM, Position(0, WINDOW_HEIGHT - 50, WINDOW_WIDTH + 50, 50), true);
-	controllableObjects.push_back((MovableObject*)objectManager->createObject(Character::FLYING_HEART_SMALL, Position(550, 504, 50, 50), true));
-	controllableObjects[0]->setMaxVelocityX(4.0f);
+	//controllableObjects.push_back((MovableObject*)objectManager->createObject(Character::FLYING_HEART_SMALL, Position(390, 504, 50, 50), true));
 	controllableObjects.push_back(jim);
 }
 

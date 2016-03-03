@@ -143,16 +143,29 @@ void MovableObject::setGravity(const float& gravity){
 }
 
 void MovableObject::setMotionVectorX(const float& x){
-	motionVector[0] = x;
+	if (x <= maxXVelocity)
+		motionVector[0] = x;
+	else
+		motionVector[0] = maxXVelocity;
 }
 
 void MovableObject::setMotionVectorY(const float& y){
-	motionVector[1] = y;
+	if (y <= maxYVelocity)
+		motionVector[1] = y;
+	else
+		motionVector[1] = maxYVelocity;
 }
 
 void MovableObject::setMotionVector(const float& x, const float& y){
-	motionVector[0] = x;
-	motionVector[1] = y;
+	if (x <= motionVector[0])
+		motionVector[0] = x;
+	else
+		motionVector[0] = maxXVelocity;
+
+	if (y <= motionVector[1])
+		motionVector[1] = y;
+	else 
+		motionVector[1] = maxYVelocity;
 }
 
 void MovableObject::setMaxVelocityX(const float& xVelocity) {
@@ -254,62 +267,6 @@ void MovableObject::useItem(){
 
 float MovableObject::attack(){
 	return strength;
-}
-
-float MovableObject::calcAngleOfMovement() const{
-	float deltaY = position.y - previousXYPosition[1];
-	float deltaX = previousXYPosition[0] - position.x;
-
-	// no movement
-	if (deltaX == 0 && deltaY == 0)
-		return 0.0f;
-
-	// vertical movement
-	if (deltaX == 0){
-		if (deltaY > 0){
-			return 270.0f;
-		}
-		else{
-			return 90.0f;
-		}
-	}
-
-	// horizontal movement
-	if (deltaY == 0){
-		if (deltaX < 0)
-			return 0.0f;
-		else
-			return 180.0f;
-	}
-	float angle = atan(deltaY / deltaX) * 180 / M_PI;
-
-	// Q1
-	if (deltaX < 0 && deltaY < 0){
-		return angle;
-	}
-	// Q2
-	else if (deltaX > 0 && deltaY < 0){
-		return angle * -1 + 90;
-	}
-	// Q3
-	else if (deltaX > 0 && deltaY > 0){
-		return angle += 180;
-	}
-	// Q4
-	else {
-		return angle * -1 + 270;
-	}
-}
-
-float MovableObject::calcSlopeOfMovement() const{
-	float deltaY = position.y - previousXYPosition[1];
-	float deltaX = previousXYPosition[0] - position.x;
-
-	if (deltaX == 0.0f){
-		return 0;
-	}
-
-	return (deltaY / deltaX);
 }
 
 void MovableObject::accelerateLeftward(){
