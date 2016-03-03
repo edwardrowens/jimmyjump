@@ -13,6 +13,7 @@ public:
 	void setY(const int& y);
 
 	Point& operator+ (const Point& rhs);
+	Point& operator+= (const Point& rhs);
 
 private:
 	int x, y;

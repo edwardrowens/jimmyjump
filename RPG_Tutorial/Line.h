@@ -9,9 +9,6 @@ public:
 	Line(Point startPoint, Point endPoint);
 	~Line();
 
-	Line& operator+ (const Line& rhs);
-	Line& operator+= (const Line& rhs);
-
 	Point getEndPoint() const;
 	Point getStartPoint() const;
 

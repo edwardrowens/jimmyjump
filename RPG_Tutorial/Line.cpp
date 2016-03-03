@@ -26,13 +26,6 @@ void Line::setEndPoint(const Point& endPoint) {
 	this->endPoint = endPoint;
 }
 
-float calculateLineLength() {
-
-}
-
-Line& Line::operator+ (const Line& rhs) {
-}
-
-Line& Line::operator+= (const Line& rhs) {
-
+float Line::calculateLineLength() {
+	
 }

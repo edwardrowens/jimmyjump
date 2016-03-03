@@ -19,6 +19,18 @@ int Point::getY() const {
 void Point::setX(const int& x) {
 	this->x - x;
 }
+
 void Point::setY(const int& y) {
 	this->y = y;
+}
+
+Point& Point::operator+ (const Point& rhs) {
+	this->x += rhs.getX();
+	this->y += rhs.getY();
+
+	return *this;
+}
+
+Point& Point::operator+= (const Point& rhs) {
+	return this->operator+(rhs);
 }
