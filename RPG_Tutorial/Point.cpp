@@ -45,3 +45,11 @@ Point& Point::operator- (const Point& rhs) {
 Point& Point::operator-= (const Point& rhs) {
 	return this->operator-(rhs);
 }
+
+float Point::crossProduct(const Point& rhs) {
+	return this->x * rhs.getY() - this->y * rhs.getX();
+}
+
+float Point::dotProduct(const Point& rhs) {
+	return this->x * rhs.getX() + this->y * rhs.getY();
+}

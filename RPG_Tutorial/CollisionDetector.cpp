@@ -29,9 +29,9 @@ void CollisionDetector::detectStaticCollisions(MovableObject* object, const std:
 
 void CollisionDetector::resolveStaticCollision(MovableObject* object, Object* staticObject, const SDL_Rect& intersection) {
 	// get line parameters
-	float slope = LineCalculationService::calculateSlopeOfMovement(object->getX(), object->getY(), object->getPreviousXY[0], object->getPreviousXY[1]);
-	float angle = LineCalculationService::calculateAngleOfMovement(object->getX(), object->getY(), object->getPreviousXY[0], object->getPreviousXY[1]);
-	int intercept = LineCalculationService::calculateInterceptOfMovement(object->getX(), object->getY(), slope);
+	float slope = LineCalculationService::calculateSlopeOfMovement(Point(object->getPreviousXY()[0], object->getPreviousXY()[1]), Point(object->getX(), object->getY()));
+	float angle = LineCalculationService::calculateAngleOfMovement(Point(object->getPreviousXY()[0], object->getPreviousXY()[1]), Point(object->getX(), object->getY()));
+	int intercept = LineCalculationService::calculateInterceptOfMovement(Point(object->getX(), object->getY()), slope);
 
 	// find the smaller rectangle
 	SDL_Rect smallerRect = SDL_Rect();
@@ -162,8 +162,8 @@ void CollisionDetector::resolveObjectAggression(MovableObject* objectA, MovableO
 
 void CollisionDetector::resolveObjectAggressionInXDirection(MovableObject* objectA, MovableObject* objectB, const SDL_Rect& intersection){
 	float absoluteXVelocity = std::abs(objectA->getMotionVectorX()) - std::abs(objectB->getMotionVectorX());
-	float angleA = objectA->calcAngleOfMovement();
-	float angleB = objectB->calcAngleOfMovement();
+	float angleA = LineCalculationService::calculateAngleOfMovement(Point(objectA->getPreviousXY()[0], objectA->getPreviousXY()[1]), Point(objectA->getX(), objectA->getY()));
+	float angleB = LineCalculationService::calculateAngleOfMovement(Point(objectB->getPreviousXY()[0], objectB->getPreviousXY()[1]), Point(objectB->getX(), objectB->getY()));
 
 	if (std::abs(absoluteXVelocity) < .001){
 		if (angleB < 90.0f || angleB > 270.0f){
@@ -197,7 +197,7 @@ void CollisionDetector::resolveGreaterXVelocityCollision(MovableObject* greaterV
 		return;
 	}
 
-	float greaterVelocityObjectAngle = greaterVelocityObject->calcAngleOfMovement();
+	float greaterVelocityObjectAngle = LineCalculationService::calculateAngleOfMovement(Point(greaterVelocityObject->getPreviousXY()[0], greaterVelocityObject->getPreviousXY()[1]), Point(greaterVelocityObject->getX(), greaterVelocityObject->getY()));
 	float greaterVelocityObjectXVelocity = greaterVelocityObject->getMotionVectorX();
 
 	// The lower velocity object is not changing positions but has is reported as having velocity meaning something else is
@@ -235,8 +235,8 @@ void CollisionDetector::resolveGreaterXVelocityCollision(MovableObject* greaterV
 }
 
 void CollisionDetector::resolveObjectAggressionInYDirection(MovableObject* objectA, MovableObject* objectB, const SDL_Rect &intersection) {
-	float angleA = objectA->calcAngleOfMovement();
-	float angleB = objectB->calcAngleOfMovement();
+	float angleA = LineCalculationService::calculateAngleOfMovement(Point(objectA->getPreviousXY()[0], objectA->getPreviousXY()[1]), Point(objectA->getX(), objectA->getY()));
+	float angleB = LineCalculationService::calculateAngleOfMovement(Point(objectB->getPreviousXY()[0], objectB->getPreviousXY()[1]), Point(objectB->getX(), objectB->getY()));
 
 	// Both guys are in the air
 	if (!objectA->getIsStable() && !objectB->getIsStable()) {

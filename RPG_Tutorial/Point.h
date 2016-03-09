@@ -17,7 +17,8 @@ public:
 	Point& operator- (const Point& rhs);
 	Point& operator-= (const Point& rhs);
 
-
+	float crossProduct(const Point& rhs);
+	float dotProduct(const Point& rhs);
 private:
 	int x, y;
 };

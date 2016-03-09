@@ -5,6 +5,8 @@ Line::Line()
 {
 }
 
+Line::Line(Point startPoint, Point endPoint) : startPoint(startPoint), endPoint(endPoint) {
+}
 
 Line::~Line()
 {
@@ -27,5 +29,5 @@ void Line::setEndPoint(const Point& endPoint) {
 }
 
 float Line::calculateLineLength() {
-	
+	return 0.0f;
 }

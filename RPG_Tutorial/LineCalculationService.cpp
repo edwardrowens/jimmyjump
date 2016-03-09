@@ -61,17 +61,7 @@ namespace LineCalculationService{
 	}
 
 	Point intersectionOfTwoLines(const Line& line1, const Line& line2) {
-		float lineOneSlope = calculateSlopeOfMovement(line1.getStartPoint(), line1.getEndPoint());
-		float lineTwoSlope = calculateSlopeOfMovement(line2.getStartPoint(), line2.getEndPoint());
-
-		float lineOneIntercept = calculateInterceptOfMovement(line1.getEndPoint(), lineOneSlope);
-		float lineTwoIntercept = calculateInterceptOfMovement(line2.getEndPoint(), lineTwoSlope);
-
-		float interceptSubtraction = lineTwoIntercept - lineOneIntercept;
-		float slopeSubtraction = lineOneSlope - lineTwoSlope;
-
-		float x = interceptSubtraction / slopeSubtraction;
-		float y = (lineOneSlope * x) + lineOneIntercept;
+		
 		
 		return Point(x, y);
 	}
