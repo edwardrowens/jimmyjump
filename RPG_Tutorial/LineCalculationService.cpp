@@ -61,8 +61,26 @@ namespace LineCalculationService{
 	}
 
 	Point intersectionOfTwoLines(const Line& line1, const Line& line2) {
+		Point p = line1.getStartPoint();
+		Point q = line2.getStartPoint();
+		Point r = line1.getEndPoint() - p;
+		Point s = line2.getEndPoint() - q;
+
+		float denominator = r.crossProduct(s);
+		float uNumerator = (q - p).crossProduct(r);
+
+		// collinear points
+		if (denominator == 0 && uNumerator == 0) {
+			float t0 = (q - p).dotProduct(r) / (r.dotProduct(r));
+			float t1 = t0 + s.dotProduct(r) / r.dotProduct(r);
+		}
+
+		float t = ((q - p).crossProduct(s)) / denominator;
+		float u = uNumerator / denominator;
+
+		if (denominator != 0.0f && t >= 0.0f && t <= 1.0f && u >= 0.0f && u <= 1.0f)
+			return (p + (r * t));
 		
-		
-		return Point(x, y);
+		return Point(-1, -1);
 	}
 }
