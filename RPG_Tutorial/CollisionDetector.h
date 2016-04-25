@@ -6,6 +6,10 @@
 #include "Movements.h"
 #include "LineCalculationService.h"
 
+/*
+This class needs to be converted into a namespace with stateless methods on it. It's also not currently
+in use as I'm trying out Box2d to handle my collisions.
+*/
 class CollisionDetector
 {
 public:

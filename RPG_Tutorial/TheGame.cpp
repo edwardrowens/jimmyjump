@@ -114,7 +114,7 @@ void TheGame::update(){
 	objectManager->putInMotion();
 
 	calcGravity();
-	detectCollisions();
+	//detectCollisions();
 	objectManager->setTextures();
 	// make sure characters don't exit screen
 	keepInScreen();
@@ -128,9 +128,9 @@ void TheGame::calcGravity(){
 	objectManager->applyGravity(gravity);
 }
 
-void TheGame::detectCollisions(){
-	objectManager->detectCollisions();
-}
+//void TheGame::detectCollisions(){
+//	objectManager->detectCollisions();
+//}
 
 void TheGame::instantiateLevelObjects(){
 	objectManager->createObject(Character::BACKGROUND, Position(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT), true);

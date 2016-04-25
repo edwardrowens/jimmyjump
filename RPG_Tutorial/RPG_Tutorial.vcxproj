@@ -47,12 +47,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.0/SDL2.lib;SDL2.0/SDL2main.lib;SDL2.0/SDL2test.lib;SDL2.0/SDL2_image.lib;SDL2.0/SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.0/SDL2.lib;SDL2.0/SDL2main.lib;SDL2.0/SDL2test.lib;SDL2.0/SDL2_image.lib;SDL2.0/SDL2_mixer.lib;Box2D/Box2D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>

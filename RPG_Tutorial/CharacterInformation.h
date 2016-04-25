@@ -14,7 +14,7 @@ enum Character : int{
 	END
 };
 
-enum CharacterGrouping : int{
+enum CharacterGroup : int{
 	OBJECT,
 	MAIN_CHARACTER,
 	PLATFORM,

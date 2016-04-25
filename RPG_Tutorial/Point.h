@@ -1,4 +1,7 @@
 #pragma once
+/*
+Stores the X and Y position of some object in the world. Essentially a 2D vector.
+*/
 class Point
 {
 public:

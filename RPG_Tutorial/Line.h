@@ -1,7 +1,10 @@
 #pragma once
 
 #include "Point.h"
-
+/*
+Essentially a container which holds 2 'points' which are just 2 dimensional vectors storing
+and X and Y position.
+*/
 class Line
 {
 public:

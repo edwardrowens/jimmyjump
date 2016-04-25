@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL2.0/SDL.h>
 #include "CharacterInformation.h"
+#include "CharacterGroupingService.h"
 #include "Object.h"
 #include "Position.h"
 #include <vector>
@@ -8,9 +9,10 @@
 #include "MainCharacter.h"
 #include "Platform.h"
 #include "CollisionDetector.h"
+#include "Box2D\Box2D.h"
 
 /*
-The entire point of this class is to create instances of objects. This class will ensure that the background is the first instance
+The entire point of this class is to create instances of objects (factory). This class will ensure that the background is the first instance
 that is input into the objectsInLevel pointer vector and will handle all the caching. Think of it like god, deciding the fate of an
 object.
 */
@@ -29,7 +31,6 @@ public:
 	// public functions
 	Object* createObject(const Character& character, const Position& position, bool isRenderable);
 	void destroyObject(Object object);
-	CharacterGrouping retrieveCharacterGrouping(const Character& character);
 	void detectCollisions();
 	void applyGravity(const float& gravity);
 	void drawAllObjects();

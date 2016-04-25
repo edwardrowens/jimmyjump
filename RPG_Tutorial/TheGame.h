@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL2.0/SDL.h>
 #include <SDL2.0\SDL_image.h>
+#include "Box2D\Box2D.h"
 #include <string>
 #include <iostream>
 #include <vector>
