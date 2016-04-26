@@ -142,6 +142,10 @@ MainCharacter* ObjectManager::getPlayableCharacter() const{
 	return playableCharacter;
 }
 
+void ObjectManager::setPlayableCharacter(MainCharacter& playableCharacter) {
+	this->playableCharacter = &playableCharacter;
+}
+
 void ObjectManager::detectCollisions(){
 	std::vector<Object*>::iterator i = objectsInLevel.begin();
 	for (i; i != objectsInLevel.end(); ++i){

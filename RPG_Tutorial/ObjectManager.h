@@ -27,6 +27,7 @@ public:
 
 	// Getters
 	MainCharacter* getPlayableCharacter() const;
+	void setPlayableCharacter(MainCharacter& playableCharacter);
 
 	// public functions
 	Object* createObject(const Character& character, const Position& position, bool isRenderable);
