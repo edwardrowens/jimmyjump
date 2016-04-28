@@ -198,8 +198,6 @@ void MovableObject::moveRight(){
 
 	// POTENTIAL PROBLEM: If I use another type of file for textures, I would have to make a more general solution rather than
 	// hard-coding this string.
-	// POTENTIAL PROBLEM: If I use another type of file for textures, I would have to make a more general solution rather than
-	// hard-coding this string.
 	int fileLocInPath = utility.getFileLocFromPath(texturePath);
 	char firstCharInFileName = texturePath.substr(fileLocInPath, texturePath.size())[0];
 

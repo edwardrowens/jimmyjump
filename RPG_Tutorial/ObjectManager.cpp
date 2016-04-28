@@ -1,131 +1,73 @@
 #include "ObjectManager.h"
 
-// Default constructor
-ObjectManager::ObjectManager() : context(nullptr){
-	initializeAmountOfObjects();
-}
-
-// Context and main character constructor
-ObjectManager::ObjectManager(SDL_Renderer* context, MainCharacter* playableCharacter) :
-context(context),
-playableCharacter(playableCharacter){
-	initializeAmountOfObjects();
-	objectsInLevel.push_back(playableCharacter);
-	setTexture(*playableCharacter);
-}
+ObjectManager::ObjectManager(TextureCache* textureCache) : textureCache(textureCache) {}
 
 // Destructor
 ObjectManager::~ObjectManager(){
 }
 
-Object* ObjectManager::createObject(const Character &character, const Position &position, bool isRenderable){
-	if (character == Character::BACKGROUND){
-		if (amountOfObjects[character] == 0){
-			objectsInLevel.insert(objectsInLevel.begin(), new Object(position, character));
-			(*objectsInLevel[0]).setIsRenderable(isRenderable);
-			if (isRenderable){
-				setTexture(*objectsInLevel[0]);
-			}
-			return objectsInLevel[0];
+Object* ObjectManager::createObject(const Character &character, const Position &position, bool isRenderable) {
+	if (character == Character::BACKGROUND) {
+		Object* background = new Object(position, character);
+		objectsInLevel.insert(objectsInLevel.begin(), background);
+		(*objectsInLevel[0]).setIsRenderable(isRenderable);
+		if (isRenderable) {
+			textureCache->lockTextureForObject(*background);
 		}
-		else{
-			PrintErrors("There can only be a single background per level.");
-		}
+		return objectsInLevel[0];
 	}
-	else{
-		
+	else {
+		Object* objectToAdd;
 		switch (CharacterGroupingService::retrieveCharacterGrouping(character)){
 		case CharacterGroup::MAIN_CHARACTER:
-			objectsInLevel.push_back(new MainCharacter(position, character));
+			objectToAdd = new MainCharacter(position, character);
+			playableCharacter = dynamic_cast<MainCharacter*>(objectToAdd);
+			objectsInLevel.push_back(objectToAdd);
 			break;
 		case CharacterGroup::MOVABLE_OBJECT:
-			objectsInLevel.push_back(new MovableObject(position, character));
+			objectToAdd = new MovableObject(position, character);
+			objectsInLevel.push_back(objectToAdd);
 			break;
 		case CharacterGroup::OBJECT:
-			objectsInLevel.push_back(new Object(position, character));
+			objectToAdd = new Object(position, character);
+			objectsInLevel.push_back(objectToAdd);
 			break;
 		case CharacterGroup::PLATFORM:
-			objectsInLevel.push_back(new Platform(position, character));
+			objectToAdd = new Platform(position, character);
+			objectsInLevel.push_back(objectToAdd);
 			break;
 		}
 
-		(*objectsInLevel[objectsInLevel.size() - 1]).setIsRenderable(isRenderable);
+		// Add the object to the cache
+		objectToAdd->setIsRenderable(isRenderable);
 		if (isRenderable){
-			setTexture(*objectsInLevel[objectsInLevel.size() - 1]);
+			textureCache->lockTextureForObject(*objectToAdd);
 		}
 
-		return objectsInLevel[objectsInLevel.size() - 1];
+		return objectToAdd;
 	}
 }
+
 
 /*
-Map that keeps track of the amount of a characters in the current level.
+Iterates through every object in the level and "locks" their textures. If the texture path has changed
+(which for MovableObjects it will) then we want to set the associated texture onto the object so that it will
+be drawn to the screen.
 */
-void ObjectManager::initializeAmountOfObjects(){
-	for (int i = Character::BEGINNING + 1; i < Character::END; ++i){
-		Character cmp = (Character)i;
-		amountOfObjects[cmp] = 0;
-	}
-}
-
-void ObjectManager::setTextures(){
+void ObjectManager::setTextures() {
 	for (auto object : objectsInLevel){
-		if (object->getPreviousTexture() != object->getTexture()){
-			setTexture(*object);
+		if (object->getPreviousTexture() != object->getTexture()) {
+			textureCache->lockTextureForObject(*object);
 		}
 	}
 }
 
-void ObjectManager::setTexture(Object &object){
-	if (context == nullptr){
-		PrintErrors("The context passed in was null. A texture cannot be set without a context.");
-	}
-	++amountOfObjects[object.getCharacter()];
-	object.setContext(context);
-	// cannot be found in cache
-	if (textureCache.find(object.getTexturePath()) == textureCache.end()){
-		SDL_Texture* texture = IMG_LoadTexture(context, object.getTexturePath().c_str());
-		if (texture == nullptr){
-			PrintErrors(object.getTexturePath() + " did not load properly! Make sure the path is correct.");
-		}
-		else{
-			object.setTexture(texture);
-		}
-		textureCache.insert(std::pair<std::string, SDL_Texture*>(object.getTexturePath(), object.getTexture()));
-	}
-	else{
-		object.setTexture(textureCache[object.getTexturePath()]);
-	}
-}
-
-void ObjectManager::deleteTextures(Character character){
-	if (amountOfObjects[character] <= 0){
-		PrintErrors("A character with " + std::to_string(amountOfObjects[character]) + " associated textures were going to be removed from the cache");
-	}
-	else if (character == Character::NONE){
-		return;
-	}
-	else if (utility.isPng(utility.getCharacterToFileMap()[character])){
-		SDL_DestroyTexture(textureCache[utility.getCharacterToFileMap()[character]]);
-		textureCache.erase(utility.getCharacterToFileMap()[character]);
-	}
-	else{
-		std::list<string> pngs = utility.findAllPngs(utility.getCharacterToFileMap()[character]);
-		for (string file : pngs){
-			SDL_DestroyTexture(textureCache[utility.getCharacterToFileMap()[character] + file]);
-			textureCache.erase(utility.getCharacterToFileMap()[character] + file);
-		}
-	}
-}
 
 /*
 Removes the object from the cache and from the vector which stores all objects in the level.
 */
 void ObjectManager::destroyObject(Object object){
-	--amountOfObjects[object.getCharacter()];
-	if (amountOfObjects[object.getCharacter()] <= 0){
-		deleteTextures(object.getCharacter());
-	}
+	textureCache->removeObjectFromCache(object);
 
 	// POTENTIAL SPEED UP: Rethink the data structure which holds the objects in the level as this current algorithm is O(n)
 	// whenever we want to remove an object from the game.
@@ -138,13 +80,16 @@ void ObjectManager::destroyObject(Object object){
 	}
 }
 
+
 MainCharacter* ObjectManager::getPlayableCharacter() const{
 	return playableCharacter;
 }
 
+
 void ObjectManager::setPlayableCharacter(MainCharacter& playableCharacter) {
 	this->playableCharacter = &playableCharacter;
 }
+
 
 void ObjectManager::detectCollisions(){
 	std::vector<Object*>::iterator i = objectsInLevel.begin();
@@ -157,7 +102,8 @@ void ObjectManager::detectCollisions(){
 	}
 }
 
-void ObjectManager::applyGravity(const float& gravity){
+
+void ObjectManager::applyGravity(const float& gravity) {
 	std::vector<Object*>::iterator iter = objectsInLevel.begin();
 	for (iter; iter != objectsInLevel.end(); ++iter){
 		if ((*iter)->getIsMovable()){
@@ -172,7 +118,8 @@ void ObjectManager::applyGravity(const float& gravity){
 	}
 }
 
-void ObjectManager::drawAllObjects(){
+
+void ObjectManager::drawAllObjects() {
 	if (SDL_RenderClear(context)){
 		PrintErrors("Renderer failed to clear", SDL_GetError);
 	}
@@ -186,10 +133,11 @@ void ObjectManager::drawAllObjects(){
 	SDL_RenderPresent(context);
 }
 
+
 /*
 Update all previous positions for all MovableObjects in the vector.
 */
-void ObjectManager::updatePreviousPositions(){
+void ObjectManager::updatePreviousPositions() {
 	for (auto object : objectsInLevel){
 		if (object->getIsMovable()){
 			MovableObject* movable = dynamic_cast<MovableObject*>(object);
@@ -202,13 +150,15 @@ void ObjectManager::updatePreviousPositions(){
 	}
 }
 
-void ObjectManager::setMousePosition() const{
+
+void ObjectManager::setMousePosition() const {
 	int mouseX, mouseY;
 	SDL_GetMouseState(&mouseX, &mouseY);
 	playableCharacter->setMousePosition(mouseX, mouseY);
 }
 
-void ObjectManager::putInMotion() const{
+
+void ObjectManager::putInMotion() const {
 	for (auto object : objectsInLevel){
 		if (object->getIsMovable()){
 			MovableObject* movable = dynamic_cast<MovableObject*>(object);

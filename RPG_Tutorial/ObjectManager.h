@@ -10,6 +10,7 @@
 #include "Platform.h"
 #include "CollisionDetector.h"
 #include "Box2D\Box2D.h"
+#include "TextureCache.h"
 
 /*
 The entire point of this class is to create instances of objects (factory). This class will ensure that the background is the first instance
@@ -21,8 +22,8 @@ using std::string;
 class ObjectManager{
 public:
 	// constructors/destructors
-	ObjectManager();
 	ObjectManager(SDL_Renderer* context, MainCharacter* playableCharacter);
+	ObjectManager(TextureCache* textureCache);
 	~ObjectManager();
 
 	// Getters
@@ -35,7 +36,6 @@ public:
 	void detectCollisions();
 	void applyGravity(const float& gravity);
 	void drawAllObjects();
-	void setTexture(Object& object);
 	void setTextures();
 	void updatePreviousPositions();
 	void setMousePosition() const;
@@ -45,13 +45,11 @@ private:
 	// Fields
 	SDL_Renderer* context;
 	std::vector<Object*> objectsInLevel;
-	std::map<Character, int> amountOfObjects;
 	Utility utility;
-	std::hash_map<string, SDL_Texture*> textureCache;
+	TextureCache* textureCache;
 	MainCharacter* playableCharacter;
 
 	// Functions
-	void initializeAmountOfObjects();
 	void deleteTextures(Character character);
 };
 

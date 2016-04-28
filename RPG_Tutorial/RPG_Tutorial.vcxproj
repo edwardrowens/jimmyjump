@@ -82,6 +82,7 @@
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Point.cpp" />
+    <ClCompile Include="TextureCache.cpp" />
     <ClCompile Include="TheGame.cpp" />
     <ClCompile Include="Utility.cpp" />
     <ClCompile Include="World.cpp" />
@@ -100,6 +101,7 @@
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Position.h" />
+    <ClInclude Include="TextureCache.h" />
     <ClInclude Include="TheGame.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="World.h" />

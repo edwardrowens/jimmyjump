@@ -115,7 +115,7 @@ void TheGame::update(){
 
 	calcGravity();
 	//detectCollisions();
-	objectManager->setTextures();
+	//objectManager->setTextures();
 	// make sure characters don't exit screen
 	keepInScreen();
 }
