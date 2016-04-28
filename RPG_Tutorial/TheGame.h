@@ -13,6 +13,7 @@
 #include "Utility.h"
 #include "Position.h"
 #include "ObjectManager.h"
+#include "World.h"
 
 enum class GameState {PLAY,EXIT};
 
@@ -39,8 +40,6 @@ private:
 	int jimWidth, jimHeight, jimStartY, eventMade;
 	std::vector<MovableObject*> controllableObjects;
 	float gravity, keyPressLength;
-	const int WINDOW_WIDTH = 768;
-	const int WINDOW_HEIGHT = 600;
 	const int FPS = 10;
 	//processes input
 	const Uint8* keyState;
@@ -58,5 +57,7 @@ private:
 	void update();
 	void draw();
 	void keepInScreen();
+
+	World world;
 };
 

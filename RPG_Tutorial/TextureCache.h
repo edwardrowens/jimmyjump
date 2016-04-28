@@ -3,11 +3,12 @@
 #include "Object.h"
 class TextureCache {
 public:
-	TextureCache(SDL_Renderer* context);
+	TextureCache();
 	~TextureCache();
 
 	void removeObjectFromCache(Object& object);
 	void lockTextureForObject(Object& object);
+	void setContext(SDL_Renderer* context);
 
 private:
 	// Fields

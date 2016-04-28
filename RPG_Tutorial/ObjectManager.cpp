@@ -1,10 +1,19 @@
 #include "ObjectManager.h"
 
-ObjectManager::ObjectManager(TextureCache* textureCache) : textureCache(textureCache) {}
+ObjectManager::ObjectManager(TextureCache* textureCache) : 
+textureCache(textureCache) {
+
+}
 
 // Destructor
 ObjectManager::~ObjectManager(){
 }
+
+
+void ObjectManager::setContext(SDL_Renderer* context) {
+	this->context = context;
+}
+
 
 Object* ObjectManager::createObject(const Character &character, const Position &position, bool isRenderable) {
 	if (character == Character::BACKGROUND) {
@@ -125,7 +134,7 @@ void ObjectManager::drawAllObjects() {
 	}
 
 	std::vector<Object*>::iterator iter = objectsInLevel.begin();
-	for (iter; iter != objectsInLevel.end(); ++iter){
+	for (iter; iter != objectsInLevel.end(); ++iter) {
 		if ((*iter)->getIsRenderable())
 			(*iter)->draw();
 	}

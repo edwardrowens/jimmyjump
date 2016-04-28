@@ -1,6 +1,7 @@
 #pragma once
 #include "ObjectManager.h"
 #include <Box2D\Box2D.h>
+#include"WorldConstants.h"
 
 class World
 {
@@ -8,11 +9,12 @@ public:
 	World();
 	~World();
 
-private:
-	b2World boxWorld;
-	ObjectManager objectManager;
-};
+	void createBody();
+	void setContext(SDL_Renderer* context);
 
-namespace WorldConstants {
-	const b2Vec2 DEFAULT_GRAVITY(0.0f, -10.0f);
-}
+private:
+	b2World* boxWorld;
+	ObjectManager objectManager;
+	TextureCache textureCache;
+	SDL_Renderer* context;
+};

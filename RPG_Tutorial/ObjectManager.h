@@ -22,7 +22,6 @@ using std::string;
 class ObjectManager{
 public:
 	// constructors/destructors
-	ObjectManager(SDL_Renderer* context, MainCharacter* playableCharacter);
 	ObjectManager(TextureCache* textureCache);
 	~ObjectManager();
 
@@ -40,6 +39,7 @@ public:
 	void updatePreviousPositions();
 	void setMousePosition() const;
 	void putInMotion() const;
+	void setContext(SDL_Renderer* context);
 
 private:
 	// Fields

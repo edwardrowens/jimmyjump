@@ -2,7 +2,7 @@
 
 int main(int argc, char** argv){
 	TheGame game;
-	game.run();
+	game.testPhysics();
 
 	return 0;
 }

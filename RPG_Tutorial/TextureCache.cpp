@@ -1,12 +1,18 @@
 #include "TextureCache.h"
 
 
-TextureCache::TextureCache(SDL_Renderer* context) : context(context) {
+TextureCache::TextureCache() {
 	initializeAmountOfObjects();
 }
 
 
 TextureCache::~TextureCache() {}
+
+
+void TextureCache::setContext(SDL_Renderer* context) {
+	this->context = context;
+}
+
 
 /*
 Looks at the object's path and checks if that texture has been loaded into the cache, if it has,
