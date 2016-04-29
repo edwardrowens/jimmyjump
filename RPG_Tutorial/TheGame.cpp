@@ -127,6 +127,7 @@ void TheGame::calcGravity(){
 //}
 
 void TheGame::instantiateLevelObjects(){
+	b2BodyDef jimBody = 
 	jim = dynamic_cast<MainCharacter*>(world.createObject(Character::JIM, Position(200, 0, 50, 50), true));
 	controllableObjects.push_back(jim);
 }

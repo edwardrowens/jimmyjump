@@ -26,20 +26,16 @@ public:
 	~ObjectManager();
 
 	// Getters
-	MainCharacter* getPlayableCharacter() const;
+	MainCharacter& getPlayableCharacter();
 	void setPlayableCharacter(MainCharacter& playableCharacter);
 
 	// public functions
-	Object* createObject(const Character& character, const b2Body& objectBody, bool isRenderable);
+	Object* createObject(const Character& character, b2Body& objectBody, bool isRenderable);
 	void destroyObject(Object object);
 	void detectCollisions();
-	void applyGravity(const float& gravity);
-	void drawAllObjects();
 	void setTextures();
-	void updatePreviousPositions();
-	void setMousePosition() const;
-	void putInMotion() const;
 	void setContext(SDL_Renderer* context);
+	std::vector<Object*>& getObjectsInLevel();
 
 private:
 	// Fields

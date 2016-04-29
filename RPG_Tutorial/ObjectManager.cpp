@@ -15,9 +15,9 @@ void ObjectManager::setContext(SDL_Renderer* context) {
 }
 
 
-Object* ObjectManager::createObject(const Character &character, const b2Body &objectBody, bool isRenderable) {
+Object* ObjectManager::createObject(const Character &character, b2Body &objectBody, bool isRenderable) {
 	if (character == Character::BACKGROUND) {
-		Object* background = new Object(objectBody, character);
+		Object* background = new Object(&objectBody, character);
 		objectsInLevel.insert(objectsInLevel.begin(), background);
 		(*objectsInLevel[0]).setIsRenderable(isRenderable);
 		if (isRenderable) {
@@ -29,20 +29,20 @@ Object* ObjectManager::createObject(const Character &character, const b2Body &ob
 		Object* objectToAdd;
 		switch (CharacterGroupingService::retrieveCharacterGrouping(character)){
 		case CharacterGroup::MAIN_CHARACTER:
-			objectToAdd = new MainCharacter(position, character);
+			objectToAdd = new MainCharacter(&objectBody, character);
 			playableCharacter = dynamic_cast<MainCharacter*>(objectToAdd);
 			objectsInLevel.push_back(objectToAdd);
 			break;
 		case CharacterGroup::MOVABLE_OBJECT:
-			objectToAdd = new MovableObject(position, character);
+			objectToAdd = new MovableObject(&objectBody, character);
 			objectsInLevel.push_back(objectToAdd);
 			break;
 		case CharacterGroup::OBJECT:
-			objectToAdd = new Object(position, character);
+			objectToAdd = new Object(&objectBody, character);
 			objectsInLevel.push_back(objectToAdd);
 			break;
 		case CharacterGroup::PLATFORM:
-			objectToAdd = new Platform(position, character);
+			objectToAdd = new Platform(&objectBody, character);
 			objectsInLevel.push_back(objectToAdd);
 			break;
 		}
@@ -83,7 +83,6 @@ void ObjectManager::destroyObject(Object object){
 	std::vector<Object*>::iterator it = objectsInLevel.begin();
 	for (it; it != objectsInLevel.end(); ++it){
 		if ((*it) == &object){
-			b2World::DestroyBody((*it)->getBody());
 			delete *it;
 			objectsInLevel.erase(it);
 		}
@@ -91,8 +90,8 @@ void ObjectManager::destroyObject(Object object){
 }
 
 
-MainCharacter* ObjectManager::getPlayableCharacter() const{
-	return playableCharacter;
+MainCharacter& ObjectManager::getPlayableCharacter() {
+	return *playableCharacter;
 }
 
 
@@ -113,66 +112,6 @@ void ObjectManager::detectCollisions(){
 }
 
 
-void ObjectManager::applyGravity(const float& gravity) {
-	std::vector<Object*>::iterator iter = objectsInLevel.begin();
-	for (iter; iter != objectsInLevel.end(); ++iter){
-		if ((*iter)->getIsMovable()){
-			(*iter)->setY((*iter)->getY() + gravity);
-			MovableObject* tmp = (MovableObject*)*iter;
-			if (tmp->getGravity() != gravity){
-				tmp->setGravity(gravity);
-			}
-			tmp->setMotionVectorY(tmp->getMotionVectorY() + gravity);
-			tmp->setY(tmp->getY() + tmp->getMotionVectorY());
-		}
-	}
-}
-
-
-void ObjectManager::drawAllObjects() {
-	if (SDL_RenderClear(context)){
-		PrintErrors("Renderer failed to clear", SDL_GetError);
-	}
-
-	std::vector<Object*>::iterator iter = objectsInLevel.begin();
-	for (iter; iter != objectsInLevel.end(); ++iter) {
-		if ((*iter)->getIsRenderable())
-			(*iter)->draw();
-	}
-
-	SDL_RenderPresent(context);
-}
-
-
-/*
-Update all previous positions for all MovableObjects in the vector.
-*/
-void ObjectManager::updatePreviousPositions() {
-	for (auto object : objectsInLevel){
-		if (object->getIsMovable()){
-			MovableObject* movable = dynamic_cast<MovableObject*>(object);
-			if (movable->getY() == movable->getPreviousXY()[1])
-				movable->setIsStable(true);
-			else
-				movable->setIsStable(false);
-			movable->setPreviousXY(movable->getX(), movable->getY());
-		}
-	}
-}
-
-
-void ObjectManager::setMousePosition() const {
-	int mouseX, mouseY;
-	SDL_GetMouseState(&mouseX, &mouseY);
-	playableCharacter->setMousePosition(mouseX, mouseY);
-}
-
-
-void ObjectManager::putInMotion() const {
-	for (auto object : objectsInLevel){
-		if (object->getIsMovable()){
-			MovableObject* movable = dynamic_cast<MovableObject*>(object);
-			movable->executeMovement();
-		}
-	}
+std::vector<Object*>& ObjectManager::getObjectsInLevel() {
+	return objectsInLevel;
 }

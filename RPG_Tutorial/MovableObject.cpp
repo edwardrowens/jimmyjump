@@ -1,27 +1,8 @@
 #include "MovableObject.h"
 
-// Default constructor
-MovableObject::MovableObject() :
-Object(),
-health(100.0f),
-strength(10.0f),
-speedX(INIT_SPEED_X),
-speedY(INIT_SPEED_Y),
-isStable(true),
-stepCount(0),
-currentJumpTicks(1),
-motionVector({ 0, 0 }),
-maxXVelocity(INIT_MAX_VELOCITY_X),
-maxYVelocity(INIT_MAX_VELOCITY_Y),
-patrolDirection('R'){
-	isMovable = true;
-	previousXYPosition.push_back(position.x);
-	previousXYPosition.push_back(position.y);
-}
-
 // Position and character constructor.
-MovableObject::MovableObject(Position position, Character character) :
-Object(position, character),
+MovableObject::MovableObject(b2Body* objectBody, Character character) :
+Object(objectBody, character),
 health(100.0f),
 strength(10.0f),
 speedX(INIT_SPEED_X),
@@ -34,8 +15,6 @@ maxXVelocity(INIT_MAX_VELOCITY_X),
 maxYVelocity(INIT_MAX_VELOCITY_Y),
 patrolDirection('R'){
 	isMovable = true;
-	previousXYPosition.push_back(position.x);
-	previousXYPosition.push_back(position.y);
 }
 
 MovableObject::MovableObject(const MovableObject &movableObject) :
@@ -50,9 +29,7 @@ speedY(INIT_SPEED_Y),
 currentJumpTicks(1),
 maxXVelocity(INIT_MAX_VELOCITY_X),
 maxYVelocity(INIT_MAX_VELOCITY_Y),
-patrolDirection('R'){
-	previousXYPosition.push_back(position.x);
-	previousXYPosition.push_back(position.y);
+patrolDirection('R') {
 }
 
 MovableObject::~MovableObject(){
@@ -177,16 +154,6 @@ void MovableObject::setSpeedX(const float& speedX) {
 }
 
 bool MovableObject::jump(){
-	if ((!isStable && getMotionVectorY() < 0) || isStable){
-		setMotionVectorY(getMotionVectorY() - (speedY / currentJumpTicks));
-		setY(position.y + getMotionVectorY());
-		if (!isStable && getMotionVectorY() < 0)
-			setX(position.x + getMotionVectorX());
-		++currentJumpTicks;
-		return true;
-	}
-	currentJumpTicks = 1;
-	return false;
 }
 
 void MovableObject::moveRight(){

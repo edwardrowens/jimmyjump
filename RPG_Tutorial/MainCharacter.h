@@ -9,7 +9,7 @@ public:
 	// Constructors and destructor
 	MainCharacter();
 	~MainCharacter();
-	MainCharacter(Position position, Character character);
+	MainCharacter(b2Body* objectBody, Character character);
 
 	// Public functions
 	void setMousePosition(const int x, const int y);

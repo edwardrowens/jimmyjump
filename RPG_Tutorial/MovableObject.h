@@ -17,8 +17,7 @@ class MovableObject : public Object
 {
 public:
 	// Constructors and destructor.
-	MovableObject();
-	MovableObject(Position position, Character character);
+	MovableObject(b2Body* objectBody, Character character);
 	~MovableObject();
 	MovableObject(const MovableObject &moveableObject);
 

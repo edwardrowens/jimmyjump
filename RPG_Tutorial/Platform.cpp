@@ -5,7 +5,7 @@ Platform::Platform() : Object(){
 	isPlatform = true;
 }
 
-Platform::Platform(Position position, Character character) : Object(position, character){
+Platform::Platform(b2Body* objectBody, Character character) : Object(objectBody, character){
 	isPlatform = true;
 }
 
