@@ -1,29 +1,29 @@
 #include "Object.h"
 using std::string;
 
-// Default constructor
-Object::Object() :
-texture(nullptr),
-objectRect(new SDL_Rect),
-isMovable(false),
-isRenderable(true),
-isPlatform(false),
-hitbox(new SDL_Rect()),
-character(Character::NONE){
-}
+//// Default constructor
+//Object::Object() :
+//texture(nullptr),
+//objectRect(new SDL_Rect),
+//isMovable(false),
+//isRenderable(true),
+//isPlatform(false),
+//hitbox(new SDL_Rect()),
+//character(Character::NONE){
+//}
 
 // Position constructor
-Object::Object(Position position, Character character) :
-position(position),
+Object::Object(b2Body* objectBody, Character character) :
+objectBody(objectBody),
 isRenderable(true),
 isPlatform(false),
 hitbox(new SDL_Rect),
 character(character){
-	objectRect = new SDL_Rect();
-	objectRect->x = position.x;
-	objectRect->y = position.y;
-	objectRect->w = position.w;
-	objectRect->h = position.h;
+	objectRect = new SDL_Rect;
+	objectRect->x = objectBody->GetPosition().x;
+	objectRect->y = objectBody->GetPosition().y;
+	objectRect->w = objectBody->GetFixtureList()->GetAABB(0).GetExtents().x;
+	objectRect->h = objectBody->GetFixtureList()->GetAABB(0).GetExtents().y;
 
 	createHitbox();
 	Object::load(character);
@@ -31,13 +31,13 @@ character(character){
 
 // copy
 Object::Object(const Object &object) :
-position(object.getPosition()),
+objectBody(object.getBody()),
 texture(object.getTexture()),
 isRenderable(true),
 isPlatform(false),
 hitbox(new SDL_Rect),
 character(object.getCharacter()){
-	*(hitbox) = *(object.getHitbox());
+	objectBody = object.getBody();
 	objectRect = new SDL_Rect;
 	*objectRect = *(object.getSDLRect());
 	texturePath = utility.getDefaultTexturePath(object.getCharacter());
@@ -51,17 +51,11 @@ Object& Object::operator= (const Object &object){
 	objectRect = new SDL_Rect;
 	*objectRect = *(object.getSDLRect());
 	texture = object.getTexture();
-	position = object.getPosition();
-	SDL_Rect* movableRect = object.getHitbox();
-	hitbox->x = movableRect->x;
-	hitbox->y = movableRect->y;
-	hitbox->w = movableRect->w;
-	hitbox->h = movableRect->h;
+	objectBody = object.getBody();
+	objectBody = object.getBody();
 
 	texturePath = utility.getDefaultTexturePath(object.getCharacter());
 	character = object.getCharacter();
-
-	delete movableRect;
 
 	return *this;
 }
@@ -73,19 +67,19 @@ Object::~Object(){
 }
 
 int Object::getHeight() const{
-	return position.h;
+	return objectRect->h;
 }
 
 int Object::getWidth() const{
-	return position.w;
+	return objectRect->w;
 }
 
 int Object::getX() const{
-	return position.x;
+	return objectRect->x;
 }
 
 int Object::getY() const{
-	return position.y;
+	return objectRect->y;
 }
 
 bool Object::getIsMovable() const{
@@ -108,12 +102,8 @@ std::string Object::getTexturePath() const{
 	return texturePath;
 }
 
-Position Object::getPosition() const{
-	return position;
-}
-
-void Object::setPosition(const Position& position){
-	this->position = position;
+b2Body* Object::getBody() const {
+	return objectBody;
 }
 
 void Object::setCharacter(const Character& character){
@@ -125,27 +115,19 @@ void Object::setIsRenderable(const bool& isRenderable){
 }
 
 void Object::setHeight(const int& height){
-	this->position.h = height;
 	objectRect->h = height;
-	createHitbox();
 }
 
 void Object::setWidth(const int& width){
-	this->position.w = width;
 	objectRect->w = width;
-	createHitbox();
 }
 
 void Object::setX(const int& x){
-	this->position.x = x;
 	objectRect->x = x;
-	createHitbox();
 }
 
 void Object::setY(const int& y){
-	this->position.y = y;
 	objectRect->y = y;
-	createHitbox();
 }
 
 void Object::setIsMovable(const bool& isMovable){
@@ -190,27 +172,27 @@ void Object::draw(){
 		PrintErrors("Failed to render " + texturePath, SDL_GetError);
 }
 
-// create a hitbox that is approximately HITBOXMODIFIER * object's rectangle
-void Object::createHitbox(){
-	if (position.w == 0 || !isRenderable){
-		hitbox->x = position.x;
-		hitbox->y = position.y;
-		hitbox->w = position.w;
-		hitbox->h = position.h;
-		return;
-	}
-	float distance, r;
-	distance = sqrt(pow(position.h, 2) + pow(position.w, 2)) * (1 - HITBOXMODIFIER);
-	r = sqrt(1 + pow((position.h / position.w), 2));
-
-	float dx = (distance / r);
-	float dy = ((distance*(position.h / position.w)) / r);
-
-	hitbox->x = position.x + dx;
-	hitbox->y = position.y + dy;
-	hitbox->w = (position.x + position.w) - dx - hitbox->x;
-	hitbox->h = (position.y + position.h) - dy - hitbox->y;
-}
+//// create a hitbox that is approximately HITBOXMODIFIER * object's rectangle
+//void Object::createHitbox(){
+//	if (position.w == 0 || !isRenderable){
+//		hitbox->x = position.x;
+//		hitbox->y = position.y;
+//		hitbox->w = position.w;
+//		hitbox->h = position.h;
+//		return;
+//	}
+//	float distance, r;
+//	distance = sqrt(pow(position.h, 2) + pow(position.w, 2)) * (1 - HITBOXMODIFIER);
+//	r = sqrt(1 + pow((position.h / position.w), 2));
+//
+//	float dx = (distance / r);
+//	float dy = ((distance*(position.h / position.w)) / r);
+//
+//	hitbox->x = position.x + dx;
+//	hitbox->y = position.y + dy;
+//	hitbox->w = (position.x + position.w) - dx - hitbox->x;
+//	hitbox->h = (position.y + position.h) - dy - hitbox->y;
+//}
 
 void Object::load(Character character){
 	this->character = character;

@@ -18,7 +18,6 @@ void TheGame::run(){
 	//const int SKIPFRAMES = 1000 / FPS;
 	//const int MAXFRAMESKIP = 5;
 
-	const float32 UPDATE_LOOP_TICK = 1.0f / 60.0f;
 	float timeBehind = 0.0f;
 	float lastTime = SDL_GetTicks();
 
@@ -27,14 +26,13 @@ void TheGame::run(){
 	//float interpolation;
 	//int i = 0;
 	//numberOfFrames = 0;
-
 	//game loop
 	while (currentState != GameState::EXIT){
 		timeBehind += SDL_GetTicks() - lastTime;
 		update();
-		while (timeBehind >= UPDATE_LOOP_TICK) {
+		while (timeBehind >= WorldConstants::UPDATE_TICK) {
 			update();
-			timeBehind -= UPDATE_LOOP_TICK;
+			timeBehind -= WorldConstants::UPDATE_TICK;
 		}
 		//interpolation = float(SDL_GetTicks() + SKIPFRAMES - nextframe) / float(SKIPFRAMES);
 		draw();
@@ -76,8 +74,8 @@ void TheGame::update(){
 	int mouseY = 0;
 
 	Uint32 a = SDL_GetMouseState(&mouseX, &mouseY);
-	objectManager->updatePreviousPositions();
-	objectManager->setMousePosition();
+	world.getObjectManager().updatePreviousPositions();
+	world.getObjectManager().setMousePosition();
 
 	//controllableObjects[0]->addMovement(Movements::RIGHT);
 
@@ -107,7 +105,7 @@ void TheGame::update(){
 	}
 
 
-	objectManager->putInMotion();
+	world.getObjectManager().putInMotion();
 
 	calcGravity();
 	//detectCollisions();
@@ -117,11 +115,11 @@ void TheGame::update(){
 }
 
 void TheGame::draw(){
-	objectManager->drawAllObjects();
+	world.getObjectManager().drawAllObjects();
 }
 
 void TheGame::calcGravity(){
-	objectManager->applyGravity(gravity);
+	world.getObjectManager().applyGravity(gravity);
 }
 
 //void TheGame::detectCollisions(){
@@ -129,10 +127,7 @@ void TheGame::calcGravity(){
 //}
 
 void TheGame::instantiateLevelObjects(){
-	objectManager->createObject(Character::BACKGROUND, Position(0, 0, WorldConstants::WINDOW_WIDTH, WorldConstants::WINDOW_HEIGHT), true);
-	objectManager->createObject(Character::LIGHT_GRAY_PLATFORM, Position(600, WorldConstants::WINDOW_HEIGHT - 150, 100, 100), true);
-	objectManager->createObject(Character::LIGHT_GREEN_PLATFORM, Position(0, WorldConstants::WINDOW_HEIGHT - 50, WorldConstants::WINDOW_WIDTH + 50, 50), true);
-	jim = dynamic_cast<MainCharacter*>(objectManager->createObject(Character::JIM, Position(200, 0, 50, 50), true));
+	jim = dynamic_cast<MainCharacter*>(world.createObject(Character::JIM, Position(200, 0, 50, 50), true));
 	controllableObjects.push_back(jim);
 }
 

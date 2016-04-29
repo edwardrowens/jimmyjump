@@ -15,9 +15,9 @@ void ObjectManager::setContext(SDL_Renderer* context) {
 }
 
 
-Object* ObjectManager::createObject(const Character &character, const Position &position, bool isRenderable) {
+Object* ObjectManager::createObject(const Character &character, const b2Body &objectBody, bool isRenderable) {
 	if (character == Character::BACKGROUND) {
-		Object* background = new Object(position, character);
+		Object* background = new Object(objectBody, character);
 		objectsInLevel.insert(objectsInLevel.begin(), background);
 		(*objectsInLevel[0]).setIsRenderable(isRenderable);
 		if (isRenderable) {
@@ -83,6 +83,7 @@ void ObjectManager::destroyObject(Object object){
 	std::vector<Object*>::iterator it = objectsInLevel.begin();
 	for (it; it != objectsInLevel.end(); ++it){
 		if ((*it) == &object){
+			b2World::DestroyBody((*it)->getBody());
 			delete *it;
 			objectsInLevel.erase(it);
 		}

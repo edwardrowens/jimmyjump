@@ -9,6 +9,7 @@
 #include <map>
 #include <set>
 #include "Utility.h"
+#include "Box2D\Box2D.h"
 
 using std::string;
 
@@ -16,8 +17,8 @@ class Object
 {
 public:
 	// Constructors, destructor
-	Object();
-	Object(Position position, Character character);
+	//Object();
+	Object(b2Body* objectBody, Character character);
 	Object(const Object &object);
 	~Object();
 
@@ -42,6 +43,7 @@ public:
 	SDL_Rect* getHitbox() const;
 	Character getCharacter() const;
 	Position getPosition() const;
+	b2Body* getBody() const;
 
 	// Setters
 	void setX(const int& x);
@@ -72,11 +74,11 @@ protected:
 	std::string texturePath;
 	SDL_Rect* objectRect;
 	SDL_Rect* hitbox;
-	Position position;
 	Character character;
 	SDL_Renderer* context;
 	std::map<char, std::set<string>> walkCycles;
 	Utility utility;
+	b2Body* objectBody;
 
 	// Protected functions
 	void setObjectTexture();

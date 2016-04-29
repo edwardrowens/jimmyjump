@@ -12,26 +12,23 @@ World::~World() {
 }
 
 
-void World::createBody() {
-	b2BodyDef objectBodyDefinition;
+Object* World::createObject(const Character& character, const b2Body& objectBody, bool isRenderable) {
+	return objectManager.createObject(character, objectBody, isRenderable);
+}
 
-	objectBodyDefinition.type = b2_dynamicBody;
-	objectBodyDefinition.position.Set(250.0f, 250.0f);
 
-	b2Body* objectBody = boxWorld.CreateBody(&objectBodyDefinition);
-	b2PolygonShape objectBox;
-	objectBox.SetAsBox(25.0f, 10.0f);
-
-	b2FixtureDef objectFixtureDefinition;
-	objectFixtureDefinition.density = 1.0f;
-	objectFixtureDefinition.shape = &objectBox;
-	objectFixtureDefinition.friction = 0.3f;
-
-	objectBody->CreateFixture(&objectFixtureDefinition);
+void World::destroyObject(Object* object) {
+	boxWorld->DestroyBody(object->getBody());
+	objectManager.destroyObject(*object);
 }
 
 
 void World::setContext(SDL_Renderer* context) {
 	objectManager.setContext(context);
 	textureCache.setContext(context);
+}
+
+
+ObjectManager& World::getObjectManager() {
+	return objectManager;
 }

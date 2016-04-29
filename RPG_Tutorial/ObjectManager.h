@@ -30,7 +30,7 @@ public:
 	void setPlayableCharacter(MainCharacter& playableCharacter);
 
 	// public functions
-	Object* createObject(const Character& character, const Position& position, bool isRenderable);
+	Object* createObject(const Character& character, const b2Body& objectBody, bool isRenderable);
 	void destroyObject(Object object);
 	void detectCollisions();
 	void applyGravity(const float& gravity);

@@ -33,10 +33,8 @@ private:
 	SDL_Window* currentWindow;
 	SDL_Event currentEvent;
 	SDL_Renderer* context;
-	Utility utility;
 	Platform* gameFloor;
 	MainCharacter* jim;
-	ObjectManager* objectManager;
 	int jimWidth, jimHeight, jimStartY, eventMade;
 	std::vector<MovableObject*> controllableObjects;
 	float gravity, keyPressLength;
