@@ -1,16 +1,4 @@
 #include "Object.h"
-using std::string;
-
-//// Default constructor
-//Object::Object() :
-//texture(nullptr),
-//objectRect(new SDL_Rect),
-//isMovable(false),
-//isRenderable(true),
-//isPlatform(false),
-//hitbox(new SDL_Rect()),
-//character(Character::NONE){
-//}
 
 // Position constructor
 Object::Object(b2Body* objectBody, Character character) :
@@ -25,7 +13,6 @@ character(character){
 	objectRect->w = objectBody->GetFixtureList()->GetAABB(0).GetExtents().x;
 	objectRect->h = objectBody->GetFixtureList()->GetAABB(0).GetExtents().y;
 
-	createHitbox();
 	Object::load(character);
 }
 

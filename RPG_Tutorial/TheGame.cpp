@@ -74,8 +74,8 @@ void TheGame::update(){
 	int mouseY = 0;
 
 	Uint32 a = SDL_GetMouseState(&mouseX, &mouseY);
-	world.getObjectManager().updatePreviousPositions();
-	world.getObjectManager().setMousePosition();
+	world.updatePreviousPositions();
+	world.setMousePosition();
 
 	//controllableObjects[0]->addMovement(Movements::RIGHT);
 
@@ -105,7 +105,7 @@ void TheGame::update(){
 	}
 
 
-	world.getObjectManager().putInMotion();
+	world.putInMotion();
 
 	calcGravity();
 	//detectCollisions();
@@ -115,11 +115,11 @@ void TheGame::update(){
 }
 
 void TheGame::draw(){
-	world.getObjectManager().drawAllObjects();
+	world.drawAllObjects();
 }
 
 void TheGame::calcGravity(){
-	world.getObjectManager().applyGravity(gravity);
+	world.applyGravity(gravity);
 }
 
 //void TheGame::detectCollisions(){
@@ -127,8 +127,8 @@ void TheGame::calcGravity(){
 //}
 
 void TheGame::instantiateLevelObjects(){
-	b2BodyDef jimBody = 
-	jim = dynamic_cast<MainCharacter*>(world.createObject(Character::JIM, Position(200, 0, 50, 50), true));
+	world.createObject(Character::BACKGROUND)
+	jim = dynamic_cast<MainCharacter*>(world.createObject(Character::JIM, objectPhysicalProperties(ObjectBodies::EXAMPLE), true));
 	controllableObjects.push_back(jim);
 }
 

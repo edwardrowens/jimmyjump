@@ -71,6 +71,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Box2dMapper.cpp" />
     <ClCompile Include="CollisionDetector.cpp" />
     <ClCompile Include="Errors.cpp" />
     <ClCompile Include="Line.cpp" />
@@ -80,6 +81,7 @@
     <ClCompile Include="MovableObject.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="ObjectPhysicalProperties.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="TextureCache.cpp" />
@@ -88,6 +90,7 @@
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Box2dMapper.h" />
     <ClInclude Include="CharacterInformation.h" />
     <ClInclude Include="CollisionDetector.h" />
     <ClInclude Include="Errors.h" />
@@ -98,6 +101,7 @@
     <ClInclude Include="Movements.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectManager.h" />
+    <ClInclude Include="ObjectPhysicalProperties.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Position.h" />

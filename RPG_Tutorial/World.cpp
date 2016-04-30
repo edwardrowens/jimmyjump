@@ -12,8 +12,8 @@ World::~World() {
 }
 
 
-Object* World::createObject(const Character& character, const b2Body& objectBody, bool isRenderable) {
-	return objectManager.createObject(character, objectBody, isRenderable);
+Object* World::createObject(const Character& character, const ObjectPhysicalProperties &props, bool isRenderable) {
+	return objectManager.createObject(character, mapToBody(props), isRenderable);
 }
 
 
@@ -113,4 +113,15 @@ void World::putInMotion() {
 			movable->executeMovement();
 		}
 	}
+}
+
+
+b2Body& World::mapToBody(const ObjectPhysicalProperties &props) {
+	b2BodyDef* bodyDef = &Box2dMapper::mapToBody(props);
+	b2Body* body = boxWorld->CreateBody(bodyDef);
+	b2FixtureDef fixtureDef = Box2dMapper::mapToFixture(props);
+	b2PolygonShape shapeDef = Box2dMapper::mapToShape(props);
+	fixtureDef.shape = &shapeDef;
+	body->CreateFixture(&fixtureDef);
+	return *body;
 }
