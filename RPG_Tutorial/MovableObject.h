@@ -7,11 +7,12 @@
 #include "CharacterInformation.h"
 
 using std::string;
-const float INIT_SPEED_Y = 20.0f;
-const int INIT_SPEED_X = 3;
 
-const float INIT_MAX_VELOCITY_X = 5.0f;
-const float INIT_MAX_VELOCITY_Y = 40.0f;
+const float32 MAX_X_VELOCITY = 5.0f;
+const float32 MAX_Y_VELOCITY = 5.0f;
+const float32 X_VELOCITY_STEP = 0.1f;
+const float32 Y_VELOCITY_STEP = 0.1f;
+
 
 class MovableObject : public Object
 {

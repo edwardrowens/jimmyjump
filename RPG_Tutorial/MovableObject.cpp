@@ -5,14 +5,14 @@ MovableObject::MovableObject(b2Body* objectBody, Character character) :
 Object(objectBody, character),
 health(100.0f),
 strength(10.0f),
-speedX(INIT_SPEED_X),
-speedY(INIT_SPEED_Y),
+speedX(X_VELOCITY_STEP),
+speedY(Y_VELOCITY_STEP),
 isStable(true),
 stepCount(0),
 currentJumpTicks(1),
 motionVector({ 0, 0 }),
-maxXVelocity(INIT_MAX_VELOCITY_X),
-maxYVelocity(INIT_MAX_VELOCITY_Y),
+maxXVelocity(MAX_X_VELOCITY),
+maxYVelocity(MAX_Y_VELOCITY),
 patrolDirection('R'){
 	isMovable = true;
 }
@@ -24,11 +24,11 @@ motionVector({ 0, 0 }),
 isStable(true),
 health(100.0f),
 strength(10.0f),
-speedX(INIT_SPEED_X),
-speedY(INIT_SPEED_Y),
+speedX(X_VELOCITY_STEP),
+speedY(Y_VELOCITY_STEP),
 currentJumpTicks(1),
-maxXVelocity(INIT_MAX_VELOCITY_X),
-maxYVelocity(INIT_MAX_VELOCITY_Y),
+maxXVelocity(MAX_X_VELOCITY),
+maxYVelocity(MAX_Y_VELOCITY),
 patrolDirection('R') {
 }
 
@@ -202,28 +202,28 @@ void MovableObject::moveLeft(){
 
 void MovableObject::patrol(){
 
-	switch (patrolDirection){
-	case 'L':
-		moveLeft();
-		break;
-	case 'R':
-		moveRight();
-		break;
-	}
+	//switch (patrolDirection){
+	//case 'L':
+	//	moveLeft();
+	//	break;
+	//case 'R':
+	//	moveRight();
+	//	break;
+	//}
 
-	int distanceTraveledInOneFrame = std::abs(position.x - previousXYPosition[0]);
-	patrolDistanceTraveled += distanceTraveledInOneFrame;
-	if (distanceTraveledInOneFrame == 0){
-		++stuckCount;
-	}
+	//int distanceTraveledInOneFrame = std::abs(position.x - previousXYPosition[0]);
+	//patrolDistanceTraveled += distanceTraveledInOneFrame;
+	//if (distanceTraveledInOneFrame == 0){
+	//	++stuckCount;
+	//}
 
-	// If you've exceeded the patrol distance limit or did not move in the last frame (meaning you're stuck).
-	// then switch direction.
-	if (patrolDistanceTraveled >= patrolDistance || stuckCount > 3){
-		patrolDistanceTraveled = 0;
-		stuckCount = 0;
-		switchPatrolDirection();
-	}
+	//// If you've exceeded the patrol distance limit or did not move in the last frame (meaning you're stuck).
+	//// then switch direction.
+	//if (patrolDistanceTraveled >= patrolDistance || stuckCount > 3){
+	//	patrolDistanceTraveled = 0;
+	//	stuckCount = 0;
+	//	switchPatrolDirection();
+	//}
 }
 
 void MovableObject::useItem(){
@@ -234,26 +234,38 @@ float MovableObject::attack(){
 	return strength;
 }
 
-void MovableObject::accelerateLeftward(){
-	if (getMotionVectorX() > (-1 * maxXVelocity)){
-		setMotionVectorX(getMotionVectorX() - speedX);
-		setX(position.x + getMotionVectorX());
-	}
-	else {
-		setMotionVectorX(-1 * maxXVelocity);
-		setX(position.x - maxXVelocity);
-	}
+void MovableObject::accelerateLeftward() {
+	b2Vec2 bodyVelocity = objectBody->GetLinearVelocity();
+	float32 newVelocity = b2Max(bodyVelocity.x - X_VELOCITY_STEP, -MAX_X_VELOCITY);
+	float32 deltaVelocity = newVelocity - bodyVelocity.x;
+	float32 impulse = objectBody->GetMass() * deltaVelocity;
+	objectBody->ApplyLinearImpulse(b2Vec2(impulse, 0), objectBody->GetWorldCenter(), true);
+
+	//if (getMotionVectorX() > (-1 * maxXVelocity)){
+	//	setMotionVectorX(getMotionVectorX() - speedX);
+	//	setX(position.x + getMotionVectorX());
+	//}
+	//else {
+	//	setMotionVectorX(-1 * maxXVelocity);
+	//	setX(position.x - maxXVelocity);
+	//}
 }
 
-void MovableObject::accelerateRightward(){
-	if (getMotionVectorX() < maxXVelocity){
-		setMotionVectorX(getMotionVectorX() + speedX);
-		setX(position.x + getMotionVectorX());
-	}
-	else {
-		setMotionVectorX(maxXVelocity);
-		setX(position.x + maxXVelocity);
-	}
+void MovableObject::accelerateRightward() {
+	b2Vec2 bodyVelocity = objectBody->GetLinearVelocity();
+	float32 deltaVelocity = b2Min(bodyVelocity.x + X_VELOCITY_STEP, MAX_X_VELOCITY);
+	float32 newVelocity = deltaVelocity - bodyVelocity.x;
+	float32 impulse = objectBody->GetMass() * newVelocity;
+	objectBody->ApplyLinearImpulse(b2Vec2(impulse, 0), objectBody->GetWorldCenter(), true);
+
+	//if (getMotionVectorX() < maxXVelocity){
+	//	setMotionVectorX(getMotionVectorX() + speedX);
+	//	setX(position.x + getMotionVectorX());
+	//}
+	//else {
+	//	setMotionVectorX(maxXVelocity);
+	//	setX(position.x + maxXVelocity);
+	//}
 }
 
 void MovableObject::executeMovement(){

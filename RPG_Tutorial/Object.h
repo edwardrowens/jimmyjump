@@ -26,7 +26,6 @@ public:
 	Object& operator= (const Object &object);
 
 	// Public fields
-	const float HITBOXMODIFIER = .93;
 
 	// Getters
 	int getX() const;
@@ -79,8 +78,11 @@ protected:
 	std::map<char, std::set<string>> walkCycles;
 	Utility utility;
 	b2Body* objectBody;
+	b2Vec2 linearVelocity;
+	const float HITBOXMODIFIER = .93;
 
 	// Protected functions
 	void setObjectTexture();
+
 };
 
