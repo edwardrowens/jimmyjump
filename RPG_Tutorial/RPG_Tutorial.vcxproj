@@ -72,6 +72,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Box2dMapper.cpp" />
+    <ClCompile Include="CharacterGroupingService.cpp" />
+    <ClCompile Include="CollisionCategory.cpp" />
     <ClCompile Include="CollisionDetector.cpp" />
     <ClCompile Include="Errors.cpp" />
     <ClCompile Include="Line.cpp" />
@@ -91,9 +93,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Box2dMapper.h" />
+    <ClInclude Include="CharacterGroupingService.h" />
     <ClInclude Include="CharacterInformation.h" />
     <ClInclude Include="CollisionDetector.h" />
     <ClInclude Include="Errors.h" />
+    <ClInclude Include="CollisionCategory.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="LineCalculationService.h" />
     <ClInclude Include="MainCharacter.h" />

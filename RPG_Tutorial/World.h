@@ -4,6 +4,7 @@
 #include "WorldConstants.h"
 #include "ObjectPhysicalProperties.h"
 #include "Box2dMapper.h"
+#include "CollisionCategory.h"
 
 class World
 {
@@ -31,5 +32,5 @@ private:
 	SDL_Renderer* context;
 	
 	// Functions
-	b2Body& mapToBody(const ObjectPhysicalProperties &props);
+	b2Body& mapToBody(const Character &character, const ObjectPhysicalProperties &props);
 };

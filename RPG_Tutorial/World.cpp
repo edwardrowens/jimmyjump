@@ -13,7 +13,7 @@ World::~World() {
 
 
 Object* World::createObject(const Character& character, const ObjectPhysicalProperties &props, bool isRenderable) {
-	return objectManager.createObject(character, mapToBody(props), isRenderable);
+	return objectManager.createObject(character, mapToBody(character, props), isRenderable);
 }
 
 
@@ -36,7 +36,7 @@ ObjectManager& World::getObjectManager() {
 
 
 void World::drawAllObjects() {
-	if (SDL_RenderClear(context)){
+	if (SDL_RenderClear(context)) {
 		PrintErrors("Renderer failed to clear", SDL_GetError);
 	}
 
@@ -52,8 +52,8 @@ void World::drawAllObjects() {
 
 void World::applyGravity(const float& gravity) {
 	std::vector<Object*>::iterator iter = objectManager.getObjectsInLevel().begin();
-	for (iter; iter != objectManager.getObjectsInLevel().end(); ++iter){
-		if ((*iter)->getIsMovable()){
+	for (iter; iter != objectManager.getObjectsInLevel().end(); ++iter) {
+		if ((*iter)->getIsMovable()) {
 			(*iter)->setY((*iter)->getY() + gravity);
 			MovableObject* tmp = (MovableObject*)*iter;
 			if (tmp->getGravity() != gravity){
@@ -68,7 +68,7 @@ void World::applyGravity(const float& gravity) {
 
 
 void World::drawAllObjects() {
-	if (SDL_RenderClear(context)){
+	if (SDL_RenderClear(context)) {
 		PrintErrors("Renderer failed to clear", SDL_GetError);
 	}
 
@@ -86,8 +86,8 @@ void World::drawAllObjects() {
 Update all previous positions for all MovableObjects in the vector.
 */
 void World::updatePreviousPositions() {
-	for (auto object : objectManager.getObjectsInLevel()){
-		if (object->getIsMovable()){
+	for (auto object : objectManager.getObjectsInLevel()) {
+		if (object->getIsMovable()) {
 			MovableObject* movable = dynamic_cast<MovableObject*>(object);
 			if (movable->getY() == movable->getPreviousXY()[1])
 				movable->setIsStable(true);
@@ -107,8 +107,8 @@ void World::setMousePosition() {
 
 
 void World::putInMotion() {
-	for (auto object : objectManager.getObjectsInLevel()){
-		if (object->getIsMovable()){
+	for (auto object : objectManager.getObjectsInLevel()) {
+		if (object->getIsMovable()) {
 			MovableObject* movable = dynamic_cast<MovableObject*>(object);
 			movable->executeMovement();
 		}
@@ -116,10 +116,12 @@ void World::putInMotion() {
 }
 
 
-b2Body& World::mapToBody(const ObjectPhysicalProperties &props) {
+b2Body& World::mapToBody(const Character &character, const ObjectPhysicalProperties &props) {
 	b2BodyDef* bodyDef = &Box2dMapper::mapToBody(props);
 	b2Body* body = boxWorld->CreateBody(bodyDef);
 	b2FixtureDef fixtureDef = Box2dMapper::mapToFixture(props);
+	fixtureDef.filter.categoryBits = CollisionCategoryService::retrieveCategoryBits(character);
+	fixtureDef.filter.maskBits = CollisionCategoryService::retrieveMaskBits(character);
 	b2PolygonShape shapeDef = Box2dMapper::mapToShape(props);
 	fixtureDef.shape = &shapeDef;
 	body->CreateFixture(&fixtureDef);

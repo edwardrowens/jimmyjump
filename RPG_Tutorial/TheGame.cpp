@@ -126,8 +126,8 @@ void TheGame::calcGravity(){
 //	objectManager->detectCollisions();
 //}
 
-void TheGame::instantiateLevelObjects(){
-	world.createObject(Character::BACKGROUND)
+void TheGame::instantiateLevelObjects() {
+	world.createObject(Character::BACKGROUND, objectPhysicalProperties(ObjectBodies::NONE), true);
 	jim = dynamic_cast<MainCharacter*>(world.createObject(Character::JIM, objectPhysicalProperties(ObjectBodies::EXAMPLE), true));
 	controllableObjects.push_back(jim);
 }

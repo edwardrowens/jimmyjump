@@ -18,5 +18,5 @@ enum CharacterGroup : int{
 	OBJECT,
 	MAIN_CHARACTER,
 	PLATFORM,
-	MOVABLE_OBJECT,
+	MOVABLE_OBJECT
 };

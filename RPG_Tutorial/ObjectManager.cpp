@@ -6,7 +6,7 @@ textureCache(textureCache) {
 }
 
 // Destructor
-ObjectManager::~ObjectManager(){
+ObjectManager::~ObjectManager() {
 }
 
 
@@ -49,7 +49,7 @@ Object* ObjectManager::createObject(const Character &character, b2Body &objectBo
 
 		// Add the object to the cache
 		objectToAdd->setIsRenderable(isRenderable);
-		if (isRenderable){
+		if (isRenderable) {
 			textureCache->lockTextureForObject(*objectToAdd);
 		}
 
@@ -64,7 +64,7 @@ Iterates through every object in the level and "locks" their textures. If the te
 be drawn to the screen.
 */
 void ObjectManager::setTextures() {
-	for (auto object : objectsInLevel){
+	for (auto object : objectsInLevel) {
 		if (object->getPreviousTexture() != object->getTexture()) {
 			textureCache->lockTextureForObject(*object);
 		}
@@ -75,14 +75,14 @@ void ObjectManager::setTextures() {
 /*
 Removes the object from the cache and from the vector which stores all objects in the level.
 */
-void ObjectManager::destroyObject(Object object){
+void ObjectManager::destroyObject(Object object) {
 	textureCache->removeObjectFromCache(object);
 
 	// POTENTIAL SPEED UP: Rethink the data structure which holds the objects in the level as this current algorithm is O(n)
 	// whenever we want to remove an object from the game.
 	std::vector<Object*>::iterator it = objectsInLevel.begin();
-	for (it; it != objectsInLevel.end(); ++it){
-		if ((*it) == &object){
+	for (it; it != objectsInLevel.end(); ++it) {
+		if ((*it) == &object) {
 			delete *it;
 			objectsInLevel.erase(it);
 		}
@@ -100,10 +100,10 @@ void ObjectManager::setPlayableCharacter(MainCharacter& playableCharacter) {
 }
 
 
-void ObjectManager::detectCollisions(){
+void ObjectManager::detectCollisions() {
 	std::vector<Object*>::iterator i = objectsInLevel.begin();
-	for (i; i != objectsInLevel.end(); ++i){
-		if ((*i)->getIsMovable()){
+	for (i; i != objectsInLevel.end(); ++i) {
+		if ((*i)->getIsMovable()) {
 			MovableObject* tempObject = dynamic_cast<MovableObject*>(*i);
 			CollisionDetector::detectDynamicCollisions(tempObject, objectsInLevel);
 			CollisionDetector::detectStaticCollisions(tempObject, objectsInLevel);
