@@ -6,15 +6,10 @@ objectBody(objectBody),
 isRenderable(true),
 isPlatform(false),
 hitbox(new SDL_Rect),
-character(character){
-	objectRect = new SDL_Rect;
-	objectRect->x = objectBody->GetPosition().x;
-	objectRect->y = objectBody->GetPosition().y;
-	objectRect->w = objectBody->GetFixtureList()->GetAABB(0).GetExtents().x;
-	objectRect->h = objectBody->GetFixtureList()->GetAABB(0).GetExtents().y;
-
+character(character) {
 	Object::load(character);
 }
+
 
 // copy
 Object::Object(const Object &object) :
@@ -23,20 +18,17 @@ texture(object.getTexture()),
 isRenderable(true),
 isPlatform(false),
 hitbox(new SDL_Rect),
-character(object.getCharacter()){
+character(object.getCharacter()) {
 	objectBody = object.getBody();
-	objectRect = new SDL_Rect;
-	*objectRect = *(object.getSDLRect());
 	texturePath = utility.getDefaultTexturePath(object.getCharacter());
 }
 
+
 //assignment operator overload
-Object& Object::operator= (const Object &object){
+Object& Object::operator= (const Object &object) {
 	if (this == &object)
 		return *this;
 
-	objectRect = new SDL_Rect;
-	*objectRect = *(object.getSDLRect());
 	texture = object.getTexture();
 	objectBody = object.getBody();
 	objectBody = object.getBody();
@@ -47,112 +39,127 @@ Object& Object::operator= (const Object &object){
 	return *this;
 }
 
+
 //destructor
-Object::~Object(){
-	delete objectRect;
-	delete hitbox;
+Object::~Object() {
 }
 
-int Object::getHeight() const{
-	return objectRect->h;
+
+int Object::getHeight() const {
+	return objectBody->GetFixtureList()->GetAABB(0).GetExtents().y;
 }
 
-int Object::getWidth() const{
-	return objectRect->w;
+
+int Object::getWidth() const {
+	return objectBody->GetFixtureList()->GetAABB(0).GetExtents().x;
 }
 
-int Object::getX() const{
-	return objectRect->x;
+
+int Object::getX() const {
+	return objectBody->GetPosition().x;
 }
 
-int Object::getY() const{
-	return objectRect->y;
+
+int Object::getY() const {
+	return objectBody->GetPosition().y;
 }
 
-bool Object::getIsMovable() const{
+
+bool Object::getIsMovable() const {
 	return isMovable;
 }
 
-bool Object::getIsRenderable() const{
+
+bool Object::getIsRenderable() const {
 	return isRenderable;
 }
 
-SDL_Rect* Object::getHitbox() const{
+
+SDL_Rect* Object::getHitbox() const {
 	return hitbox;
 }
 
-Character Object::getCharacter() const{
+
+Character Object::getCharacter() const {
 	return character;
 }
 
-std::string Object::getTexturePath() const{
+
+std::string Object::getTexturePath() const {
 	return texturePath;
 }
+
 
 b2Body* Object::getBody() const {
 	return objectBody;
 }
 
-void Object::setCharacter(const Character& character){
+
+void Object::setX(const int &x) {
+}
+
+
+void Object::setY(const int &y) {
+
+}
+
+
+void Object::setCharacter(const Character& character) {
 	this->character = character;
 }
 
-void Object::setIsRenderable(const bool& isRenderable){
+
+void Object::setIsRenderable(const bool& isRenderable) {
 	this->isRenderable = isRenderable;
 }
 
-void Object::setHeight(const int& height){
-	objectRect->h = height;
-}
-
-void Object::setWidth(const int& width){
-	objectRect->w = width;
-}
-
-void Object::setX(const int& x){
-	objectRect->x = x;
-}
-
-void Object::setY(const int& y){
-	objectRect->y = y;
-}
 
 void Object::setIsMovable(const bool& isMovable){
 	this->isMovable = isMovable;
 }
 
-void Object::setIsPlatform(const bool& isPlatform){
+
+void Object::setIsPlatform(const bool& isPlatform) {
 	this->isPlatform = isPlatform;
 }
 
-void Object::setContext(SDL_Renderer* context){
-	if (context == nullptr){
+
+void Object::setContext(SDL_Renderer* context) {
+	if (context == nullptr) {
 		PrintErrors("The context passed into a level object was null.");
 	}
 	this->context = context;
 }
 
+
 void Object::setTexture(SDL_Texture* texture){
 	this->texture = texture;
 }
 
-bool Object::getIsPlatform() const{
+
+bool Object::getIsPlatform() const {
 	return isPlatform;
 }
 
-SDL_Rect* Object::getSDLRect() const{
-	return objectRect;
-}
 
-SDL_Texture* Object::getTexture() const{
+SDL_Texture* Object::getTexture() const {
 	return texture;
 }
 
-SDL_Texture* Object::getPreviousTexture() const{
+
+SDL_Texture* Object::getPreviousTexture() const {
 	return previousTexture;
 }
 
-void Object::draw(){
+
+void Object::draw() {
+	// set up the SDL rect based upon the physics rectangle.
+	SDL_Rect* objectRect = nullptr;
+	(*objectRect).x = getX();
+	(*objectRect).y = getY();
+	(*objectRect).w = getWidth() * 2;
+	(*objectRect).h = getHeight() * 2;
+
 	if (texture == nullptr)
 		PrintErrors("No texture has been loaded.", SDL_GetError);
 	if (SDL_RenderCopy(context, texture, NULL, objectRect))
@@ -181,7 +188,7 @@ void Object::draw(){
 //	hitbox->h = (position.y + position.h) - dy - hitbox->y;
 //}
 
-void Object::load(Character character){
+void Object::load(Character character) {
 	this->character = character;
 	texturePath = utility.getDefaultTexturePath(character);
 	walkCycles = utility.findAllWalkCycleFiles(character);

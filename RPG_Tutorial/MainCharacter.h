@@ -7,12 +7,11 @@ class MainCharacter: public MovableObject
 {
 public:
 	// Constructors and destructor
-	MainCharacter();
 	~MainCharacter();
 	MainCharacter(b2Body* objectBody, Character character);
 
 	// Public functions
-	void setMousePosition(const int x, const int y);
+	void setMousePosition(const int &x, const int &y);
 private:
 	// Fields
 	int mouseX, mouseY;

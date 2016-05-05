@@ -13,7 +13,7 @@ currentJumpTicks(1),
 motionVector({ 0, 0 }),
 maxXVelocity(MAX_X_VELOCITY),
 maxYVelocity(MAX_Y_VELOCITY),
-patrolDirection('R'){
+patrolDirection('R') {
 	isMovable = true;
 }
 
@@ -154,6 +154,7 @@ void MovableObject::setSpeedX(const float& speedX) {
 }
 
 bool MovableObject::jump(){
+	return true;
 }
 
 void MovableObject::moveRight(){

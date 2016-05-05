@@ -26,7 +26,7 @@ Object* ObjectManager::createObject(const Character &character, b2Body &objectBo
 		return objectsInLevel[0];
 	}
 	else {
-		Object* objectToAdd;
+		Object* objectToAdd = nullptr;
 		switch (CharacterGroupingService::retrieveCharacterGrouping(character)){
 		case CharacterGroup::MAIN_CHARACTER:
 			objectToAdd = new MainCharacter(&objectBody, character);

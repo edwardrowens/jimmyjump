@@ -7,7 +7,6 @@ class Platform : public Object
 {
 public:
 	// Constructors and destructor
-	Platform();
 	Platform(b2Body* objectBody, Character character);
 	Platform(const Platform &platform);
 	~Platform();

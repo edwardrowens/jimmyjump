@@ -12,7 +12,7 @@ World::~World() {
 }
 
 
-Object* World::createObject(const Character& character, const ObjectPhysicalProperties &props, bool isRenderable) {
+Object* World::createObject(const Character& character, const ObjectPhysicalProperties::ObjectPhysicalProperties &props, bool isRenderable) {
 	return objectManager.createObject(character, mapToBody(character, props), isRenderable);
 }
 
@@ -66,22 +66,6 @@ void World::applyGravity(const float& gravity) {
 }
 
 
-
-void World::drawAllObjects() {
-	if (SDL_RenderClear(context)) {
-		PrintErrors("Renderer failed to clear", SDL_GetError);
-	}
-
-	std::vector<Object*>::iterator iter = objectManager.getObjectsInLevel().begin();
-	for (iter; iter != objectManager.getObjectsInLevel().end(); ++iter) {
-		if ((*iter)->getIsRenderable())
-			(*iter)->draw();
-	}
-
-	SDL_RenderPresent(context);
-}
-
-
 /*
 Update all previous positions for all MovableObjects in the vector.
 */
@@ -116,7 +100,7 @@ void World::putInMotion() {
 }
 
 
-b2Body& World::mapToBody(const Character &character, const ObjectPhysicalProperties &props) {
+b2Body& World::mapToBody(const Character &character, const ObjectPhysicalProperties::ObjectPhysicalProperties &props) {
 	b2BodyDef* bodyDef = &Box2dMapper::mapToBody(props);
 	b2Body* body = boxWorld->CreateBody(bodyDef);
 	b2FixtureDef fixtureDef = Box2dMapper::mapToFixture(props);

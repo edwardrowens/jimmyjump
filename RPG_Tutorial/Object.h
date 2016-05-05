@@ -36,7 +36,6 @@ public:
 	SDL_Texture* getTexture() const;
 	std::string getTexturePath() const;
 	SDL_Texture* getPreviousTexture() const;
-	SDL_Rect* getSDLRect() const;
 	bool getIsRenderable() const;
 	bool getIsPlatform() const;
 	SDL_Rect* getHitbox() const;
@@ -45,10 +44,8 @@ public:
 	b2Body* getBody() const;
 
 	// Setters
-	void setX(const int& x);
-	void setY(const int& y);
-	void setWidth(const int& width);
-	void setHeight(const int& height);
+	void setX(const int &x);
+	void setY(const int &y);
 	void setTexturePath(const std::string& newTexturePath);
 	void setTexture(SDL_Texture* texture);
 	void setIsMovable(const bool& isMovable);
@@ -71,7 +68,6 @@ protected:
 	SDL_Texture* texture;
 	SDL_Texture* previousTexture;
 	std::string texturePath;
-	SDL_Rect* objectRect;
 	SDL_Rect* hitbox;
 	Character character;
 	SDL_Renderer* context;
@@ -83,6 +79,5 @@ protected:
 
 	// Protected functions
 	void setObjectTexture();
-
 };
 

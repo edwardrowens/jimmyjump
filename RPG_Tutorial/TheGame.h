@@ -55,7 +55,6 @@ private:
 	int processInput();
 	void update();
 	void draw();
-	void keepInScreen();
 
 	World world;
 };

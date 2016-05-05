@@ -1,104 +1,49 @@
-﻿Build started 5/3/2016 9:55:22 PM.
-     1>Project "D:\Documents\Visual Studio 2013\Projects\jimmyjump\RPG_Tutorial\RPG_Tutorial.vcxproj" on node 2 (Build target(s)).
+﻿Build started 5/4/2016 5:16:27 PM.
+     1>Project "C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\RPG_Tutorial\RPG_Tutorial.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\dependencies\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Box2dMapper.cpp CharacterGroupingService.cpp CollisionCategory.cpp CollisionDetector.cpp Errors.cpp Line.cpp LineCalculationService.cpp main.cpp MainCharacter.cpp MovableObject.cpp Object.cpp ObjectManager.cpp ObjectPhysicalProperties.cpp Platform.cpp Point.cpp TextureCache.cpp TheGame.cpp Utility.cpp World.cpp
-         World.cpp
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(82): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\objectphysicalproperties.h(5): error C2365: 'NONE' : redefinition; previous definition was 'enumerator'
-                 d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\characterinformation.h(7) : see declaration of 'NONE'
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\collisioncategory.h(10): error C2365: 'NONE' : redefinition; previous definition was 'enumerator'
-                 d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\characterinformation.h(7) : see declaration of 'NONE'
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\world.cpp(57): warning C4244: 'argument' : conversion from 'const float' to 'const int', possible loss of data
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\world.cpp(63): warning C4244: 'argument' : conversion from 'float' to 'const int', possible loss of data
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\world.cpp(70): error C2084: function 'void World::drawAllObjects(void)' already has a body
-                 d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\world.h(22) : see previous definition of 'drawAllObjects'
-         Utility.cpp
-         TheGame.cpp
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(82): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\objectphysicalproperties.h(5): error C2365: 'NONE' : redefinition; previous definition was 'enumerator'
-                 d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\characterinformation.h(7) : see declaration of 'NONE'
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\collisioncategory.h(10): error C2365: 'NONE' : redefinition; previous definition was 'enumerator'
-                 d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\characterinformation.h(7) : see declaration of 'NONE'
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\thegame.cpp(22): warning C4244: 'initializing' : conversion from 'Uint32' to 'float', possible loss of data
-         TextureCache.cpp
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(82): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-         Point.cpp
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\point.cpp(20): warning C4552: '-' : operator has no effect; expected operator with side-effect
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\point.cpp(55): warning C4244: '*=' : conversion from 'const float' to 'int', possible loss of data
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\point.cpp(56): warning C4244: '*=' : conversion from 'const float' to 'int', possible loss of data
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\point.cpp(62): warning C4244: 'return' : conversion from 'int' to 'float', possible loss of data
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\point.cpp(66): warning C4244: 'return' : conversion from 'int' to 'float', possible loss of data
-         Platform.cpp
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(82): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\platform.cpp(4): error C2512: 'Object' : no appropriate default constructor available
-         ObjectPhysicalProperties.cpp
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\objectphysicalproperties.cpp(20): warning C4172: returning address of local variable or temporary
-         ObjectManager.cpp
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(82): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-         Object.cpp
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(82): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(11): warning C4244: '=' : conversion from 'const float32' to 'int', possible loss of data
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(12): warning C4244: '=' : conversion from 'const float32' to 'int', possible loss of data
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(13): warning C4244: '=' : conversion from 'float32' to 'int', possible loss of data
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(14): warning C4244: '=' : conversion from 'float32' to 'int', possible loss of data
-         MovableObject.cpp
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(82): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(16): warning C4244: 'initializing' : conversion from 'const float32' to 'int', possible loss of data
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(32): warning C4244: 'initializing' : conversion from 'const float32' to 'int', possible loss of data
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(60): warning C4244: 'return' : conversion from 'const float' to 'int', possible loss of data
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(104): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(153): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(162): warning C4018: '>=' : signed/unsigned mismatch
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(184): warning C4018: '>=' : signed/unsigned mismatch
-         MainCharacter.cpp
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(82): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\maincharacter.cpp(5): error C2512: 'MovableObject' : no appropriate default constructor available
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\maincharacter.cpp(12): error C2511: 'MainCharacter::MainCharacter(Position,Character)' : overloaded member function not found in 'MainCharacter'
-                 d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\maincharacter.h(6) : see declaration of 'MainCharacter'
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\maincharacter.cpp(12): error C2550: 'MainCharacter::{ctor}' : constructor initializer lists are only allowed on constructor definitions
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\maincharacter.cpp(21): error C2065: 'position' : undeclared identifier
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\maincharacter.cpp(21): error C2228: left of '.x' must have class/struct/union
-                 type is 'unknown-type'
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\maincharacter.cpp(21): error C2228: left of '.w' must have class/struct/union
-                 type is 'unknown-type'
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\maincharacter.cpp(45): warning C4018: '>=' : signed/unsigned mismatch
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\maincharacter.cpp(59): warning C4018: '>=' : signed/unsigned mismatch
-         main.cpp
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(82): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\objectphysicalproperties.h(5): error C2365: 'NONE' : redefinition; previous definition was 'enumerator'
-                 d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\characterinformation.h(7) : see declaration of 'NONE'
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\collisioncategory.h(10): error C2365: 'NONE' : redefinition; previous definition was 'enumerator'
-                 d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\characterinformation.h(7) : see declaration of 'NONE'
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\main.cpp(5): error C2039: 'testPhysics' : is not a member of 'TheGame'
-                 d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\thegame.h(22) : see declaration of 'TheGame'
-         LineCalculationService.cpp
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\linecalculationservice.cpp(5): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\linecalculationservice.cpp(6): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\linecalculationservice.cpp(15): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\linecalculationservice.cpp(16): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\linecalculationservice.cpp(39): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\linecalculationservice.cpp(60): warning C4244: 'return' : conversion from 'const float' to 'int', possible loss of data
-         Line.cpp
-         Errors.cpp
-         CollisionDetector.cpp
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(82): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\collisiondetector.cpp(18): warning C4018: '<' : signed/unsigned mismatch
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\collisiondetector.cpp(16): warning C4101: 'intercept' : unreferenced local variable
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\collisiondetector.cpp(16): warning C4101: 'iteration' : unreferenced local variable
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\collisiondetector.cpp(135): warning C4244: 'return' : conversion from 'double' to 'int', possible loss of data
-         CollisionCategory.cpp
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\collisioncategory.h(10): error C2365: 'NONE' : redefinition; previous definition was 'enumerator'
-                 d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\characterinformation.h(7) : see declaration of 'NONE'
-         CharacterGroupingService.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\dependencies\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Box2dMapper.cpp ObjectPhysicalProperties.cpp TheGame.cpp World.cpp main.cpp
          Box2dMapper.cpp
          Generating Code...
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\charactergroupingservice.cpp(28): warning C4715: 'CharacterGroupingService::retrieveCharacterGrouping' : not all control paths return a value
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(157): error C4716: 'MovableObject::jump' : must return a value
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\objectmanager.cpp(51): error C4703: potentially uninitialized local pointer variable 'objectToAdd' used
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\utility.cpp(52): warning C4715: 'Utility::findAllPngs' : not all control paths return a value
-     1>d:\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\utility.cpp(163): warning C4715: 'Utility::findPng' : not all control paths return a value
-     1>Done Building Project "D:\Documents\Visual Studio 2013\Projects\jimmyjump\RPG_Tutorial\RPG_Tutorial.vcxproj" (Build target(s)) -- FAILED.
+         Compiling...
+         main.cpp
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(78): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+         World.cpp
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(78): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\world.cpp(57): warning C4244: 'argument' : conversion from 'const float' to 'const int', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\world.cpp(63): warning C4244: 'argument' : conversion from 'float' to 'const int', possible loss of data
+         TheGame.cpp
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(78): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\thegame.cpp(22): warning C4244: 'initializing' : conversion from 'Uint32' to 'float', possible loss of data
+         ObjectPhysicalProperties.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\dependencies\lib" SDL2.0/SDL2.lib SDL2.0/SDL2main.lib SDL2.0/SDL2test.lib SDL2.0/SDL2_image.lib SDL2.0/SDL2_mixer.lib Box2D/Box2D.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.lib" /MACHINE:X86 Debug\Box2dMapper.obj
+         Debug\CharacterGroupingService.obj
+         Debug\CollisionCategory.obj
+         Debug\CollisionDetector.obj
+         Debug\Errors.obj
+         Debug\Line.obj
+         Debug\LineCalculationService.obj
+         Debug\main.obj
+         Debug\MainCharacter.obj
+         Debug\MovableObject.obj
+         Debug\Object.obj
+         Debug\ObjectManager.obj
+         Debug\ObjectPhysicalProperties.obj
+         Debug\Platform.obj
+         Debug\Point.obj
+         Debug\TextureCache.obj
+         Debug\TheGame.obj
+         Debug\Utility.obj
+         Debug\World.obj
+     1>MSVCRTD.lib(cinitexe.obj) : warning LNK4098: defaultlib 'msvcrt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
+     1>TheGame.obj : error LNK2019: unresolved external symbol "struct ObjectPhysicalProperties::ObjectPhysicalProperties __cdecl ObjectPhysicalPropertiesService::objectPhysicalProperties(enum ObjectBodies::ObjectBodies const &)" (?objectPhysicalProperties@ObjectPhysicalPropertiesService@@YA?AUObjectPhysicalProperties@2@ABW4ObjectBodies@3@@Z) referenced in function "private: void __thiscall TheGame::instantiateLevelObjects(void)" (?instantiateLevelObjects@TheGame@@AAEXXZ)
+     1>World.obj : error LNK2019: unresolved external symbol "struct b2FixtureDef __cdecl Box2dMapper::mapToFixture(struct ObjectPhysicalProperties::ObjectPhysicalProperties const &)" (?mapToFixture@Box2dMapper@@YA?AUb2FixtureDef@@ABUObjectPhysicalProperties@3@@Z) referenced in function "private: class b2Body & __thiscall World::mapToBody(enum Character const &,struct ObjectPhysicalProperties::ObjectPhysicalProperties const &)" (?mapToBody@World@@AAEAAVb2Body@@ABW4Character@@ABUObjectPhysicalProperties@4@@Z)
+     1>World.obj : error LNK2019: unresolved external symbol "struct b2BodyDef __cdecl Box2dMapper::mapToBody(struct ObjectPhysicalProperties::ObjectPhysicalProperties const &)" (?mapToBody@Box2dMapper@@YA?AUb2BodyDef@@ABUObjectPhysicalProperties@3@@Z) referenced in function "private: class b2Body & __thiscall World::mapToBody(enum Character const &,struct ObjectPhysicalProperties::ObjectPhysicalProperties const &)" (?mapToBody@World@@AAEAAVb2Body@@ABW4Character@@ABUObjectPhysicalProperties@4@@Z)
+     1>World.obj : error LNK2019: unresolved external symbol "class b2PolygonShape __cdecl Box2dMapper::mapToShape(struct ObjectPhysicalProperties::ObjectPhysicalProperties const &)" (?mapToShape@Box2dMapper@@YA?AVb2PolygonShape@@ABUObjectPhysicalProperties@3@@Z) referenced in function "private: class b2Body & __thiscall World::mapToBody(enum Character const &,struct ObjectPhysicalProperties::ObjectPhysicalProperties const &)" (?mapToBody@World@@AAEAAVb2Body@@ABW4Character@@ABUObjectPhysicalProperties@4@@Z)
+     1>C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.exe : fatal error LNK1120: 4 unresolved externals
+     1>Done Building Project "C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\RPG_Tutorial\RPG_Tutorial.vcxproj" (Build target(s)) -- FAILED.
 
 Build FAILED.
 
-Time Elapsed 00:00:08.84
+Time Elapsed 00:00:03.88

@@ -16,7 +16,7 @@ public:
 
 	ObjectManager& getObjectManager();
 
-	Object* createObject(const Character& character, const ObjectPhysicalProperties &props, bool isRenderable);
+	Object* createObject(const Character& character, const ObjectPhysicalProperties::ObjectPhysicalProperties &props, bool isRenderable);
 	void destroyObject(Object* object);
 	void applyGravity(const float& gravity);
 	void drawAllObjects();
@@ -32,5 +32,5 @@ private:
 	SDL_Renderer* context;
 	
 	// Functions
-	b2Body& mapToBody(const Character &character, const ObjectPhysicalProperties &props);
+	b2Body& mapToBody(const Character &character, const ObjectPhysicalProperties::ObjectPhysicalProperties &props);
 };

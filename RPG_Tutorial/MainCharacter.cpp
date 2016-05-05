@@ -1,24 +1,21 @@
 #include "MainCharacter.h"
 
 
-MainCharacter::MainCharacter() : MovableObject()
-{
+MainCharacter::~MainCharacter() {
 }
 
-MainCharacter::~MainCharacter()
-{
-}
 
-MainCharacter::MainCharacter(Position position, Character character) : MovableObject(position, character){
+MainCharacter::MainCharacter(b2Body* objectBody, Character character) : MovableObject(objectBody, character) {
 
 }
 
-void MainCharacter::setMousePosition(const int x, const int y){
+
+void MainCharacter::setMousePosition(const int &x, const int &y) {
 	mouseX = x;
 	mouseY = y;
 
 	bool faceChange = false;
-	if (mouseX >= (position.x + position.w / 2)){
+	if (mouseX >= (getX() + getWidth() / 2)){
 		if (face != "R")
 			faceChange = true;
 		face = "R";
@@ -39,7 +36,8 @@ void MainCharacter::setMousePosition(const int x, const int y){
 	}
 }
 
-void MainCharacter::moveLeft(){
+
+void MainCharacter::moveLeft() {
 	accelerateLeftward();
 
 	if (stepCount >= walkCycles[face[0]].size()){
@@ -53,7 +51,8 @@ void MainCharacter::moveLeft(){
 	++stepCount;
 }
 
-void MainCharacter::moveRight(){
+
+void MainCharacter::moveRight() {
 	accelerateRightward();
 
 	if (stepCount >= walkCycles[face[0]].size()){

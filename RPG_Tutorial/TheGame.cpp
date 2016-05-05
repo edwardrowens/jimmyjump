@@ -111,7 +111,7 @@ void TheGame::update(){
 	//detectCollisions();
 	//objectManager->setTextures();
 	// make sure characters don't exit screen
-	keepInScreen();
+	//keepInScreen();
 }
 
 void TheGame::draw(){
@@ -127,23 +127,7 @@ void TheGame::calcGravity(){
 //}
 
 void TheGame::instantiateLevelObjects() {
-	world.createObject(Character::BACKGROUND, objectPhysicalProperties(ObjectBodies::NONE), true);
-	jim = dynamic_cast<MainCharacter*>(world.createObject(Character::JIM, objectPhysicalProperties(ObjectBodies::EXAMPLE), true));
+	world.createObject(Character::BACKGROUND, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::NONE), true);
+	jim = dynamic_cast<MainCharacter*>(world.createObject(Character::JIM, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::EXAMPLE), true));
 	controllableObjects.push_back(jim);
-}
-
-void TheGame::keepInScreen() {
-	for (auto character : controllableObjects) {
-		if ((character->getX() + character->getWidth()) > WorldConstants::WINDOW_WIDTH)
-			character->setX(WorldConstants::WINDOW_WIDTH - character->getWidth());
-
-		if (character->getX() < 0)
-			character->setX(0);
-
-		if (character->getY() < 0)
-			character->setY(0);
-
-		if ((character->getY() + character->getHeight()) > WorldConstants::WINDOW_HEIGHT)
-			character->setY(WorldConstants::WINDOW_HEIGHT - character->getHeight());
-	}
 }
