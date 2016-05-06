@@ -43,7 +43,6 @@ private:
 	const int FPS = 10;
 	//processes input
 	const Uint8* keyState;
-	Uint8* fakeKeyState;
 	int numberOfFrames;
 	
 	// Functions

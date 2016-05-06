@@ -154,15 +154,15 @@ SDL_Texture* Object::getPreviousTexture() const {
 
 void Object::draw() {
 	// set up the SDL rect based upon the physics rectangle.
-	SDL_Rect* objectRect = nullptr;
-	(*objectRect).x = getX();
-	(*objectRect).y = getY();
-	(*objectRect).w = getWidth() * 2;
-	(*objectRect).h = getHeight() * 2;
+	SDL_Rect objectRect;
+	objectRect.x = getX();
+	objectRect.y = getY();
+	objectRect.w = getWidth() * 2;
+	objectRect.h = getHeight() * 2;
 
 	if (texture == nullptr)
 		PrintErrors("No texture has been loaded.", SDL_GetError);
-	if (SDL_RenderCopy(context, texture, NULL, objectRect))
+	if (SDL_RenderCopy(context, texture, NULL, &objectRect))
 		PrintErrors("Failed to render " + texturePath, SDL_GetError);
 }
 

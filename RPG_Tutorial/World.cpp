@@ -36,50 +36,7 @@ ObjectManager& World::getObjectManager() {
 
 
 void World::drawAllObjects() {
-	if (SDL_RenderClear(context)) {
-		PrintErrors("Renderer failed to clear", SDL_GetError);
-	}
-
-	std::vector<Object*>::iterator iter = objectManager.getObjectsInLevel().begin();
-	for (iter; iter != objectManager.getObjectsInLevel().end(); ++iter) {
-		if ((*iter)->getIsRenderable())
-			(*iter)->draw();
-	}
-
-	SDL_RenderPresent(context);
-}
-
-
-void World::applyGravity(const float& gravity) {
-	std::vector<Object*>::iterator iter = objectManager.getObjectsInLevel().begin();
-	for (iter; iter != objectManager.getObjectsInLevel().end(); ++iter) {
-		if ((*iter)->getIsMovable()) {
-			(*iter)->setY((*iter)->getY() + gravity);
-			MovableObject* tmp = (MovableObject*)*iter;
-			if (tmp->getGravity() != gravity){
-				tmp->setGravity(gravity);
-			}
-			tmp->setMotionVectorY(tmp->getMotionVectorY() + gravity);
-			tmp->setY(tmp->getY() + tmp->getMotionVectorY());
-		}
-	}
-}
-
-
-/*
-Update all previous positions for all MovableObjects in the vector.
-*/
-void World::updatePreviousPositions() {
-	for (auto object : objectManager.getObjectsInLevel()) {
-		if (object->getIsMovable()) {
-			MovableObject* movable = dynamic_cast<MovableObject*>(object);
-			if (movable->getY() == movable->getPreviousXY()[1])
-				movable->setIsStable(true);
-			else
-				movable->setIsStable(false);
-			movable->setPreviousXY(movable->getX(), movable->getY());
-		}
-	}
+	getObjectManager().drawAllObjects();
 }
 
 

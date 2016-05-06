@@ -115,3 +115,18 @@ void ObjectManager::detectCollisions() {
 std::vector<Object*>& ObjectManager::getObjectsInLevel() {
 	return objectsInLevel;
 }
+
+
+void ObjectManager::drawAllObjects() {
+	if (SDL_RenderClear(context)) {
+		PrintErrors("Renderer failed to clear", SDL_GetError);
+	}
+
+	std::vector<Object*>::iterator iter = getObjectsInLevel().begin();
+	for (iter; iter != getObjectsInLevel().end(); ++iter) {
+		if ((*iter)->getIsRenderable())
+			(*iter)->draw();
+	}
+
+	SDL_RenderPresent(context);
+}

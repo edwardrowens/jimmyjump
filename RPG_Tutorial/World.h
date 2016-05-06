@@ -20,9 +20,7 @@ public:
 
 	Object* createObject(const Character& character, const ObjectPhysicalProperties::ObjectPhysicalProperties &props, bool isRenderable);
 	void destroyObject(Object* object);
-	void applyGravity(const float& gravity);
 	void drawAllObjects();
-	void updatePreviousPositions();
 	void setMousePosition();
 	void putInMotion();
 

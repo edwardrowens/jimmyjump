@@ -12,7 +12,7 @@ TheGame::~TheGame()
 /* TODO
 */
 
-void TheGame::run(){
+void TheGame::run() {
 	initGame();
 
 	//const int SKIPFRAMES = 1000 / FPS;
@@ -27,8 +27,9 @@ void TheGame::run(){
 	//int i = 0;
 	//numberOfFrames = 0;
 	//game loop
-	while (currentState != GameState::EXIT){
+	while (currentState != GameState::EXIT) {
 		timeBehind += SDL_GetTicks() - lastTime;
+		processInput();
 		update();
 		while (timeBehind >= WorldConstants::UPDATE_TICK) {
 			update();
@@ -39,7 +40,7 @@ void TheGame::run(){
 	}
 }
 
-void TheGame::initGame(){
+void TheGame::initGame() {
 	currentWindow = WindowInitialization();
 	context = SDL_CreateRenderer(currentWindow, -1, SDL_RENDERER_ACCELERATED);
 	world.setContext(context);
@@ -47,34 +48,30 @@ void TheGame::initGame(){
 	instantiateLevelObjects();
 }
 
-SDL_Window* TheGame::WindowInitialization(){
+SDL_Window* TheGame::WindowInitialization() {
 	SDL_Init(SDL_INIT_EVENTS | SDL_INIT_VIDEO);
 
 	SDL_Window* win = SDL_CreateWindow("The Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WorldConstants::WINDOW_WIDTH, WorldConstants::WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
 
-	if (win == nullptr){
+	if (win == nullptr) {
 		PrintErrors("Failed to create SDL window!", SDL_GetError);
 	}
 
 	return win;
 }
 
-int TheGame::processInput(){
+int TheGame::processInput() {
 	int size;
 	keyState = SDL_GetKeyboardState(&size);
-	fakeKeyState = new Uint8[size];
-	fakeKeyState[SDL_SCANCODE_D] = 1;
-	fakeKeyState[SDL_SCANCODE_W] = 0;
 
 	return eventMade = SDL_PollEvent(&currentEvent);
 }
 
-void TheGame::update(){
+void TheGame::update() {
 	int mouseX = 0;
 	int mouseY = 0;
 
 	Uint32 a = SDL_GetMouseState(&mouseX, &mouseY);
-	world.updatePreviousPositions();
 	world.setMousePosition();
 
 	//controllableObjects[0]->addMovement(Movements::RIGHT);
@@ -107,20 +104,19 @@ void TheGame::update(){
 
 	world.putInMotion();
 
-	calcGravity();
 	//detectCollisions();
 	//objectManager->setTextures();
 	// make sure characters don't exit screen
 	//keepInScreen();
 }
 
-void TheGame::draw(){
+void TheGame::draw() {
 	world.drawAllObjects();
 }
 
-void TheGame::calcGravity(){
-	world.applyGravity(gravity);
-}
+//void TheGame::calcGravity() {
+//	world.applyGravity(gravity);
+//}
 
 //void TheGame::detectCollisions(){
 //	objectManager->detectCollisions();

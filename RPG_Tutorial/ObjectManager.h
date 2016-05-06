@@ -35,6 +35,7 @@ public:
 	void detectCollisions();
 	void setTextures();
 	void setContext(SDL_Renderer* context);
+	void drawAllObjects();
 	std::vector<Object*>& getObjectsInLevel();
 
 private:

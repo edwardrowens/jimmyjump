@@ -6,7 +6,6 @@ ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesServi
 	case ObjectBodies::NONE:
 		props.physicalBody = ObjectBodies::NONE;
 	case ObjectBodies::EXAMPLE:
-		ObjectPhysicalProperties::ObjectPhysicalProperties props;
 		props.bodyType = b2_dynamicBody;
 		props.density = 1.0f;
 		props.x = 200.0f;

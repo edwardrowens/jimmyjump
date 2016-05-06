@@ -15,12 +15,12 @@ void MainCharacter::setMousePosition(const int &x, const int &y) {
 	mouseY = y;
 
 	bool faceChange = false;
-	if (mouseX >= (getX() + getWidth() / 2)){
+	if (mouseX >= (getX() + getWidth() / 2)) {
 		if (face != "R")
 			faceChange = true;
 		face = "R";
 	}
-	else{
+	else {
 		if (face != "L")
 			faceChange = true;
 		face = "L";
@@ -28,7 +28,7 @@ void MainCharacter::setMousePosition(const int &x, const int &y) {
 
 	// If the face changes and the character is not moving, they should still face the mouse. This is definitely not the best place
 	// for this check.
-	if (faceChange){
+	if (faceChange) {
 		int fileLoc = utility.getFileLocFromPath(texturePath);
 		string file = texturePath.substr(fileLoc, texturePath.length() - 1);
 		texturePath = texturePath.substr(0, fileLoc);
@@ -40,7 +40,7 @@ void MainCharacter::setMousePosition(const int &x, const int &y) {
 void MainCharacter::moveLeft() {
 	accelerateLeftward();
 
-	if (stepCount >= walkCycles[face[0]].size()){
+	if (stepCount >= walkCycles[face[0]].size()) {
 		stepCount = 0;
 	}
 
@@ -55,7 +55,7 @@ void MainCharacter::moveLeft() {
 void MainCharacter::moveRight() {
 	accelerateRightward();
 
-	if (stepCount >= walkCycles[face[0]].size()){
+	if (stepCount >= walkCycles[face[0]].size()) {
 		stepCount = 0;
 	}
 
