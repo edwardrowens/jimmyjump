@@ -1,21 +1,8 @@
-﻿Build started 5/4/2016 5:16:27 PM.
+﻿Build started 5/5/2016 5:14:01 PM.
      1>Project "C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\RPG_Tutorial\RPG_Tutorial.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\dependencies\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Box2dMapper.cpp ObjectPhysicalProperties.cpp TheGame.cpp World.cpp main.cpp
-         Box2dMapper.cpp
-         Generating Code...
-         Compiling...
-         main.cpp
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(78): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-         World.cpp
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(78): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\world.cpp(57): warning C4244: 'argument' : conversion from 'const float' to 'const int', possible loss of data
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\world.cpp(63): warning C4244: 'argument' : conversion from 'float' to 'const int', possible loss of data
-         TheGame.cpp
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.h(78): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\thegame.cpp(22): warning C4244: 'initializing' : conversion from 'Uint32' to 'float', possible loss of data
-         ObjectPhysicalProperties.cpp
-         Generating Code...
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\dependencies\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ObjectPhysicalPropertiesService.cpp
+         ObjectPhysicalPropertiesService.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\dependencies\lib" SDL2.0/SDL2.lib SDL2.0/SDL2main.lib SDL2.0/SDL2test.lib SDL2.0/SDL2_image.lib SDL2.0/SDL2_mixer.lib Box2D/Box2D.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.lib" /MACHINE:X86 Debug\Box2dMapper.obj
          Debug\CharacterGroupingService.obj
@@ -29,7 +16,7 @@
          Debug\MovableObject.obj
          Debug\Object.obj
          Debug\ObjectManager.obj
-         Debug\ObjectPhysicalProperties.obj
+         Debug\ObjectPhysicalPropertiesService.obj
          Debug\Platform.obj
          Debug\Point.obj
          Debug\TextureCache.obj
@@ -37,13 +24,9 @@
          Debug\Utility.obj
          Debug\World.obj
      1>MSVCRTD.lib(cinitexe.obj) : warning LNK4098: defaultlib 'msvcrt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
-     1>TheGame.obj : error LNK2019: unresolved external symbol "struct ObjectPhysicalProperties::ObjectPhysicalProperties __cdecl ObjectPhysicalPropertiesService::objectPhysicalProperties(enum ObjectBodies::ObjectBodies const &)" (?objectPhysicalProperties@ObjectPhysicalPropertiesService@@YA?AUObjectPhysicalProperties@2@ABW4ObjectBodies@3@@Z) referenced in function "private: void __thiscall TheGame::instantiateLevelObjects(void)" (?instantiateLevelObjects@TheGame@@AAEXXZ)
-     1>World.obj : error LNK2019: unresolved external symbol "struct b2FixtureDef __cdecl Box2dMapper::mapToFixture(struct ObjectPhysicalProperties::ObjectPhysicalProperties const &)" (?mapToFixture@Box2dMapper@@YA?AUb2FixtureDef@@ABUObjectPhysicalProperties@3@@Z) referenced in function "private: class b2Body & __thiscall World::mapToBody(enum Character const &,struct ObjectPhysicalProperties::ObjectPhysicalProperties const &)" (?mapToBody@World@@AAEAAVb2Body@@ABW4Character@@ABUObjectPhysicalProperties@4@@Z)
-     1>World.obj : error LNK2019: unresolved external symbol "struct b2BodyDef __cdecl Box2dMapper::mapToBody(struct ObjectPhysicalProperties::ObjectPhysicalProperties const &)" (?mapToBody@Box2dMapper@@YA?AUb2BodyDef@@ABUObjectPhysicalProperties@3@@Z) referenced in function "private: class b2Body & __thiscall World::mapToBody(enum Character const &,struct ObjectPhysicalProperties::ObjectPhysicalProperties const &)" (?mapToBody@World@@AAEAAVb2Body@@ABW4Character@@ABUObjectPhysicalProperties@4@@Z)
-     1>World.obj : error LNK2019: unresolved external symbol "class b2PolygonShape __cdecl Box2dMapper::mapToShape(struct ObjectPhysicalProperties::ObjectPhysicalProperties const &)" (?mapToShape@Box2dMapper@@YA?AVb2PolygonShape@@ABUObjectPhysicalProperties@3@@Z) referenced in function "private: class b2Body & __thiscall World::mapToBody(enum Character const &,struct ObjectPhysicalProperties::ObjectPhysicalProperties const &)" (?mapToBody@World@@AAEAAVb2Body@@ABW4Character@@ABUObjectPhysicalProperties@4@@Z)
-     1>C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.exe : fatal error LNK1120: 4 unresolved externals
-     1>Done Building Project "C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\RPG_Tutorial\RPG_Tutorial.vcxproj" (Build target(s)) -- FAILED.
+         RPG_Tutorial.vcxproj -> C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.exe
+     1>Done Building Project "C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\RPG_Tutorial\RPG_Tutorial.vcxproj" (Build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:03.88
+Time Elapsed 00:00:01.42

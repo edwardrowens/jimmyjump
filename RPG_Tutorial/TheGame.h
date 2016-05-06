@@ -14,7 +14,8 @@
 #include "Position.h"
 #include "ObjectManager.h"
 #include "World.h"
-#include "ObjectPhysicalProperties.h"
+#include "ObjectPhysicalPropertiesService.h"
+#include "ObjectBodies.h"
 
 enum class GameState {PLAY,EXIT};
 

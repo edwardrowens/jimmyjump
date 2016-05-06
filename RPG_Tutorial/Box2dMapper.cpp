@@ -1,7 +1,7 @@
 #include "Box2dMapper.h"
 
 
-b2FixtureDef mapToFixture(const ObjectPhysicalProperties::ObjectPhysicalProperties &props) {
+b2FixtureDef Box2dMapper::mapToFixture(const ObjectPhysicalProperties::ObjectPhysicalProperties &props) {
 	b2FixtureDef fixtureDef;
 	fixtureDef.density = props.density;
 	fixtureDef.friction = props.friction;
@@ -9,7 +9,7 @@ b2FixtureDef mapToFixture(const ObjectPhysicalProperties::ObjectPhysicalProperti
 }
 
 
-b2BodyDef mapToBody(const ObjectPhysicalProperties::ObjectPhysicalProperties &props) {
+b2BodyDef Box2dMapper::mapToBody(const ObjectPhysicalProperties::ObjectPhysicalProperties &props) {
 	b2BodyDef bodyDef;
 	bodyDef.type = props.bodyType;
 	bodyDef.position.Set(props.x, props.y);
@@ -17,7 +17,7 @@ b2BodyDef mapToBody(const ObjectPhysicalProperties::ObjectPhysicalProperties &pr
 }
 
 
-b2PolygonShape mapToShape(const ObjectPhysicalProperties::ObjectPhysicalProperties &props) {
+b2PolygonShape Box2dMapper::mapToShape(const ObjectPhysicalProperties::ObjectPhysicalProperties &props) {
 	b2PolygonShape box;
 	box.SetAsBox(props.halfWidth, props.halfHeight);
 	return box;

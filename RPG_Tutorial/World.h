@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _WORLD_H
+#define _WORLD_H
+
 #include "ObjectManager.h"
 #include <Box2D\Box2D.h>
 #include "WorldConstants.h"
@@ -34,3 +36,4 @@ private:
 	// Functions
 	b2Body& mapToBody(const Character &character, const ObjectPhysicalProperties::ObjectPhysicalProperties &props);
 };
+#endif

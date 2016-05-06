@@ -127,7 +127,7 @@ void TheGame::calcGravity(){
 //}
 
 void TheGame::instantiateLevelObjects() {
-	world.createObject(Character::BACKGROUND, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::NONE), true);
-	jim = dynamic_cast<MainCharacter*>(world.createObject(Character::JIM, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::EXAMPLE), true));
+	world.createObject(Character::BACKGROUND, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::ObjectBodies::NONE), true);
+	jim = dynamic_cast<MainCharacter*>(world.createObject(Character::JIM, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::ObjectBodies::EXAMPLE), true));
 	controllableObjects.push_back(jim);
 }

@@ -60,9 +60,6 @@
     <ClCompile Include="TextureCache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectPhysicalProperties.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Box2dMapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -70,6 +67,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CharacterGroupingService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectPhysicalPropertiesService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -135,6 +135,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CharacterGroupingService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectBodies.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectPhysicalPropertiesService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
