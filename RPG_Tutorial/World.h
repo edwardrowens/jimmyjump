@@ -21,8 +21,7 @@ public:
 	Object* createObject(const Character& character, const ObjectPhysicalProperties::ObjectPhysicalProperties &props, bool isRenderable);
 	void destroyObject(Object* object);
 	void drawAllObjects();
-	void setMousePosition();
-	void putInMotion();
+	void step();
 
 private:
 	// Fields
@@ -32,6 +31,8 @@ private:
 	SDL_Renderer* context;
 	
 	// Functions
+	void putInMotion();
+	void setMousePosition();
 	b2Body& mapToBody(const Character &character, const ObjectPhysicalProperties::ObjectPhysicalProperties &props);
 };
 #endif

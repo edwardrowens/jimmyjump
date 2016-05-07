@@ -25,6 +25,15 @@ ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesServi
 		props.density = 1.0f;
 		props.friction = 0.3f;
 		break;
+	case ObjectBodies::ObjectBodies::PLATFORM:
+		props.bodyType = b2_staticBody;
+		props.x = 100.0f;
+		props.y = 500.0f;
+		props.halfHeight = 50.0f;
+		props.halfWidth = 50.0f;
+		props.density = 1.0f;
+		props.friction = 0.3f;
+		break;
 	}
 
 	return props;
@@ -46,6 +55,9 @@ ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesServi
 	case ObjectBodies::ObjectBodies::EXAMPLE:
 		props.bodyType = b2_dynamicBody;
 		props.density = 1.0f;
+		break;
+	case ObjectBodies::ObjectBodies::PLATFORM:
+		props.bodyType = b2_staticBody;
 		break;
 	}
 

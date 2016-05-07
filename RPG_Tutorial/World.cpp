@@ -4,7 +4,6 @@
 World::World() : 
 boxWorld(new b2World(WorldConstants::DEFAULT_GRAVITY)),
 objectManager(&textureCache) {
-	boxWorld->Step(WorldConstants::UPDATE_TICK, WorldConstants::VELOCITY_ITERATIONS, WorldConstants::POSITION_ITERATIONS);
 }
 
 
@@ -44,6 +43,13 @@ void World::setMousePosition() {
 	int mouseX, mouseY;
 	SDL_GetMouseState(&mouseX, &mouseY);
 	objectManager.getPlayableCharacter().setMousePosition(mouseX, mouseY);
+}
+
+
+void World::step() {
+	setMousePosition();
+	putInMotion();
+	boxWorld->Step(WorldConstants::UPDATE_TICK, WorldConstants::VELOCITY_ITERATIONS, WorldConstants::POSITION_ITERATIONS);
 }
 
 
