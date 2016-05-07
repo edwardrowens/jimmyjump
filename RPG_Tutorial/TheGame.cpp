@@ -123,7 +123,12 @@ void TheGame::draw() {
 //}
 
 void TheGame::instantiateLevelObjects() {
-	world.createObject(Character::BACKGROUND, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::ObjectBodies::NONE), true);
+	Position position;
+	position.x = 0;
+	position.y = 0;
+	position.h = WorldConstants::WINDOW_HEIGHT;
+	position.w = WorldConstants::WINDOW_WIDTH;
+	world.createObject(Character::BACKGROUND, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::ObjectBodies::NONE, position), true);
 	jim = dynamic_cast<MainCharacter*>(world.createObject(Character::JIM, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::ObjectBodies::EXAMPLE), true));
 	controllableObjects.push_back(jim);
 }
