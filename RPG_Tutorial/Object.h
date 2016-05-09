@@ -10,6 +10,7 @@
 #include <set>
 #include "Utility.h"
 #include "Box2D\Box2D.h"
+#include "CoordinateService.h"
 
 using std::string;
 
@@ -30,8 +31,8 @@ public:
 	// Getters
 	int getX() const;
 	int getY() const;
-	int getWidth() const;
 	int getHeight() const;
+	int getWidth() const;
 	bool getIsMovable() const;
 	SDL_Texture* getTexture() const;
 	std::string getTexturePath() const;
@@ -75,9 +76,12 @@ protected:
 	Utility utility;
 	b2Body* objectBody;
 	b2Vec2 linearVelocity;
+	int height, width;
 	const float HITBOXMODIFIER = .93;
 
 	// Protected functions
 	void setObjectTexture();
+	int getBox2dWidth() const;
+	int getBox2dHeight() const;
 };
 

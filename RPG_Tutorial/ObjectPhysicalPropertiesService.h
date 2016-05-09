@@ -4,6 +4,7 @@
 #include "ObjectBodies.h"
 #include "ObjectPhysicalProperties.h"
 #include "Position.h"
+#include "CoordinateService.h"
 
 namespace ObjectPhysicalPropertiesService {
 	ObjectPhysicalProperties::ObjectPhysicalProperties objectPhysicalProperties(const ObjectBodies::ObjectBodies &objectBody);

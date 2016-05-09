@@ -72,5 +72,6 @@ b2Body& World::mapToBody(const Character &character, const ObjectPhysicalPropert
 	b2PolygonShape shapeDef = Box2dMapper::mapToShape(props);
 	fixtureDef.shape = &shapeDef;
 	body->CreateFixture(&fixtureDef);
+	body->ResetMassData();
 	return *body;
 }

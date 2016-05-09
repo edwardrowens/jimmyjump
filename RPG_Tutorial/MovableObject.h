@@ -14,8 +14,7 @@ const float32 X_VELOCITY_STEP = 2.5f;
 const float32 Y_VELOCITY_STEP = 2.5f;
 
 
-class MovableObject : public Object
-{
+class MovableObject : public Object {
 public:
 	// Constructors and destructor.
 	MovableObject(b2Body* objectBody, Character character);

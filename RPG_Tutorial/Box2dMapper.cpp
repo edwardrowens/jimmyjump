@@ -19,6 +19,6 @@ b2BodyDef Box2dMapper::mapToBody(const ObjectPhysicalProperties::ObjectPhysicalP
 
 b2PolygonShape Box2dMapper::mapToShape(const ObjectPhysicalProperties::ObjectPhysicalProperties &props) {
 	b2PolygonShape box;
-	box.SetAsBox(props.halfWidth, props.halfHeight);
+	box.SetAsBox(props.w, props.h);
 	return box;
 }

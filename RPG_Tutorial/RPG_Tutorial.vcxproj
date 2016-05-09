@@ -90,6 +90,7 @@
     <ClCompile Include="TheGame.cpp" />
     <ClCompile Include="Utility.cpp" />
     <ClCompile Include="World.cpp" />
+    <ClCompile Include="CoordinateService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Box2dMapper.h" />
@@ -115,6 +116,7 @@
     <ClInclude Include="TheGame.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="World.h" />
+    <ClInclude Include="CoordinateService.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

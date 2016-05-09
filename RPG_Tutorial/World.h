@@ -8,8 +8,7 @@
 #include "Box2dMapper.h"
 #include "CollisionCategory.h"
 
-class World
-{
+class World {
 public:
 	World();
 	~World();
