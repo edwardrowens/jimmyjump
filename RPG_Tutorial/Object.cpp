@@ -6,7 +6,9 @@ objectBody(objectBody),
 isRenderable(true),
 isPlatform(false),
 hitbox(new SDL_Rect),
-character(character) {
+character(character),
+height(getBox2dHeight()),
+width(getBox2dWidth()) {
 	Object::load(character);
 }
 
@@ -45,23 +47,41 @@ Object::~Object() {
 }
 
 
-int Object::getHeight() const {
-	return objectBody->GetFixtureList()->GetAABB(0).GetExtents().y;
+int Object::getBox2dHeight() const {
+	return objectBody->GetFixtureList()->GetAABB(0).GetExtents().y * 2;
+}
+
+
+int Object::getBox2dWidth() const {
+	return objectBody->GetFixtureList()->GetAABB(0).GetExtents().x * 2;
+}
+
+
+/*
+Displays the current X position of the object in SCREEN coordinates.
+*/
+int Object::getX() const {
+	return CoordinateService::worldToScreen(objectBody->GetPosition().x - (getBox2dWidth() / 2), objectBody->GetPosition().y + (getBox2dHeight() / 2)).x;
+	//return CoordinateService::worldToScreen(objectBody->GetPosition().x, objectBody->GetPosition().y).x;
+}
+
+
+/*
+Displays the current Y position of the object in SCREEN coordinates.
+*/
+int Object::getY() const {
+	return CoordinateService::worldToScreen(objectBody->GetPosition().x - (getBox2dWidth() / 2), objectBody->GetPosition().y + (getBox2dHeight() / 2)).y;
+	//return CoordinateService::worldToScreen(objectBody->GetPosition().x, objectBody->GetPosition().y).y;
 }
 
 
 int Object::getWidth() const {
-	return objectBody->GetFixtureList()->GetAABB(0).GetExtents().x;
+	return width;
 }
 
 
-int Object::getX() const {
-	return objectBody->GetPosition().x;
-}
-
-
-int Object::getY() const {
-	return objectBody->GetPosition().y;
+int Object::getHeight() const {
+	return height;
 }
 
 
@@ -157,8 +177,8 @@ void Object::draw() {
 	SDL_Rect objectRect;
 	objectRect.x = getX();
 	objectRect.y = getY();
-	objectRect.w = getWidth() * 2;
-	objectRect.h = getHeight() * 2;
+	objectRect.w = getWidth();
+	objectRect.h = getHeight();
 
 	if (texture == nullptr)
 		PrintErrors("No texture has been loaded.", SDL_GetError);
