@@ -61,7 +61,8 @@ int Object::getBox2dWidth() const {
 Displays the current X position of the object in SCREEN coordinates.
 */
 int Object::getX() const {
-	return CoordinateService::worldToScreen(objectBody->GetPosition().x - (getBox2dWidth() / 2), objectBody->GetPosition().y + (getBox2dHeight() / 2)).x;
+	return objectBody->GetPosition().x;
+	//return CoordinateService::worldToScreen(objectBody->GetPosition().x - (getBox2dWidth() / 2), objectBody->GetPosition().y + (getBox2dHeight() / 2)).x;
 	//return CoordinateService::worldToScreen(objectBody->GetPosition().x, objectBody->GetPosition().y).x;
 }
 
@@ -70,7 +71,29 @@ int Object::getX() const {
 Displays the current Y position of the object in SCREEN coordinates.
 */
 int Object::getY() const {
-	return CoordinateService::worldToScreen(objectBody->GetPosition().x - (getBox2dWidth() / 2), objectBody->GetPosition().y + (getBox2dHeight() / 2)).y;
+	if (texturePath.find("Jimmy") != std::string::npos) {
+		std::cout << "Center: (" << std::to_string(objectBody->GetPosition().x) <<
+			", " + std::to_string(objectBody->GetPosition().y) << ")" << std::endl;
+		b2Vec2 firstVertex = dynamic_cast<b2PolygonShape*>(objectBody->GetFixtureList()->GetShape())->GetVertex(0);
+		b2Vec2 secondVertex = dynamic_cast<b2PolygonShape*>(objectBody->GetFixtureList()->GetShape())->GetVertex(1);
+		b2Vec2 thirdVertex = dynamic_cast<b2PolygonShape*>(objectBody->GetFixtureList()->GetShape())->GetVertex(2);
+		b2Vec2 fourthVertex = dynamic_cast<b2PolygonShape*>(objectBody->GetFixtureList()->GetShape())->GetVertex(3);
+
+		// BOTTOM LEFT
+		std::cout << "First Vertex: (" << std::to_string(objectBody->GetWorldPoint(firstVertex).x) <<
+			", " + std::to_string(objectBody->GetWorldPoint(firstVertex).y) << ")" << std::endl;
+		// BOTTOM RIGHT
+		std::cout << "Second Vertex: (" << std::to_string(objectBody->GetWorldPoint(secondVertex).x) <<
+			", " + std::to_string(objectBody->GetWorldPoint(secondVertex).y) << ")" << std::endl;
+		// TOP RIGHT
+		std::cout << "Third Vertex: (" << std::to_string(objectBody->GetWorldPoint(thirdVertex).x) <<
+			", " + std::to_string(objectBody->GetWorldPoint(thirdVertex).y) << ")" << std::endl;
+		// TOP LEFT
+		std::cout << "Fourth Vertex: (" << std::to_string(objectBody->GetWorldPoint(fourthVertex).x) <<
+			", " + std::to_string(objectBody->GetWorldPoint(fourthVertex).y) << ")" << std::endl;
+	}
+	return objectBody->GetPosition().y;
+	//return CoordinateService::worldToScreen(objectBody->GetPosition().x - (getBox2dWidth() / 2), objectBody->GetPosition().y + (getBox2dHeight() / 2)).y;
 	//return CoordinateService::worldToScreen(objectBody->GetPosition().x, objectBody->GetPosition().y).y;
 }
 
@@ -175,8 +198,9 @@ SDL_Texture* Object::getPreviousTexture() const {
 void Object::draw() {
 	// set up the SDL rect based upon the physics rectangle.
 	SDL_Rect objectRect;
-	objectRect.x = getX();
-	objectRect.y = getY();
+	b2Vec2 topLeftVertex = objectBody->GetWorldPoint(dynamic_cast<b2PolygonShape*>(objectBody->GetFixtureList()->GetShape())->GetVertex(3));
+	objectRect.x = CoordinateService::worldToScreen(topLeftVertex.x, topLeftVertex.y).x;
+	objectRect.y = CoordinateService::worldToScreen(topLeftVertex.x, topLeftVertex.y).y;
 	objectRect.w = getWidth();
 	objectRect.h = getHeight();
 

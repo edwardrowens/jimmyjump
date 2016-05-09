@@ -11,7 +11,7 @@ namespace WorldConstants {
 	const float32 UPDATE_TICK_IN_SECONDS = UPDATE_TICK * 1000;
 	const int WINDOW_WIDTH = 800;
 	const int WINDOW_HEIGHT = 600;
-	const float METER_TO_PIXEL = 0.9f;
+	const int PIXELS_PER_METER = 10; // how many pixels per meter
 	const float X_ORIGIN = WINDOW_WIDTH / 2;
 	const float Y_ORIGIN = WINDOW_HEIGHT / 2;
 }

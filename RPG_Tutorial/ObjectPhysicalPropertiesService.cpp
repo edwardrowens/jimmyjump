@@ -22,8 +22,8 @@ ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesServi
 		b2Vec2 convertedXAndY = CoordinateService::screenToWorld(100, 200);
 		props.x = convertedXAndY.x;
 		props.y = convertedXAndY.y;
-		props.h = 20.0f * WorldConstants::METER_TO_PIXEL;
-		props.w = 20.0f * WorldConstants::METER_TO_PIXEL;
+		props.h = 2.0f * WorldConstants::PIXELS_PER_METER;
+		props.w = 2.0f * WorldConstants::PIXELS_PER_METER;
 		props.density = 1.0f;
 		props.friction = 0.3f;
 		break;
@@ -33,8 +33,8 @@ ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesServi
 		b2Vec2 convertedXAndY = CoordinateService::screenToWorld(100, 500);
 		props.x = convertedXAndY.x;
 		props.y = convertedXAndY.y;
-		props.h = 50.0f * WorldConstants::METER_TO_PIXEL;
-		props.w = 50.0f * WorldConstants::METER_TO_PIXEL;
+		props.h = 5.0f * WorldConstants::PIXELS_PER_METER;
+		props.w = 5.0f * WorldConstants::PIXELS_PER_METER;
 		props.density = 1.0f;
 		props.friction = 0.3f;
 		break;
@@ -52,8 +52,10 @@ ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesServi
 	b2Vec2 convertedXAndY = CoordinateService::screenToWorld(position.x, position.y);
 	props.x = convertedXAndY.x;
 	props.y = convertedXAndY.y;
-	props.h = position.h / 2 * WorldConstants::METER_TO_PIXEL;
-	props.w = position.w / 2 * WorldConstants::METER_TO_PIXEL;
+	props.h = position.h;
+	props.w = position.w;
+	/*props.h = position.h / 2 * WorldConstants::METER_TO_PIXEL;
+	props.w = position.w / 2 * WorldConstants::METER_TO_PIXEL;*/
 
 	switch (objectBody) {
 	case ObjectBodies::ObjectBodies::NONE:
