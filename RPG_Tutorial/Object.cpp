@@ -7,9 +7,15 @@ isRenderable(true),
 isPlatform(false),
 hitbox(new SDL_Rect),
 character(character),
-height(getBox2dHeight()),
-width(getBox2dWidth()) {
+previousPosition(retrieveTopLeftVertex()) {
 	Object::load(character);
+
+	b2Vec2 objectPosition = retrieveTopLeftVertex();
+	objectRect.x = objectPosition.x;
+	objectRect.y = objectPosition.y;
+
+	objectRect.w = getBox2dHeight() * WorldConstants::PIXELS_PER_METER;
+	objectRect.h = getBox2dWidth() * WorldConstants::PIXELS_PER_METER;
 }
 
 
@@ -196,13 +202,16 @@ SDL_Texture* Object::getPreviousTexture() const {
 
 
 void Object::draw() {
-	// set up the SDL rect based upon the physics rectangle.
-	SDL_Rect objectRect;
-	b2Vec2 topLeftVertex = objectBody->GetWorldPoint(dynamic_cast<b2PolygonShape*>(objectBody->GetFixtureList()->GetShape())->GetVertex(3));
-	objectRect.x = CoordinateService::worldToScreen(topLeftVertex.x, topLeftVertex.y).x;
-	objectRect.y = CoordinateService::worldToScreen(topLeftVertex.x, topLeftVertex.y).y;
-	objectRect.w = getWidth();
-	objectRect.h = getHeight();
+	// This is the top left vertex of the box.
+	b2Vec2 currentPosition = retrieveTopLeftVertex();
+
+	// If there was a change in the object's physics, then update how it's rendered.
+	if (currentPosition.x != previousPosition.x || currentPosition.y != previousPosition.y) {
+		b2Vec2 displacement = CoordinateService::dispalcementFromWorldToScreen(previousPosition, currentPosition);
+		objectRect.x += displacement.x;
+		objectRect.y -= displacement.y;
+		previousPosition = currentPosition;
+	}
 
 	if (texture == nullptr)
 		PrintErrors("No texture has been loaded.", SDL_GetError);
@@ -236,4 +245,9 @@ void Object::load(Character character) {
 	this->character = character;
 	texturePath = utility.getDefaultTexturePath(character);
 	walkCycles = utility.findAllWalkCycleFiles(character);
+}
+
+
+b2Vec2 Object::retrieveTopLeftVertex() {
+	return objectBody->GetWorldPoint(dynamic_cast<b2PolygonShape*>(objectBody->GetFixtureList()->GetShape())->GetVertex(3));
 }

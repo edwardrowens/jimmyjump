@@ -83,5 +83,10 @@ protected:
 	void setObjectTexture();
 	int getBox2dWidth() const;
 	int getBox2dHeight() const;
+
+private:
+	b2Vec2 previousPosition;
+	b2Vec2 retrieveTopLeftVertex();
+	SDL_Rect objectRect;
 };
 
