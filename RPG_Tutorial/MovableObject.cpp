@@ -286,7 +286,7 @@ void MovableObject::executeMovement(){
 			return;
 			break;
 		case Movements::NONE:
-			setMotionVectorX(0.0f);
+			objectBody->SetLinearVelocity(b2Vec2(0.0f, objectBody->GetLinearVelocity().y));
 			break;
 		}
 	}

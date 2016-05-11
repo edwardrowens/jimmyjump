@@ -11,6 +11,7 @@
 #include "Utility.h"
 #include "Box2D\Box2D.h"
 #include "CoordinateService.h"
+#include <math.h>
 
 using std::string;
 
@@ -81,12 +82,15 @@ protected:
 
 	// Protected functions
 	void setObjectTexture();
-	int getBox2dWidth() const;
-	int getBox2dHeight() const;
+	float32 getBox2dWidth() const;
+	float32 getBox2dHeight() const;
 
 private:
 	b2Vec2 previousPosition;
-	b2Vec2 retrieveTopLeftVertex();
+	b2Vec2 retrieveTopLeftVertex() const;
+	b2Vec2 retrieveBottomRightVertex() const;
+	b2Vec2 retrieveBottomLeftVertex() const;
+	b2Vec2 retrieveTopRightVertex() const;
 	SDL_Rect objectRect;
 };
 

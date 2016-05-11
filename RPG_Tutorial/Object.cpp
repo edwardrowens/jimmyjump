@@ -11,11 +11,12 @@ previousPosition(retrieveTopLeftVertex()) {
 	Object::load(character);
 
 	b2Vec2 objectPosition = retrieveTopLeftVertex();
-	objectRect.x = objectPosition.x;
-	objectRect.y = objectPosition.y;
+	b2Vec2 screenCoords = CoordinateService::worldToScreen(objectPosition.x, objectPosition.y);
+	objectRect.x = screenCoords.x;
+	objectRect.y = screenCoords.y;
 
-	objectRect.w = getBox2dHeight() * WorldConstants::PIXELS_PER_METER;
-	objectRect.h = getBox2dWidth() * WorldConstants::PIXELS_PER_METER;
+	objectRect.w = getBox2dWidth() * WorldConstants::PIXELS_PER_METER;
+	objectRect.h = getBox2dHeight() * WorldConstants::PIXELS_PER_METER;
 }
 
 
@@ -53,54 +54,23 @@ Object::~Object() {
 }
 
 
-int Object::getBox2dHeight() const {
-	return objectBody->GetFixtureList()->GetAABB(0).GetExtents().y * 2;
+float32 Object::getBox2dHeight() const {
+	return retrieveTopLeftVertex().y - retrieveBottomLeftVertex().y;
 }
 
 
-int Object::getBox2dWidth() const {
-	return objectBody->GetFixtureList()->GetAABB(0).GetExtents().x * 2;
+float32 Object::getBox2dWidth() const {
+	return retrieveTopRightVertex().x - retrieveTopLeftVertex().x;
 }
 
 
-/*
-Displays the current X position of the object in SCREEN coordinates.
-*/
 int Object::getX() const {
-	return objectBody->GetPosition().x;
-	//return CoordinateService::worldToScreen(objectBody->GetPosition().x - (getBox2dWidth() / 2), objectBody->GetPosition().y + (getBox2dHeight() / 2)).x;
-	//return CoordinateService::worldToScreen(objectBody->GetPosition().x, objectBody->GetPosition().y).x;
+	return objectRect.x;
 }
 
 
-/*
-Displays the current Y position of the object in SCREEN coordinates.
-*/
 int Object::getY() const {
-	if (texturePath.find("Jimmy") != std::string::npos) {
-		std::cout << "Center: (" << std::to_string(objectBody->GetPosition().x) <<
-			", " + std::to_string(objectBody->GetPosition().y) << ")" << std::endl;
-		b2Vec2 firstVertex = dynamic_cast<b2PolygonShape*>(objectBody->GetFixtureList()->GetShape())->GetVertex(0);
-		b2Vec2 secondVertex = dynamic_cast<b2PolygonShape*>(objectBody->GetFixtureList()->GetShape())->GetVertex(1);
-		b2Vec2 thirdVertex = dynamic_cast<b2PolygonShape*>(objectBody->GetFixtureList()->GetShape())->GetVertex(2);
-		b2Vec2 fourthVertex = dynamic_cast<b2PolygonShape*>(objectBody->GetFixtureList()->GetShape())->GetVertex(3);
-
-		// BOTTOM LEFT
-		std::cout << "First Vertex: (" << std::to_string(objectBody->GetWorldPoint(firstVertex).x) <<
-			", " + std::to_string(objectBody->GetWorldPoint(firstVertex).y) << ")" << std::endl;
-		// BOTTOM RIGHT
-		std::cout << "Second Vertex: (" << std::to_string(objectBody->GetWorldPoint(secondVertex).x) <<
-			", " + std::to_string(objectBody->GetWorldPoint(secondVertex).y) << ")" << std::endl;
-		// TOP RIGHT
-		std::cout << "Third Vertex: (" << std::to_string(objectBody->GetWorldPoint(thirdVertex).x) <<
-			", " + std::to_string(objectBody->GetWorldPoint(thirdVertex).y) << ")" << std::endl;
-		// TOP LEFT
-		std::cout << "Fourth Vertex: (" << std::to_string(objectBody->GetWorldPoint(fourthVertex).x) <<
-			", " + std::to_string(objectBody->GetWorldPoint(fourthVertex).y) << ")" << std::endl;
-	}
-	return objectBody->GetPosition().y;
-	//return CoordinateService::worldToScreen(objectBody->GetPosition().x - (getBox2dWidth() / 2), objectBody->GetPosition().y + (getBox2dHeight() / 2)).y;
-	//return CoordinateService::worldToScreen(objectBody->GetPosition().x, objectBody->GetPosition().y).y;
+	return objectRect.y;
 }
 
 
@@ -207,9 +177,9 @@ void Object::draw() {
 
 	// If there was a change in the object's physics, then update how it's rendered.
 	if (currentPosition.x != previousPosition.x || currentPosition.y != previousPosition.y) {
-		b2Vec2 displacement = CoordinateService::dispalcementFromWorldToScreen(previousPosition, currentPosition);
-		objectRect.x += displacement.x;
-		objectRect.y -= displacement.y;
+		b2Vec2 displacement = CoordinateService::displacementFromWorldToScreen(previousPosition, currentPosition);
+		objectRect.x += roundf(displacement.x);
+		objectRect.y -= roundf(displacement.y);
 		previousPosition = currentPosition;
 	}
 
@@ -248,6 +218,21 @@ void Object::load(Character character) {
 }
 
 
-b2Vec2 Object::retrieveTopLeftVertex() {
+b2Vec2 Object::retrieveTopLeftVertex() const {
 	return objectBody->GetWorldPoint(dynamic_cast<b2PolygonShape*>(objectBody->GetFixtureList()->GetShape())->GetVertex(3));
+}
+
+
+b2Vec2 Object::retrieveBottomRightVertex() const {
+	return objectBody->GetWorldPoint(dynamic_cast<b2PolygonShape*>(objectBody->GetFixtureList()->GetShape())->GetVertex(1));
+}
+
+
+b2Vec2 Object::retrieveBottomLeftVertex() const {
+	return objectBody->GetWorldPoint(dynamic_cast<b2PolygonShape*>(objectBody->GetFixtureList()->GetShape())->GetVertex(0));
+}
+
+
+b2Vec2 Object::retrieveTopRightVertex() const {
+	return objectBody->GetWorldPoint(dynamic_cast<b2PolygonShape*>(objectBody->GetFixtureList()->GetShape())->GetVertex(2));
 }
