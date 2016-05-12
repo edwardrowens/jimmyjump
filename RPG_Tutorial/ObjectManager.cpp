@@ -65,7 +65,8 @@ be drawn to the screen.
 */
 void ObjectManager::setTextures() {
 	for (auto object : objectsInLevel) {
-		if (object->getPreviousTexture() != object->getTexture()) {
+		if (object->getPreviousTexturePath() != object->getTexturePath()) {
+			std::cout << object->getTexturePath() << std::endl;
 			textureCache->lockTextureForObject(*object);
 		}
 	}
@@ -97,18 +98,6 @@ MainCharacter& ObjectManager::getPlayableCharacter() {
 
 void ObjectManager::setPlayableCharacter(MainCharacter& playableCharacter) {
 	this->playableCharacter = &playableCharacter;
-}
-
-
-void ObjectManager::detectCollisions() {
-	std::vector<Object*>::iterator i = objectsInLevel.begin();
-	for (i; i != objectsInLevel.end(); ++i) {
-		if ((*i)->getIsMovable()) {
-			MovableObject* tempObject = dynamic_cast<MovableObject*>(*i);
-			CollisionDetector::detectDynamicCollisions(tempObject, objectsInLevel);
-			CollisionDetector::detectStaticCollisions(tempObject, objectsInLevel);
-		}
-	}
 }
 
 

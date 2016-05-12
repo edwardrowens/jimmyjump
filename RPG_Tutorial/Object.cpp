@@ -5,7 +5,6 @@ Object::Object(b2Body* objectBody, Character character) :
 objectBody(objectBody),
 isRenderable(true),
 isPlatform(false),
-hitbox(new SDL_Rect),
 character(character),
 previousPosition(retrieveTopLeftVertex()) {
 	Object::load(character);
@@ -26,10 +25,8 @@ objectBody(object.getBody()),
 texture(object.getTexture()),
 isRenderable(true),
 isPlatform(false),
-hitbox(new SDL_Rect),
 character(object.getCharacter()) {
 	objectBody = object.getBody();
-	texturePath = utility.getDefaultTexturePath(object.getCharacter());
 }
 
 
@@ -40,9 +37,7 @@ Object& Object::operator= (const Object &object) {
 
 	texture = object.getTexture();
 	objectBody = object.getBody();
-	objectBody = object.getBody();
 
-	texturePath = utility.getDefaultTexturePath(object.getCharacter());
 	character = object.getCharacter();
 
 	return *this;
@@ -94,11 +89,6 @@ bool Object::getIsRenderable() const {
 }
 
 
-SDL_Rect* Object::getHitbox() const {
-	return hitbox;
-}
-
-
 Character Object::getCharacter() const {
 	return character;
 }
@@ -111,15 +101,6 @@ std::string Object::getTexturePath() const {
 
 b2Body* Object::getBody() const {
 	return objectBody;
-}
-
-
-void Object::setX(const int &x) {
-}
-
-
-void Object::setY(const int &y) {
-
 }
 
 
@@ -151,6 +132,12 @@ void Object::setContext(SDL_Renderer* context) {
 }
 
 
+void Object::setTexturePath(const std::string &texturePath) {
+	previousTexturePath = texturePath;
+	this->texturePath = texturePath;
+}
+
+
 void Object::setTexture(SDL_Texture* texture){
 	this->texture = texture;
 }
@@ -166,8 +153,8 @@ SDL_Texture* Object::getTexture() const {
 }
 
 
-SDL_Texture* Object::getPreviousTexture() const {
-	return previousTexture;
+std::string Object::getPreviousTexturePath() const {
+	return previousTexturePath;
 }
 
 
@@ -189,31 +176,10 @@ void Object::draw() {
 		PrintErrors("Failed to render " + texturePath, SDL_GetError);
 }
 
-//// create a hitbox that is approximately HITBOXMODIFIER * object's rectangle
-//void Object::createHitbox(){
-//	if (position.w == 0 || !isRenderable){
-//		hitbox->x = position.x;
-//		hitbox->y = position.y;
-//		hitbox->w = position.w;
-//		hitbox->h = position.h;
-//		return;
-//	}
-//	float distance, r;
-//	distance = sqrt(pow(position.h, 2) + pow(position.w, 2)) * (1 - HITBOXMODIFIER);
-//	r = sqrt(1 + pow((position.h / position.w), 2));
-//
-//	float dx = (distance / r);
-//	float dy = ((distance*(position.h / position.w)) / r);
-//
-//	hitbox->x = position.x + dx;
-//	hitbox->y = position.y + dy;
-//	hitbox->w = (position.x + position.w) - dx - hitbox->x;
-//	hitbox->h = (position.y + position.h) - dy - hitbox->y;
-//}
 
 void Object::load(Character character) {
 	this->character = character;
-	texturePath = utility.getDefaultTexturePath(character);
+	previousTexturePath = texturePath = utility.getDefaultTexturePath(character);
 	walkCycles = utility.findAllWalkCycleFiles(character);
 }
 

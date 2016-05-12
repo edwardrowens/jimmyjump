@@ -34,7 +34,11 @@ ObjectManager& World::getObjectManager() {
 }
 
 
+/*
+Sets the textures for every object and draws them.
+*/
 void World::drawAllObjects() {
+	getObjectManager().setTextures();
 	getObjectManager().drawAllObjects();
 }
 

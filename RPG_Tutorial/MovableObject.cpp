@@ -166,6 +166,7 @@ void MovableObject::moveRight(){
 
 	// POTENTIAL PROBLEM: If I use another type of file for textures, I would have to make a more general solution rather than
 	// hard-coding this string.
+	std::string texturePath = getTexturePath();
 	int fileLocInPath = utility.getFileLocFromPath(texturePath);
 	char firstCharInFileName = texturePath.substr(fileLocInPath, texturePath.size())[0];
 
@@ -175,6 +176,8 @@ void MovableObject::moveRight(){
 		texturePath = texturePath.substr(0, fileLocInPath);
 		texturePath = texturePath + "R" + std::to_string(stepCount) + ".png";
 	}
+
+	setTexturePath(texturePath);
 
 	++stepCount;
 }
@@ -188,6 +191,7 @@ void MovableObject::moveLeft(){
 
 	// POTENTIAL PROBLEM: If I use another type of file for textures, I would have to make a more general solution rather than
 	// hard-coding this string.
+	std::string texturePath = getTexturePath();
 	int fileLocInPath = utility.getFileLocFromPath(texturePath);
 	char firstCharInFileName = texturePath.substr(fileLocInPath, texturePath.size())[0];
 
@@ -197,6 +201,8 @@ void MovableObject::moveLeft(){
 		texturePath = texturePath.substr(0, fileLocInPath);
 		texturePath = texturePath + "L" + std::to_string(stepCount) + ".png";
 	}
+
+	setTexturePath(texturePath);
 
 	++stepCount;
 }

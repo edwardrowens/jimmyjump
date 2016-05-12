@@ -37,10 +37,9 @@ public:
 	bool getIsMovable() const;
 	SDL_Texture* getTexture() const;
 	std::string getTexturePath() const;
-	SDL_Texture* getPreviousTexture() const;
+	std::string getPreviousTexturePath() const;
 	bool getIsRenderable() const;
 	bool getIsPlatform() const;
-	SDL_Rect* getHitbox() const;
 	Character getCharacter() const;
 	Position getPosition() const;
 	b2Body* getBody() const;
@@ -48,17 +47,14 @@ public:
 	// Setters
 	void setX(const int &x);
 	void setY(const int &y);
-	void setTexturePath(const std::string& newTexturePath);
 	void setTexture(SDL_Texture* texture);
 	void setIsMovable(const bool& isMovable);
 	void setIsRenderable(const bool& isRenderable);
 	void setIsPlatform(const bool& isPlatform);
 	void setCharacter(const Character& character);
 	void setContext(SDL_Renderer* context);
-	void setPosition(const Position& position);
 
 	// Public functions
-	void createHitbox();
 	virtual void draw();
 	void load(Character character);
 
@@ -68,9 +64,7 @@ protected:
 	bool isRenderable;
 	bool isPlatform;
 	SDL_Texture* texture;
-	SDL_Texture* previousTexture;
-	std::string texturePath;
-	SDL_Rect* hitbox;
+	std::string previousTexturePath;
 	Character character;
 	SDL_Renderer* context;
 	std::map<char, std::set<string>> walkCycles;
@@ -81,7 +75,7 @@ protected:
 	const float HITBOXMODIFIER = .93;
 
 	// Protected functions
-	void setObjectTexture();
+	void setTexturePath(const std::string &texturePath);
 	float32 getBox2dWidth() const;
 	float32 getBox2dHeight() const;
 
@@ -91,6 +85,7 @@ private:
 	b2Vec2 retrieveBottomRightVertex() const;
 	b2Vec2 retrieveBottomLeftVertex() const;
 	b2Vec2 retrieveTopRightVertex() const;
+	std::string texturePath;
 	SDL_Rect objectRect;
 };
 

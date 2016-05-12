@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _TEXTURECACHE_H
+#define _TEXTURECACHE_H
 
 #include "Object.h"
 class TextureCache {
@@ -23,4 +24,4 @@ private:
 	void removeTextureFromCache(Character character);
 	SDL_Texture* addTextureToCache(std::string texturePath);
 };
-
+#endif

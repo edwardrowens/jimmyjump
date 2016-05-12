@@ -8,7 +8,6 @@
 #include "Utility.h"
 #include "MainCharacter.h"
 #include "Platform.h"
-#include "CollisionDetector.h"
 #include "Box2D\Box2D.h"
 #include "TextureCache.h"
 
@@ -32,7 +31,6 @@ public:
 	// public functions
 	Object* createObject(const Character& character, b2Body& objectBody, bool isRenderable);
 	void destroyObject(Object object);
-	void detectCollisions();
 	void setTextures();
 	void setContext(SDL_Renderer* context);
 	void drawAllObjects();
