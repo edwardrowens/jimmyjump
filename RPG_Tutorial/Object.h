@@ -71,7 +71,6 @@ protected:
 	Utility utility;
 	b2Body* objectBody;
 	b2Vec2 linearVelocity;
-	int height, width;
 	const float HITBOXMODIFIER = .93;
 
 	// Protected functions

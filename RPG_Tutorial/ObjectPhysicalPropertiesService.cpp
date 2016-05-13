@@ -52,8 +52,8 @@ ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesServi
 
 	props.x = convertedCoords.x;
 	props.y = convertedCoords.y;
-	props.h = position.h;
-	props.w = position.w;
+	props.h = position.h / WorldConstants::PIXELS_PER_METER;
+	props.w = position.w / WorldConstants::PIXELS_PER_METER;
 	/*props.h = position.h / 2 * WorldConstants::METER_TO_PIXEL;
 	props.w = position.w / 2 * WorldConstants::METER_TO_PIXEL;*/
 

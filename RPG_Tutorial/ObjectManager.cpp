@@ -50,7 +50,7 @@ Object* ObjectManager::createObject(const Character &character, b2Body &objectBo
 		// Add the object to the cache
 		objectToAdd->setIsRenderable(isRenderable);
 		if (isRenderable) {
-			textureCache->lockTextureForObject(*objectToAdd);
+			textureCache->addObjectToCache(*objectToAdd);
 		}
 
 		return objectToAdd;
@@ -66,7 +66,6 @@ be drawn to the screen.
 void ObjectManager::setTextures() {
 	for (auto object : objectsInLevel) {
 		if (object->getPreviousTexturePath() != object->getTexturePath()) {
-			std::cout << object->getTexturePath() << std::endl;
 			textureCache->lockTextureForObject(*object);
 		}
 	}

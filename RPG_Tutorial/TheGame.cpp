@@ -56,21 +56,32 @@ int TheGame::processInput() {
 
 void TheGame::update() {
 	//jim->addMovement(Movements::RIGHT);
-	if (keyState[SDL_SCANCODE_D]){
+	/*if (keyState[SDL_SCANCODE_D]){
 		jim->addMovement(Movements::RIGHT);
-	}
+		}
 
-	if (keyState[SDL_SCANCODE_A]){
+		if (keyState[SDL_SCANCODE_A]){
 		jim->addMovement(Movements::LEFT);
-	}
-	if (keyState[SDL_SCANCODE_W]){
+		}
+		if (keyState[SDL_SCANCODE_W]){
 		jim->addMovement(Movements::JUMP);
-	}
-	if (keyState[SDL_SCANCODE_P]){
+		}
+		if (keyState[SDL_SCANCODE_P]){
 		jim->addMovement(Movements::PATROL);
-	}
-	if (jim->getCurrentMovements().size() == 0) {
+		}
+		if (jim->getCurrentMovements().size() == 0) {
 		jim->addMovement(Movements::NONE);
+		}*/
+
+	if (keyState[SDL_SCANCODE_T]) {
+		int mouseX, mouseY;
+		SDL_GetMouseState(&mouseX, &mouseY);
+		Position position;
+		position.x = mouseX;
+		position.y = mouseY;
+		position.w = 20;
+		position.h = 20;
+		world.createObject(Character::JIM, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::EXAMPLE), true);
 	}
 
 	world.step();
@@ -80,20 +91,13 @@ void TheGame::draw() {
 	world.drawAllObjects();
 }
 
-//void TheGame::calcGravity() {
-//	world.applyGravity(gravity);
-//}
-
-//void TheGame::detectCollisions(){
-//	objectManager->detectCollisions();
-//}
 
 void TheGame::instantiateLevelObjects() {
 	Position position;
-	position.x = 0;
-	position.y = 0;
-	position.h = WorldConstants::WINDOW_HEIGHT;
-	position.w = WorldConstants::WINDOW_WIDTH;
+	position.x = 100;
+	position.y = 250;
+	position.h = 50;
+	position.w = 100;
 	//world.createObject(Character::BACKGROUND, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::ObjectBodies::NONE, position), true);
 	jim = dynamic_cast<MainCharacter*>(world.createObject(Character::JIM, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::ObjectBodies::EXAMPLE), true));
 	world.createObject(Character::LIGHT_GREEN_PLATFORM, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::ObjectBodies::PLATFORM), true);

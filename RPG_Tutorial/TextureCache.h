@@ -7,8 +7,9 @@ public:
 	TextureCache();
 	~TextureCache();
 
-	void removeObjectFromCache(Object& object);
-	void lockTextureForObject(Object& object);
+	void removeObjectFromCache(Object &object);
+	void lockTextureForObject(Object &object);
+	void addObjectToCache(Object &object);
 	void setContext(SDL_Renderer* context);
 
 private:

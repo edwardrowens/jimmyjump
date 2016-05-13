@@ -32,108 +32,127 @@ maxYVelocity(MAX_Y_VELOCITY),
 patrolDirection('R') {
 }
 
-MovableObject::~MovableObject(){
+MovableObject::~MovableObject() {
 }
 
 // PROBLEM: does not include fields unique to MovableObject's
-MovableObject& MovableObject::operator=(const MovableObject &moveableObject){
+MovableObject& MovableObject::operator=(const MovableObject &moveableObject) {
 	Object::operator=(moveableObject);
 
 	return *this;
 }
 
 
-
-float MovableObject::getStrength() const{
+float MovableObject::getStrength() const {
 	return strength;
 }
 
-float MovableObject::getHealth() const{
+
+float MovableObject::getHealth() const {
 	return health;
 }
 
-int MovableObject::getSpeedX() const{
+
+int MovableObject::getSpeedX() const {
 	return speedX;
 }
 
-int MovableObject::getSpeedY() const{
+
+int MovableObject::getSpeedY() const {
 	return speedY;
 }
 
-bool MovableObject::getIsStable() const{
+
+bool MovableObject::getIsStable() const {
 	return isStable;
 }
 
-std::vector<Movements> MovableObject::getCurrentMovements() const{
+
+std::vector<Movements> MovableObject::getCurrentMovements() const {
 	return currentMovements;
 }
 
-std::vector<int> MovableObject::getPreviousXY() const{
+
+std::vector<int> MovableObject::getPreviousXY() const {
 	return previousXYPosition;
 }
 
-float MovableObject::getGravity() const{
+
+float MovableObject::getGravity() const {
 	return gravity;
 }
 
-std::vector<float> MovableObject::getMotionVector() const{
+
+std::vector<float> MovableObject::getMotionVector() const {
 	return motionVector;
 }
 
-float MovableObject::getMotionVectorX() const{
+
+float MovableObject::getMotionVectorX() const {
 	return motionVector[0];
 }
 
-float MovableObject::getMotionVectorY() const{
+
+float MovableObject::getMotionVectorY() const {
 	return motionVector[1];
 }
 
-void MovableObject::setStrength(const float& strength){
+
+void MovableObject::setStrength(const float& strength) {
 	this->strength = strength;
 }
 
-void MovableObject::setHealth(const float& health){
+
+void MovableObject::setHealth(const float& health) {
 	this->health = health;
 }
 
-void MovableObject::setSpeedX(const int& speedX){
+
+void MovableObject::setSpeedX(const int& speedX) {
 	this->speedX = speedX;
 }
 
-void MovableObject::setSpeedY(const int& speedY){
+
+void MovableObject::setSpeedY(const int& speedY) {
 	this->speedY = speedY;
 }
 
-void MovableObject::setIsStable(const bool& isStable){
+
+void MovableObject::setIsStable(const bool& isStable) {
 	this->isStable = isStable;
 	if (isStable)
 		currentJumpTicks = 1;
 }
 
-void MovableObject::setPreviousXY(const int& x, const int& y){
+
+void MovableObject::setPreviousXY(const int& x, const int& y) {
 	previousXYPosition[0] = x;
 	previousXYPosition[1] = y;
 }
 
-void MovableObject::setGravity(const float& gravity){
+
+void MovableObject::setGravity(const float& gravity) {
 	this->gravity = gravity;
 }
 
-void MovableObject::setMotionVectorX(const float& x){
+
+void MovableObject::setMotionVectorX(const float& x) {
 	if (x <= maxXVelocity)
 		motionVector[0] = x;
 	else
 		motionVector[0] = maxXVelocity;
 }
 
-void MovableObject::setMotionVectorY(const float& y){
+
+void MovableObject::setMotionVectorY(const float& y) {
 	if (y <= maxYVelocity)
 		motionVector[1] = y;
 	else
 		motionVector[1] = maxYVelocity;
 }
 
-void MovableObject::setMotionVector(const float& x, const float& y){
+
+void MovableObject::setMotionVector(const float& x, const float& y) {
 	if (x <= motionVector[0])
 		motionVector[0] = x;
 	else
@@ -145,22 +164,26 @@ void MovableObject::setMotionVector(const float& x, const float& y){
 		motionVector[1] = maxYVelocity;
 }
 
+
 void MovableObject::setMaxVelocityX(const float& xVelocity) {
 	maxXVelocity = xVelocity;
 }
+
 
 void MovableObject::setSpeedX(const float& speedX) {
 	this->speedX = speedX;
 }
 
-bool MovableObject::jump(){
+
+bool MovableObject::jump() {
 	return true;
 }
 
-void MovableObject::moveRight(){
+
+void MovableObject::moveRight() {
 	accelerateRightward();
 
-	if (stepCount >= walkCycles['R'].size()){
+	if (stepCount >= walkCycles['R'].size()) {
 		stepCount = 0;
 	}
 
@@ -172,7 +195,7 @@ void MovableObject::moveRight(){
 
 	// This checks if they have a directionality in their image files. If they don't, then we don't want to see their texturePath to
 	// an invalid file.
-	if (firstCharInFileName == 'R' || firstCharInFileName == 'L'){
+	if (firstCharInFileName == 'R' || firstCharInFileName == 'L') {
 		texturePath = texturePath.substr(0, fileLocInPath);
 		texturePath = texturePath + "R" + std::to_string(stepCount) + ".png";
 	}
@@ -182,10 +205,11 @@ void MovableObject::moveRight(){
 	++stepCount;
 }
 
-void MovableObject::moveLeft(){
+
+void MovableObject::moveLeft() {
 	accelerateLeftward();
 
-	if (stepCount >= walkCycles['L'].size()){
+	if (stepCount >= walkCycles['L'].size()) {
 		stepCount = 0;
 	}
 
@@ -197,7 +221,7 @@ void MovableObject::moveLeft(){
 
 	// This checks if they have a directionality in their image files. If they don't, then we don't want to see their texturePath to
 	// an invalid file.
-	if (firstCharInFileName == 'L' || firstCharInFileName == 'R'){
+	if (firstCharInFileName == 'L' || firstCharInFileName == 'R') {
 		texturePath = texturePath.substr(0, fileLocInPath);
 		texturePath = texturePath + "L" + std::to_string(stepCount) + ".png";
 	}
@@ -207,7 +231,8 @@ void MovableObject::moveLeft(){
 	++stepCount;
 }
 
-void MovableObject::patrol(){
+
+void MovableObject::patrol() {
 
 	//switch (patrolDirection){
 	//case 'L':
@@ -233,13 +258,16 @@ void MovableObject::patrol(){
 	//}
 }
 
-void MovableObject::useItem(){
+
+void MovableObject::useItem() {
 
 }
 
-float MovableObject::attack(){
+
+float MovableObject::attack() {
 	return strength;
 }
+
 
 void MovableObject::accelerateLeftward() {
 	b2Vec2 bodyVelocity = objectBody->GetLinearVelocity();
@@ -247,16 +275,8 @@ void MovableObject::accelerateLeftward() {
 	float32 deltaVelocity = newVelocity - bodyVelocity.x;
 	float32 impulse = objectBody->GetMass() * deltaVelocity;
 	objectBody->ApplyLinearImpulse(b2Vec2(impulse, 0), objectBody->GetWorldCenter(), true);
-
-	//if (getMotionVectorX() > (-1 * maxXVelocity)){
-	//	setMotionVectorX(getMotionVectorX() - speedX);
-	//	setX(position.x + getMotionVectorX());
-	//}
-	//else {
-	//	setMotionVectorX(-1 * maxXVelocity);
-	//	setX(position.x - maxXVelocity);
-	//}
 }
+
 
 void MovableObject::accelerateRightward() {
 	b2Vec2 bodyVelocity = objectBody->GetLinearVelocity();
@@ -264,20 +284,18 @@ void MovableObject::accelerateRightward() {
 	float32 newVelocity = deltaVelocity - bodyVelocity.x;
 	float32 impulse = objectBody->GetMass() * newVelocity;
 	objectBody->ApplyLinearImpulse(b2Vec2(impulse, 0), objectBody->GetWorldCenter(), true);
-
-	//if (getMotionVectorX() < maxXVelocity){
-	//	setMotionVectorX(getMotionVectorX() + speedX);
-	//	setX(position.x + getMotionVectorX());
-	//}
-	//else {
-	//	setMotionVectorX(maxXVelocity);
-	//	setX(position.x + maxXVelocity);
-	//}
 }
 
-void MovableObject::executeMovement(){
-	for (Movements currentMovement : currentMovements){
-		switch (currentMovement){
+
+void MovableObject::executeMovement() {
+	/*bool num = std::rand() % 2;
+	if (num)
+		currentMovements.push_back(Movements::RIGHT);
+	else
+		currentMovements.push_back(Movements::LEFT);*/
+
+	for (Movements currentMovement : currentMovements) {
+		switch (currentMovement) {
 		case Movements::RIGHT:
 			moveRight();
 			break;
@@ -300,11 +318,13 @@ void MovableObject::executeMovement(){
 	currentMovements.clear();
 }
 
-void MovableObject::addMovement(const Movements& movement){
+
+void MovableObject::addMovement(const Movements& movement) {
 	currentMovements.push_back(movement);
 }
 
-void MovableObject::switchPatrolDirection(){
+
+void MovableObject::switchPatrolDirection() {
 	switch (patrolDirection){
 	case 'L':
 		patrolDirection = 'R';

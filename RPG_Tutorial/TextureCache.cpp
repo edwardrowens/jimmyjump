@@ -27,11 +27,12 @@ void TextureCache::lockTextureForObject(Object &object) {
 
 	if (object.getCharacter() == Character::BACKGROUND && amountOfObjects[Character::BACKGROUND] != 0)
 		PrintErrors("A background is being added to the cache. Only a single background can exist per context. Currently there are " + std::to_string(amountOfObjects[Character::BACKGROUND]) + " backgrounds.");
-
-	++amountOfObjects[object.getCharacter()];
-
-	object.setContext(context);
-	
+	/*std::map<Character, int>::iterator iter = amountOfObjects.begin();
+	int total = 0;
+	for (iter; iter != amountOfObjects.end(); ++iter) {
+		total += iter->second;
+	}
+	std::cout << std::to_string(total) << std::endl;*/
 	object.setTexture(addTextureToCache(object.getTexturePath()));
 }
 
@@ -93,4 +94,11 @@ void TextureCache::initializeAmountOfObjects() {
 		Character cmp = (Character)i;
 		amountOfObjects[cmp] = 0;
 	}
+}
+
+
+void TextureCache::addObjectToCache(Object &object) {
+	++amountOfObjects[object.getCharacter()];
+	object.setContext(context);
+	lockTextureForObject(object);
 }

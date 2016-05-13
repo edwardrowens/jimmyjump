@@ -70,12 +70,12 @@ int Object::getY() const {
 
 
 int Object::getWidth() const {
-	return width;
+	return objectRect.w;
 }
 
 
 int Object::getHeight() const {
-	return height;
+	return objectRect.h;
 }
 
 
@@ -133,7 +133,7 @@ void Object::setContext(SDL_Renderer* context) {
 
 
 void Object::setTexturePath(const std::string &texturePath) {
-	previousTexturePath = texturePath;
+	previousTexturePath = this->texturePath;
 	this->texturePath = texturePath;
 }
 
@@ -161,6 +161,8 @@ std::string Object::getPreviousTexturePath() const {
 void Object::draw() {
 	// This is the top left vertex of the box.
 	b2Vec2 currentPosition = retrieveTopLeftVertex();
+	std::cout << std::to_string(retrieveTopLeftVertex().x) << std::endl;
+	std::cout << std::to_string(retrieveTopLeftVertex().y) << std::endl;
 
 	// If there was a change in the object's physics, then update how it's rendered.
 	if (currentPosition.x != previousPosition.x || currentPosition.y != previousPosition.y) {
