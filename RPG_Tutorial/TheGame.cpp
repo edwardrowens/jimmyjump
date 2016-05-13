@@ -56,7 +56,7 @@ int TheGame::processInput() {
 
 void TheGame::update() {
 	//jim->addMovement(Movements::RIGHT);
-	/*if (keyState[SDL_SCANCODE_D]){
+	if (keyState[SDL_SCANCODE_D]){
 		jim->addMovement(Movements::RIGHT);
 		}
 
@@ -71,7 +71,7 @@ void TheGame::update() {
 		}
 		if (jim->getCurrentMovements().size() == 0) {
 		jim->addMovement(Movements::NONE);
-		}*/
+		}
 
 	if (keyState[SDL_SCANCODE_T]) {
 		int mouseX, mouseY;
@@ -81,7 +81,7 @@ void TheGame::update() {
 		position.y = mouseY;
 		position.w = 20;
 		position.h = 20;
-		world.createObject(Character::JIM, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::EXAMPLE), true);
+		world.createObject(Character::JIM, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::EXAMPLE, position), true);
 	}
 
 	world.step();

@@ -288,11 +288,11 @@ void MovableObject::accelerateRightward() {
 
 
 void MovableObject::executeMovement() {
-	/*bool num = std::rand() % 2;
+	bool num = std::rand() % 2;
 	if (num)
 		currentMovements.push_back(Movements::RIGHT);
 	else
-		currentMovements.push_back(Movements::LEFT);*/
+		currentMovements.push_back(Movements::LEFT);
 
 	for (Movements currentMovement : currentMovements) {
 		switch (currentMovement) {

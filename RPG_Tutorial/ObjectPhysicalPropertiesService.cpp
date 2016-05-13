@@ -30,11 +30,11 @@ ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesServi
 	}
 	case ObjectBodies::ObjectBodies::PLATFORM: {
 		props.bodyType = b2_staticBody;
-		b2Vec2 convertedCoords = CoordinateService::screenToWorld(100, 300);
+		b2Vec2 convertedCoords = CoordinateService::screenToWorld(WorldConstants::X_ORIGIN, 500);
 		props.x = convertedCoords.x;
 		props.y = convertedCoords.y;
 		props.h = 3.0f;
-		props.w = 3.0f;
+		props.w = 40.0f;
 		props.density = 1.0f;
 		props.friction = 0.3f;
 		break;
@@ -54,16 +54,17 @@ ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesServi
 	props.y = convertedCoords.y;
 	props.h = position.h / WorldConstants::PIXELS_PER_METER;
 	props.w = position.w / WorldConstants::PIXELS_PER_METER;
-	/*props.h = position.h / 2 * WorldConstants::METER_TO_PIXEL;
-	props.w = position.w / 2 * WorldConstants::METER_TO_PIXEL;*/
 
+	props.friction = 0.3f;
+	props.density = 1.0f;
 	switch (objectBody) {
 	case ObjectBodies::ObjectBodies::NONE:
 		props.bodyType = b2_staticBody;
+		props.friction = 0.0f;
+		props.density = 0.0f;
 		break;
 	case ObjectBodies::ObjectBodies::EXAMPLE:
 		props.bodyType = b2_dynamicBody;
-		props.density = 1.0f;
 		break;
 	case ObjectBodies::ObjectBodies::PLATFORM:
 		props.bodyType = b2_staticBody;
