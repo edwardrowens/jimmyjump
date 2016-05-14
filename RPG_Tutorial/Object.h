@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _OBJECT_H
+#define _OBJECT_H
+
 #include <SDL2.0\SDL.h>
 #include <string>
 #include <SDL2.0\SDL_image.h>
@@ -11,6 +13,7 @@
 #include "Utility.h"
 #include "Box2D\Box2D.h"
 #include "CoordinateService.h"
+#include "Box2dService.h"
 #include <math.h>
 
 using std::string;
@@ -34,15 +37,14 @@ public:
 	int getY() const;
 	int getHeight() const;
 	int getWidth() const;
-	bool getIsMovable() const;
 	SDL_Texture* getTexture() const;
 	std::string getTexturePath() const;
 	std::string getPreviousTexturePath() const;
 	bool getIsRenderable() const;
-	bool getIsPlatform() const;
 	Character getCharacter() const;
-	Position getPosition() const;
+	b2Vec2 getPosition() const;
 	b2Body* getBody() const;
+	CharacterGroup getGroup() const;
 
 	// Setters
 	void setX(const int &x);
@@ -50,7 +52,6 @@ public:
 	void setTexture(SDL_Texture* texture);
 	void setIsMovable(const bool& isMovable);
 	void setIsRenderable(const bool& isRenderable);
-	void setIsPlatform(const bool& isPlatform);
 	void setCharacter(const Character& character);
 	void setContext(SDL_Renderer* context);
 
@@ -60,9 +61,7 @@ public:
 
 protected:
 	// Protected fields
-	bool isMovable;
 	bool isRenderable;
-	bool isPlatform;
 	SDL_Texture* texture;
 	std::string previousTexturePath;
 	Character character;
@@ -71,20 +70,19 @@ protected:
 	Utility utility;
 	b2Body* objectBody;
 	b2Vec2 linearVelocity;
-	const float HITBOXMODIFIER = .93;
+	CharacterGroup group;
 
 	// Protected functions
 	void setTexturePath(const std::string &texturePath);
-	float32 getBox2dWidth() const;
-	float32 getBox2dHeight() const;
 
 private:
-	b2Vec2 previousPosition;
-	b2Vec2 retrieveTopLeftVertex() const;
-	b2Vec2 retrieveBottomRightVertex() const;
-	b2Vec2 retrieveBottomLeftVertex() const;
-	b2Vec2 retrieveTopRightVertex() const;
+	// Fields
+	b2Vec2 lastDrawnPosition;
 	std::string texturePath;
 	SDL_Rect objectRect;
-};
 
+	// Functions
+	float32 getBox2dWidth() const;
+	float32 getBox2dHeight() const;
+};
+#endif

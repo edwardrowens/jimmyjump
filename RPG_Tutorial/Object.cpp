@@ -4,18 +4,20 @@
 Object::Object(b2Body* objectBody, Character character) :
 objectBody(objectBody),
 isRenderable(true),
-isPlatform(false),
 character(character),
-previousPosition(retrieveTopLeftVertex()) {
+group(CharacterGroup::OBJECT),
+lastDrawnPosition(Box2dService::retrieveTopLeftVertex(*objectBody)) {
 	Object::load(character);
 
-	b2Vec2 objectPosition = retrieveTopLeftVertex();
+	b2Vec2 objectPosition = Box2dService::retrieveTopLeftVertex(*objectBody);
 	b2Vec2 screenCoords = CoordinateService::worldToScreen(objectPosition.x, objectPosition.y);
 	objectRect.x = screenCoords.x;
 	objectRect.y = screenCoords.y;
 
 	objectRect.w = getBox2dWidth() * WorldConstants::PIXELS_PER_METER;
 	objectRect.h = getBox2dHeight() * WorldConstants::PIXELS_PER_METER;
+
+	objectBody->SetUserData(this);
 }
 
 
@@ -24,7 +26,6 @@ Object::Object(const Object &object) :
 objectBody(object.getBody()),
 texture(object.getTexture()),
 isRenderable(true),
-isPlatform(false),
 character(object.getCharacter()) {
 	objectBody = object.getBody();
 }
@@ -50,12 +51,12 @@ Object::~Object() {
 
 
 float32 Object::getBox2dHeight() const {
-	return retrieveTopLeftVertex().y - retrieveBottomLeftVertex().y;
+	return Box2dService::retrieveTopLeftVertex(*objectBody).y - Box2dService::retrieveBottomLeftVertex(*objectBody).y;
 }
 
 
 float32 Object::getBox2dWidth() const {
-	return retrieveTopRightVertex().x - retrieveTopLeftVertex().x;
+	return Box2dService::retrieveTopRightVertex(*objectBody).x - Box2dService::retrieveTopLeftVertex(*objectBody).x;
 }
 
 
@@ -79,11 +80,6 @@ int Object::getHeight() const {
 }
 
 
-bool Object::getIsMovable() const {
-	return isMovable;
-}
-
-
 bool Object::getIsRenderable() const {
 	return isRenderable;
 }
@@ -104,6 +100,11 @@ b2Body* Object::getBody() const {
 }
 
 
+CharacterGroup Object::getGroup() const {
+	return group;
+}
+
+
 void Object::setCharacter(const Character& character) {
 	this->character = character;
 }
@@ -111,16 +112,6 @@ void Object::setCharacter(const Character& character) {
 
 void Object::setIsRenderable(const bool& isRenderable) {
 	this->isRenderable = isRenderable;
-}
-
-
-void Object::setIsMovable(const bool& isMovable){
-	this->isMovable = isMovable;
-}
-
-
-void Object::setIsPlatform(const bool& isPlatform) {
-	this->isPlatform = isPlatform;
 }
 
 
@@ -143,11 +134,6 @@ void Object::setTexture(SDL_Texture* texture){
 }
 
 
-bool Object::getIsPlatform() const {
-	return isPlatform;
-}
-
-
 SDL_Texture* Object::getTexture() const {
 	return texture;
 }
@@ -160,16 +146,14 @@ std::string Object::getPreviousTexturePath() const {
 
 void Object::draw() {
 	// This is the top left vertex of the box.
-	b2Vec2 currentPosition = retrieveTopLeftVertex();
-	std::cout << std::to_string(retrieveTopLeftVertex().x) << std::endl;
-	std::cout << std::to_string(retrieveTopLeftVertex().y) << std::endl;
+	b2Vec2 currentPosition = Box2dService::retrieveTopLeftVertex(*objectBody);
 
 	// If there was a change in the object's physics, then update how it's rendered.
-	if (currentPosition.x != previousPosition.x || currentPosition.y != previousPosition.y) {
-		b2Vec2 displacement = CoordinateService::displacementFromWorldToScreen(previousPosition, currentPosition);
+	if (currentPosition.x != lastDrawnPosition.x || currentPosition.y != lastDrawnPosition.y) {
+		b2Vec2 displacement = CoordinateService::displacementFromWorldToScreen(lastDrawnPosition, currentPosition);
 		objectRect.x += roundf(displacement.x);
 		objectRect.y -= roundf(displacement.y);
-		previousPosition = currentPosition;
+		lastDrawnPosition = currentPosition;
 	}
 
 	if (texture == nullptr)
@@ -183,24 +167,4 @@ void Object::load(Character character) {
 	this->character = character;
 	previousTexturePath = texturePath = utility.getDefaultTexturePath(character);
 	walkCycles = utility.findAllWalkCycleFiles(character);
-}
-
-
-b2Vec2 Object::retrieveTopLeftVertex() const {
-	return objectBody->GetWorldPoint(dynamic_cast<b2PolygonShape*>(objectBody->GetFixtureList()->GetShape())->GetVertex(3));
-}
-
-
-b2Vec2 Object::retrieveBottomRightVertex() const {
-	return objectBody->GetWorldPoint(dynamic_cast<b2PolygonShape*>(objectBody->GetFixtureList()->GetShape())->GetVertex(1));
-}
-
-
-b2Vec2 Object::retrieveBottomLeftVertex() const {
-	return objectBody->GetWorldPoint(dynamic_cast<b2PolygonShape*>(objectBody->GetFixtureList()->GetShape())->GetVertex(0));
-}
-
-
-b2Vec2 Object::retrieveTopRightVertex() const {
-	return objectBody->GetWorldPoint(dynamic_cast<b2PolygonShape*>(objectBody->GetFixtureList()->GetShape())->GetVertex(2));
 }

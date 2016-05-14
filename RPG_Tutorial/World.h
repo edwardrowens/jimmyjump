@@ -7,6 +7,7 @@
 #include "ObjectPhysicalProperties.h"
 #include "Box2dMapper.h"
 #include "CollisionCategory.h"
+#include "FootCollisionListener.h"
 
 class World {
 public:
@@ -28,6 +29,9 @@ private:
 	ObjectManager objectManager;
 	TextureCache textureCache;
 	SDL_Renderer* context;
+
+	//Listeners
+	FootCollisionListener footCollisionListener;
 	
 	// Functions
 	void putInMotion();

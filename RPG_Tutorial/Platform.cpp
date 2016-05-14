@@ -2,11 +2,10 @@
 
 
 Platform::Platform(b2Body* objectBody, Character character) : Object(objectBody, character){
-	isPlatform = true;
+	group = CharacterGroup::PLATFORM;
 }
 
 Platform::Platform(const Platform &platform): Object(platform){
-	isPlatform = true;
 }
 
 Platform::~Platform(){

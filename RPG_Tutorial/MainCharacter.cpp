@@ -6,7 +6,7 @@ MainCharacter::~MainCharacter() {
 
 
 MainCharacter::MainCharacter(b2Body* objectBody, Character character) : MovableObject(objectBody, character) {
-
+	group = CharacterGroup::MAIN_CHARACTER;
 }
 
 

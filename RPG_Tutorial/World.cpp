@@ -1,9 +1,10 @@
 #include "World.h"
 
 
-World::World() : 
+World::World() :
 boxWorld(new b2World(WorldConstants::DEFAULT_GRAVITY)),
 objectManager(&textureCache) {
+	this->boxWorld->SetContactListener(&footCollisionListener);
 }
 
 
@@ -59,7 +60,7 @@ void World::step() {
 
 void World::putInMotion() {
 	for (auto object : objectManager.getObjectsInLevel()) {
-		if (object->getIsMovable()) {
+		if (object->getGroup() == CharacterGroup::MOVABLE_OBJECT || object->getGroup() == CharacterGroup::MAIN_CHARACTER) {
 			MovableObject* movable = dynamic_cast<MovableObject*>(object);
 			movable->executeMovement();
 		}
@@ -75,6 +76,17 @@ b2Body& World::mapToBody(const Character &character, const ObjectPhysicalPropert
 	fixtureDef.filter.maskBits = CollisionCategoryService::retrieveMaskBits(character);
 	b2PolygonShape shapeDef = Box2dMapper::mapToShape(props);
 	fixtureDef.shape = &shapeDef;
+
+	if (character == Character::JIM) {
+		b2FixtureDef footFixtureDef;
+		b2PolygonShape footShapeDef;
+		footShapeDef.SetAsBox(props.w * .05f, props.h * .05f, b2Vec2(props.x, props.y + (props.h * .05f)), 0.0f);
+		footFixtureDef.isSensor = true;
+		footFixtureDef.shape = &footShapeDef;
+		footFixtureDef.userData = (void*)FootSensor::ID;
+		body->CreateFixture(&footFixtureDef);
+	}
+
 	body->CreateFixture(&fixtureDef);
 	body->ResetMassData();
 	return *body;

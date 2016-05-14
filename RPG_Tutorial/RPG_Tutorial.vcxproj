@@ -72,9 +72,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Box2dMapper.cpp" />
+    <ClCompile Include="Box2dService.cpp" />
     <ClCompile Include="CharacterGroupingService.cpp" />
     <ClCompile Include="CollisionCategory.cpp" />
     <ClCompile Include="Errors.cpp" />
+    <ClCompile Include="FootSensor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainCharacter.cpp" />
     <ClCompile Include="MovableObject.cpp" />
@@ -82,6 +84,8 @@
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="ObjectPhysicalPropertiesService.cpp" />
     <ClCompile Include="Platform.cpp" />
+    <ClCompile Include="Sensor.cpp" />
+    <ClCompile Include="SensorService.cpp" />
     <ClCompile Include="TextureCache.cpp" />
     <ClCompile Include="TheGame.cpp" />
     <ClCompile Include="Utility.cpp" />
@@ -90,10 +94,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Box2dMapper.h" />
+    <ClInclude Include="Box2dService.h" />
     <ClInclude Include="CharacterGroupingService.h" />
     <ClInclude Include="CharacterInformation.h" />
     <ClInclude Include="Errors.h" />
     <ClInclude Include="CollisionCategory.h" />
+    <ClInclude Include="FootCollisionListener.h" />
+    <ClInclude Include="FootSensor.h" />
     <ClInclude Include="MainCharacter.h" />
     <ClInclude Include="MovableObject.h" />
     <ClInclude Include="Movements.h" />
@@ -104,6 +111,8 @@
     <ClInclude Include="ObjectPhysicalPropertiesService.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Position.h" />
+    <ClInclude Include="Sensor.h" />
+    <ClInclude Include="SensorService.h" />
     <ClInclude Include="TextureCache.h" />
     <ClInclude Include="TheGame.h" />
     <ClInclude Include="Utility.h" />

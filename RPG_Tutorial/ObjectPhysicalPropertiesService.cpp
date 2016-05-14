@@ -24,7 +24,7 @@ ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesServi
 		props.y = convertedCoords.y;
 		props.h = 1.5f;
 		props.w = 1.5f;
-		props.density = 1.0f;
+		props.density = 3.0f;
 		props.friction = 0.3f;
 		break;
 	}

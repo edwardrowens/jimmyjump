@@ -3,33 +3,17 @@
 // Position and character constructor.
 MovableObject::MovableObject(b2Body* objectBody, Character character) :
 Object(objectBody, character),
-health(100.0f),
-strength(10.0f),
-speedX(X_VELOCITY_STEP),
-speedY(Y_VELOCITY_STEP),
-isStable(true),
 stepCount(0),
-currentJumpTicks(1),
-motionVector({ 0, 0 }),
-maxXVelocity(MAX_X_VELOCITY),
-maxYVelocity(MAX_Y_VELOCITY),
-patrolDirection('R') {
-	isMovable = true;
+maxVelocity(b2Vec2(MAX_X_VELOCITY, MAX_Y_VELOCITY)) {
+	objectBody->SetFixedRotation(true);
+	footSensor = &FootSensor(SensorService::findSensor(FootSensor::ID, *objectBody->GetFixtureList()));
+	group = CharacterGroup::MOVABLE_OBJECT;
 }
 
 MovableObject::MovableObject(const MovableObject &movableObject) :
 Object(movableObject),
 stepCount(0),
-motionVector({ 0, 0 }),
-isStable(true),
-health(100.0f),
-strength(10.0f),
-speedX(X_VELOCITY_STEP),
-speedY(Y_VELOCITY_STEP),
-currentJumpTicks(1),
-maxXVelocity(MAX_X_VELOCITY),
-maxYVelocity(MAX_Y_VELOCITY),
-patrolDirection('R') {
+maxVelocity(b2Vec2(MAX_X_VELOCITY, MAX_Y_VELOCITY)) {
 }
 
 MovableObject::~MovableObject() {
@@ -43,140 +27,21 @@ MovableObject& MovableObject::operator=(const MovableObject &moveableObject) {
 }
 
 
-float MovableObject::getStrength() const {
-	return strength;
-}
-
-
-float MovableObject::getHealth() const {
-	return health;
-}
-
-
-int MovableObject::getSpeedX() const {
-	return speedX;
-}
-
-
-int MovableObject::getSpeedY() const {
-	return speedY;
-}
-
-
-bool MovableObject::getIsStable() const {
-	return isStable;
-}
-
-
 std::vector<Movements> MovableObject::getCurrentMovements() const {
 	return currentMovements;
 }
 
 
-std::vector<int> MovableObject::getPreviousXY() const {
-	return previousXYPosition;
+b2Vec2 MovableObject::getPreviousPosition() const {
+	return previousPosition;
 }
 
 
-float MovableObject::getGravity() const {
-	return gravity;
-}
-
-
-std::vector<float> MovableObject::getMotionVector() const {
-	return motionVector;
-}
-
-
-float MovableObject::getMotionVectorX() const {
-	return motionVector[0];
-}
-
-
-float MovableObject::getMotionVectorY() const {
-	return motionVector[1];
-}
-
-
-void MovableObject::setStrength(const float& strength) {
-	this->strength = strength;
-}
-
-
-void MovableObject::setHealth(const float& health) {
-	this->health = health;
-}
-
-
-void MovableObject::setSpeedX(const int& speedX) {
-	this->speedX = speedX;
-}
-
-
-void MovableObject::setSpeedY(const int& speedY) {
-	this->speedY = speedY;
-}
-
-
-void MovableObject::setIsStable(const bool& isStable) {
-	this->isStable = isStable;
-	if (isStable)
-		currentJumpTicks = 1;
-}
-
-
-void MovableObject::setPreviousXY(const int& x, const int& y) {
-	previousXYPosition[0] = x;
-	previousXYPosition[1] = y;
-}
-
-
-void MovableObject::setGravity(const float& gravity) {
-	this->gravity = gravity;
-}
-
-
-void MovableObject::setMotionVectorX(const float& x) {
-	if (x <= maxXVelocity)
-		motionVector[0] = x;
-	else
-		motionVector[0] = maxXVelocity;
-}
-
-
-void MovableObject::setMotionVectorY(const float& y) {
-	if (y <= maxYVelocity)
-		motionVector[1] = y;
-	else
-		motionVector[1] = maxYVelocity;
-}
-
-
-void MovableObject::setMotionVector(const float& x, const float& y) {
-	if (x <= motionVector[0])
-		motionVector[0] = x;
-	else
-		motionVector[0] = maxXVelocity;
-
-	if (y <= motionVector[1])
-		motionVector[1] = y;
-	else 
-		motionVector[1] = maxYVelocity;
-}
-
-
-void MovableObject::setMaxVelocityX(const float& xVelocity) {
-	maxXVelocity = xVelocity;
-}
-
-
-void MovableObject::setSpeedX(const float& speedX) {
-	this->speedX = speedX;
-}
-
-
-bool MovableObject::jump() {
-	return true;
+void MovableObject::jump() {
+	if (footSensor->getNumOfContacts() > 0) {
+		float impulse = objectBody->GetMass() * 10.0f;
+		objectBody->ApplyLinearImpulse(b2Vec2(0, impulse), objectBody->GetWorldCenter(), true);
+	}
 }
 
 
@@ -232,43 +97,6 @@ void MovableObject::moveLeft() {
 }
 
 
-void MovableObject::patrol() {
-
-	//switch (patrolDirection){
-	//case 'L':
-	//	moveLeft();
-	//	break;
-	//case 'R':
-	//	moveRight();
-	//	break;
-	//}
-
-	//int distanceTraveledInOneFrame = std::abs(position.x - previousXYPosition[0]);
-	//patrolDistanceTraveled += distanceTraveledInOneFrame;
-	//if (distanceTraveledInOneFrame == 0){
-	//	++stuckCount;
-	//}
-
-	//// If you've exceeded the patrol distance limit or did not move in the last frame (meaning you're stuck).
-	//// then switch direction.
-	//if (patrolDistanceTraveled >= patrolDistance || stuckCount > 3){
-	//	patrolDistanceTraveled = 0;
-	//	stuckCount = 0;
-	//	switchPatrolDirection();
-	//}
-}
-
-
-void MovableObject::useItem() {
-
-}
-
-
-float MovableObject::attack() {
-	return strength;
-}
-
-
 void MovableObject::accelerateLeftward() {
 	b2Vec2 bodyVelocity = objectBody->GetLinearVelocity();
 	float32 newVelocity = b2Max(bodyVelocity.x - X_VELOCITY_STEP, -MAX_X_VELOCITY);
@@ -288,11 +116,6 @@ void MovableObject::accelerateRightward() {
 
 
 void MovableObject::executeMovement() {
-	bool num = std::rand() % 2;
-	if (num)
-		currentMovements.push_back(Movements::RIGHT);
-	else
-		currentMovements.push_back(Movements::LEFT);
 
 	for (Movements currentMovement : currentMovements) {
 		switch (currentMovement) {
@@ -305,16 +128,13 @@ void MovableObject::executeMovement() {
 		case Movements::JUMP:
 			jump();
 			break;
-		case Movements::PATROL:
-			patrol();
-			return;
-			break;
 		case Movements::NONE:
 			objectBody->SetLinearVelocity(b2Vec2(0.0f, objectBody->GetLinearVelocity().y));
 			break;
 		}
 	}
 
+	previousPosition = Box2dService::retrieveTopLeftVertex(*objectBody);
 	currentMovements.clear();
 }
 
@@ -324,13 +144,6 @@ void MovableObject::addMovement(const Movements& movement) {
 }
 
 
-void MovableObject::switchPatrolDirection() {
-	switch (patrolDirection){
-	case 'L':
-		patrolDirection = 'R';
-		break;
-	case 'R':
-		patrolDirection = 'L';
-		break;
-	}
+FootSensor& MovableObject::getFootSensor() {
+	return *footSensor;
 }
