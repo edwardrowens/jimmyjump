@@ -76,6 +76,7 @@ b2Body& World::mapToBody(const Character &character, const ObjectPhysicalPropert
 	fixtureDef.filter.maskBits = CollisionCategoryService::retrieveMaskBits(character);
 	b2PolygonShape shapeDef = Box2dMapper::mapToShape(props);
 	fixtureDef.shape = &shapeDef;
+	body->CreateFixture(&fixtureDef);
 
 	if (character == Character::JIM) {
 		b2FixtureDef footFixtureDef;
@@ -83,11 +84,10 @@ b2Body& World::mapToBody(const Character &character, const ObjectPhysicalPropert
 		footShapeDef.SetAsBox(props.w * .05f, props.h * .05f, b2Vec2(props.x, props.y + (props.h * .05f)), 0.0f);
 		footFixtureDef.isSensor = true;
 		footFixtureDef.shape = &footShapeDef;
-		footFixtureDef.userData = (void*)FootSensor::ID;
+		footFixtureDef.userData = (void*)SensorId::FOOT_SENSOR;
 		body->CreateFixture(&footFixtureDef);
 	}
 
-	body->CreateFixture(&fixtureDef);
 	body->ResetMassData();
 	return *body;
 }

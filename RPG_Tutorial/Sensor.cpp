@@ -1,6 +1,6 @@
 #include "Sensor.h"
 
-Sensor::Sensor(b2Fixture &fixture) :
+Sensor::Sensor(const b2Fixture &fixture) :
 fixture(&fixture),
 numOfContacts(0) {
 

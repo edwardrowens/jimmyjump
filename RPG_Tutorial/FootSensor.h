@@ -6,6 +6,6 @@
 
 class FootSensor : public Sensor {
 public:
-	FootSensor(b2Fixture &footFixture);
+	FootSensor(const b2Fixture &footFixture);
 };
 #endif

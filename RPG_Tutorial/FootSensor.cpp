@@ -1,5 +1,5 @@
 #include "FootSensor.h"
 
-FootSensor::FootSensor(b2Fixture &footFixture) : Sensor(footFixture) {
+FootSensor::FootSensor(const b2Fixture &footFixture) : Sensor(footFixture) {
 
 }

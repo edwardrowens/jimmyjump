@@ -4,16 +4,17 @@
 MovableObject::MovableObject(b2Body* objectBody, Character character) :
 Object(objectBody, character),
 stepCount(0),
-maxVelocity(b2Vec2(MAX_X_VELOCITY, MAX_Y_VELOCITY)) {
+maxVelocity(b2Vec2(MAX_X_VELOCITY, MAX_Y_VELOCITY)),
+footSensor(Sensor(SensorService::findSensor(SensorId::FOOT_SENSOR, *objectBody->GetFixtureList()))) {
 	objectBody->SetFixedRotation(true);
-	footSensor = &FootSensor(SensorService::findSensor(FootSensor::ID, *objectBody->GetFixtureList()));
 	group = CharacterGroup::MOVABLE_OBJECT;
 }
 
 MovableObject::MovableObject(const MovableObject &movableObject) :
 Object(movableObject),
 stepCount(0),
-maxVelocity(b2Vec2(MAX_X_VELOCITY, MAX_Y_VELOCITY)) {
+maxVelocity(b2Vec2(MAX_X_VELOCITY, MAX_Y_VELOCITY)),
+footSensor(Sensor(SensorService::findSensor(SensorId::FOOT_SENSOR, *objectBody->GetFixtureList()))) {
 }
 
 MovableObject::~MovableObject() {
@@ -38,7 +39,7 @@ b2Vec2 MovableObject::getPreviousPosition() const {
 
 
 void MovableObject::jump() {
-	if (footSensor->getNumOfContacts() > 0) {
+	if (footSensor.getNumOfContacts() > 0) {
 		float impulse = objectBody->GetMass() * 10.0f;
 		objectBody->ApplyLinearImpulse(b2Vec2(0, impulse), objectBody->GetWorldCenter(), true);
 	}
@@ -116,7 +117,6 @@ void MovableObject::accelerateRightward() {
 
 
 void MovableObject::executeMovement() {
-
 	for (Movements currentMovement : currentMovements) {
 		switch (currentMovement) {
 		case Movements::RIGHT:
@@ -144,6 +144,6 @@ void MovableObject::addMovement(const Movements& movement) {
 }
 
 
-FootSensor& MovableObject::getFootSensor() {
-	return *footSensor;
+Sensor& MovableObject::getFootSensor() {
+	return footSensor;
 }

@@ -7,8 +7,9 @@
 #include "Movements.h"
 #include "CharacterInformation.h"
 #include "Box2dService.h"
-#include "FootSensor.h"
 #include "SensorService.h"
+#include "SensorId.h"
+#include "Sensor.h"
 
 using std::string;
 
@@ -31,7 +32,7 @@ public:
 	// Getters
 	std::vector<Movements> getCurrentMovements() const;
 	b2Vec2 getPreviousPosition() const;
-	FootSensor& getFootSensor();
+	Sensor& getFootSensor();
 
 	// Functions
 	void addMovement(const Movements& movement);
@@ -52,7 +53,7 @@ private:
 	// Fields
 	b2Vec2 maxVelocity;
 	b2Vec2 previousPosition;
-	FootSensor* footSensor;
+	Sensor footSensor;
 
 	// Functions
 	void jump();

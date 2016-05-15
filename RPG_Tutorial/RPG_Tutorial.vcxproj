@@ -76,7 +76,6 @@
     <ClCompile Include="CharacterGroupingService.cpp" />
     <ClCompile Include="CollisionCategory.cpp" />
     <ClCompile Include="Errors.cpp" />
-    <ClCompile Include="FootSensor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainCharacter.cpp" />
     <ClCompile Include="MovableObject.cpp" />
@@ -100,7 +99,6 @@
     <ClInclude Include="Errors.h" />
     <ClInclude Include="CollisionCategory.h" />
     <ClInclude Include="FootCollisionListener.h" />
-    <ClInclude Include="FootSensor.h" />
     <ClInclude Include="MainCharacter.h" />
     <ClInclude Include="MovableObject.h" />
     <ClInclude Include="Movements.h" />
@@ -112,6 +110,7 @@
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="Sensor.h" />
+    <ClInclude Include="SensorId.h" />
     <ClInclude Include="SensorService.h" />
     <ClInclude Include="TextureCache.h" />
     <ClInclude Include="TheGame.h" />

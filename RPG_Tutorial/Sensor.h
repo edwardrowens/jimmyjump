@@ -5,9 +5,7 @@
 
 class Sensor {
 public:
-	const static int ID = 1;
-
-	Sensor(b2Fixture &fixture);
+	Sensor(const b2Fixture &fixture);
 
 	void incrementContacts();
 	void decrementContacts();
@@ -15,6 +13,6 @@ public:
 
 private:
 	int numOfContacts;
-	b2Fixture* fixture;
+	const b2Fixture* fixture;
 };
 #endif

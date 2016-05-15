@@ -1,32 +1,64 @@
-﻿Build started 5/13/2016 4:59:25 PM.
+﻿Build started 5/14/2016 7:36:42 PM.
      1>Project "C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\RPG_Tutorial\RPG_Tutorial.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\dependencies\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Box2dMapper.cpp Box2dService.cpp CharacterGroupingService.cpp CollisionCategory.cpp Utility.cpp
-         Box2dService.cpp
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\box2dservice.cpp(5): error C2228: left of '.GetShape' must have class/struct/union
-                 type is 'unknown-type'
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\box2dservice.cpp(5): error C2227: left of '->GetVertex' must point to class/struct/union/generic type
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\box2dservice.cpp(5): error C3861: 'findNonSensorFixture': identifier not found
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\box2dservice.cpp(10): error C2228: left of '.GetShape' must have class/struct/union
-                 type is 'unknown-type'
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\box2dservice.cpp(10): error C2227: left of '->GetVertex' must point to class/struct/union/generic type
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\box2dservice.cpp(10): error C3861: 'findNonSensorFixture': identifier not found
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\box2dservice.cpp(15): error C2228: left of '.GetShape' must have class/struct/union
-                 type is 'unknown-type'
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\box2dservice.cpp(15): error C2227: left of '->GetVertex' must point to class/struct/union/generic type
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\box2dservice.cpp(15): error C3861: 'findNonSensorFixture': identifier not found
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\box2dservice.cpp(20): error C2228: left of '.GetShape' must have class/struct/union
-                 type is 'unknown-type'
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\box2dservice.cpp(20): error C2227: left of '->GetVertex' must point to class/struct/union/generic type
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\box2dservice.cpp(20): error C3861: 'findNonSensorFixture': identifier not found
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\dependencies\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Box2dMapper.cpp CharacterGroupingService.cpp CollisionCategory.cpp CoordinateService.cpp MainCharacter.cpp MovableObject.cpp Object.cpp ObjectManager.cpp ObjectPhysicalPropertiesService.cpp Platform.cpp TextureCache.cpp TheGame.cpp Utility.cpp World.cpp main.cpp
+         CoordinateService.cpp
+         Generating Code...
+         Compiling...
+         main.cpp
+         World.cpp
+         TheGame.cpp
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\thegame.cpp(16): warning C4244: 'initializing' : conversion from 'Uint32' to 'float', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\thegame.cpp(23): warning C4244: '=' : conversion from 'Uint32' to 'float', possible loss of data
+         TextureCache.cpp
+         Platform.cpp
+         ObjectPhysicalPropertiesService.cpp
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\objectphysicalpropertiesservice.cpp(33): warning C4244: 'argument' : conversion from 'const float' to 'const int', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\objectphysicalpropertiesservice.cpp(55): warning C4244: '=' : conversion from 'const int' to 'float32', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\objectphysicalpropertiesservice.cpp(56): warning C4244: '=' : conversion from 'const int' to 'float32', possible loss of data
+         ObjectManager.cpp
+         Object.cpp
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(14): warning C4244: '=' : conversion from 'float32' to 'int', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(15): warning C4244: '=' : conversion from 'float32' to 'int', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(17): warning C4244: '=' : conversion from 'float32' to 'int', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(18): warning C4244: '=' : conversion from 'float32' to 'int', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(154): warning C4244: '+=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(155): warning C4244: '-=' : conversion from 'float' to 'int', possible loss of data
+         MovableObject.cpp
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(52): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\movableobject.cpp(78): warning C4018: '>=' : signed/unsigned mismatch
+         MainCharacter.cpp
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\maincharacter.cpp(45): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\maincharacter.cpp(62): warning C4018: '>=' : signed/unsigned mismatch
          Generating Code...
          Skipping... (no relevant changes detected)
          Utility.cpp
          CollisionCategory.cpp
          CharacterGroupingService.cpp
          Box2dMapper.cpp
-     1>Done Building Project "C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\RPG_Tutorial\RPG_Tutorial.vcxproj" (Build target(s)) -- FAILED.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\dependencies\lib" SDL2.0/SDL2.lib SDL2.0/SDL2main.lib SDL2.0/SDL2test.lib SDL2.0/SDL2_image.lib SDL2.0/SDL2_mixer.lib Box2D/Box2D.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.lib" /MACHINE:X86 Debug\Box2dMapper.obj
+         Debug\Box2dService.obj
+         Debug\CharacterGroupingService.obj
+         Debug\CollisionCategory.obj
+         Debug\Errors.obj
+         Debug\main.obj
+         Debug\MainCharacter.obj
+         Debug\MovableObject.obj
+         Debug\Object.obj
+         Debug\ObjectManager.obj
+         Debug\ObjectPhysicalPropertiesService.obj
+         Debug\Platform.obj
+         Debug\Sensor.obj
+         Debug\SensorService.obj
+         Debug\TextureCache.obj
+         Debug\TheGame.obj
+         Debug\Utility.obj
+         Debug\World.obj
+         Debug\CoordinateService.obj
+         RPG_Tutorial.vcxproj -> C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.exe
+     1>Done Building Project "C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\RPG_Tutorial\RPG_Tutorial.vcxproj" (Build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:00.41
+Time Elapsed 00:00:14.71
