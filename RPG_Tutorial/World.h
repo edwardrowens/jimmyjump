@@ -8,6 +8,7 @@
 #include "Box2dMapper.h"
 #include "CollisionCategory.h"
 #include "FootCollisionListener.h"
+#include "Box2dDebugger.h"
 
 class World {
 public:
@@ -32,7 +33,10 @@ private:
 
 	//Listeners
 	FootCollisionListener footCollisionListener;
-	
+
+	//Debugger
+	Box2dDebugger debugger;
+
 	// Functions
 	void putInMotion();
 	void setMousePosition();

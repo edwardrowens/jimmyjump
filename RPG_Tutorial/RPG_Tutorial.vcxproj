@@ -51,7 +51,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.0/SDL2.lib;SDL2.0/SDL2main.lib;SDL2.0/SDL2test.lib;SDL2.0/SDL2_image.lib;SDL2.0/SDL2_mixer.lib;Box2D/Box2D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.0/SDL2.lib;SDL2.0/SDL2main.lib;SDL2.0/SDL2test.lib;SDL2.0/SDL2_image.lib;SDL2.0/SDL2_mixer.lib;SDL2.0/SDL2_ttf.lib;Box2D/Box2D.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -71,6 +71,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Box2dDebugger.cpp" />
     <ClCompile Include="Box2dMapper.cpp" />
     <ClCompile Include="Box2dService.cpp" />
     <ClCompile Include="CharacterGroupingService.cpp" />
@@ -92,6 +93,7 @@
     <ClCompile Include="CoordinateService.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Box2dDebugger.h" />
     <ClInclude Include="Box2dMapper.h" />
     <ClInclude Include="Box2dService.h" />
     <ClInclude Include="CharacterGroupingService.h" />

@@ -5,6 +5,8 @@ World::World() :
 boxWorld(new b2World(WorldConstants::DEFAULT_GRAVITY)),
 objectManager(&textureCache) {
 	this->boxWorld->SetContactListener(&footCollisionListener);
+	boxWorld->SetDebugDraw(&debugger);
+	debugger.SetFlags(DebugDraw::e_shapeBit);
 }
 
 
@@ -26,6 +28,7 @@ void World::destroyObject(Object* object) {
 void World::setContext(SDL_Renderer* context) {
 	objectManager.setContext(context);
 	textureCache.setContext(context);
+	debugger.setContext(context);
 }
 
 
@@ -55,6 +58,7 @@ void World::step() {
 	setMousePosition();
 	putInMotion();
 	boxWorld->Step(WorldConstants::UPDATE_TICK, WorldConstants::VELOCITY_ITERATIONS, WorldConstants::POSITION_ITERATIONS);
+	boxWorld->DrawDebugData();
 }
 
 
