@@ -52,8 +52,8 @@ ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesServi
 
 	props.x = convertedCoords.x;
 	props.y = convertedCoords.y;
-	props.h = position.h / WorldConstants::PIXELS_PER_METER;
-	props.w = position.w / WorldConstants::PIXELS_PER_METER;
+	props.h = (float) position.h / WorldConstants::PIXELS_PER_METER;
+	props.w = (float) position.w / WorldConstants::PIXELS_PER_METER;
 
 	props.friction = 0.3f;
 	props.density = 1.0f;

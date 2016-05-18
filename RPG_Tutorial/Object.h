@@ -15,6 +15,7 @@
 #include "CoordinateService.h"
 #include "Box2dService.h"
 #include <math.h>
+#include <SDL2.0\SDL_ttf.h>
 
 using std::string;
 

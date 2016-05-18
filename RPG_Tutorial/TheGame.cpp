@@ -60,13 +60,13 @@ void TheGame::update() {
 		jim->addMovement(Movements::RIGHT);
 		}
 
-		if (keyState[SDL_SCANCODE_A]){
+		if (keyState[SDL_SCANCODE_A]) {
 		jim->addMovement(Movements::LEFT);
 		}
-		if (keyState[SDL_SCANCODE_W]){
+		if (keyState[SDL_SCANCODE_W]) {
 		jim->addMovement(Movements::JUMP);
 		}
-		if (keyState[SDL_SCANCODE_P]){
+		if (keyState[SDL_SCANCODE_P]) {
 		jim->addMovement(Movements::PATROL);
 		}
 		if (jim->getCurrentMovements().size() == 0) {

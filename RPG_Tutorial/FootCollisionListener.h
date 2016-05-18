@@ -5,8 +5,7 @@
 #include "Object.h"
 #include "MovableObject.h"
 
-class FootCollisionListener : public b2ContactListener
-{
+class FootCollisionListener : public b2ContactListener {
 	/// Called when two fixtures begin to touch.
 	void BeginContact(b2Contact* contact) {
 		// Fixture A was the contact?

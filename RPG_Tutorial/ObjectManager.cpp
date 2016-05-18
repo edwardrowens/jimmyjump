@@ -106,6 +106,8 @@ std::vector<Object*>& ObjectManager::getObjectsInLevel() {
 
 
 void ObjectManager::drawAllObjects() {
+	// background color
+	SDL_SetRenderDrawColor(context, 0, 0, 0, 0);
 	if (SDL_RenderClear(context)) {
 		PrintErrors("Renderer failed to clear", SDL_GetError);
 	}

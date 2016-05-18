@@ -1,14 +1,13 @@
 #ifndef _BOX2DDEBUGGER_H
 #define _BOX2DDEBUGGER_H
 
-#include <Box2D\Debug\DebugDraw.h>
 #include "SDL2.0\SDL.h"
+#include <Box2D\Box2D.h>
+#include "CoordinateService.h"
+#include <iostream>
 
-class Box2dDebugger : public DebugDraw {
+class Box2dDebugger : public b2Draw {
 public:
-	Box2dDebugger();
-	~Box2dDebugger();
-
 	void setContext(SDL_Renderer* context);
 	void DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color); 
 	void DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color); 
