@@ -151,7 +151,16 @@ void Object::draw() {
 
 	if (texture == nullptr)
 		PrintErrors("No texture has been loaded.", SDL_GetError);
-	if (SDL_RenderCopyEx(context, texture, &objectRect, NULL, RADIANS_TO_DEGREES(objectBody->GetAngle()), NULL, );
+	SDL_Point center = { CoordinateService::worldToScreen(objectBody->GetWorldCenter().x, objectBody->GetWorldCenter().y).x, CoordinateService::worldToScreen(objectBody->GetWorldCenter().x, objectBody->GetWorldCenter().y).y };
+	if (texturePath.find("Jimmy") != std::string::npos) {
+		SDL_SetRenderDrawColor(context, 255, 0, 0, 0);
+		SDL_RenderDrawPoint(context, center.x, center.y);
+		SDL_RenderDrawPoint(context, center.x-1, center.y);
+		SDL_RenderDrawPoint(context, center.x+1, center.y);
+		SDL_RenderDrawPoint(context, center.x, center.y-1);
+		SDL_RenderDrawPoint(context, center.x, center.y+1);
+	}
+	if (SDL_RenderCopyEx(context, texture, NULL, &objectRect, RADIANS_TO_DEGREES(objectBody->GetAngle()), &center, SDL_FLIP_NONE))
 		PrintErrors("Failed to render " + texturePath, SDL_GetError);
 }
 
@@ -162,11 +171,7 @@ void Object::load(Character character) {
 	walkCycles = utility.findAllWalkCycleFiles(character);
 }
 
-double RADIANS_TO_DEGREES(float32 angle) {
-	while (angle < 0){
-		angle += 360;
-	}
-	while (angle > 360){
-		angle -= 360;
-	}
+
+double Object::RADIANS_TO_DEGREES(float32 angle) {
+	return (angle * 180) / M_PI;
 }

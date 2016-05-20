@@ -6,7 +6,7 @@ Object(objectBody, character),
 stepCount(0),
 maxVelocity(b2Vec2(MAX_X_VELOCITY, MAX_Y_VELOCITY)),
 footSensor(Sensor(SensorService::findSensor(SensorId::FOOT_SENSOR, *objectBody->GetFixtureList()))) {
-	objectBody->SetFixedRotation(true);
+	objectBody->SetFixedRotation(false);
 	group = CharacterGroup::MOVABLE_OBJECT;
 }
 

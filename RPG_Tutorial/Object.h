@@ -83,5 +83,6 @@ private:
 	std::string texturePath;
 	SDL_Rect objectRect;
 	Box2dDebugger debugger;
+	double RADIANS_TO_DEGREES(float32 angle);
 };
 #endif
