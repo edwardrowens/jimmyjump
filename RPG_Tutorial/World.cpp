@@ -5,7 +5,6 @@ World::World() :
 boxWorld(new b2World(WorldConstants::DEFAULT_GRAVITY)),
 objectManager(&textureCache) {
 	this->boxWorld->SetContactListener(&footCollisionListener);
-	debugger.SetFlags(b2Draw::e_shapeBit);
 }
 
 
@@ -27,7 +26,6 @@ void World::destroyObject(Object* object) {
 void World::setContext(SDL_Renderer* context) {
 	objectManager.setContext(context);
 	textureCache.setContext(context);
-	debugger.setContext(context);
 }
 
 
@@ -83,10 +81,12 @@ b2Body& World::mapToBody(const Character &character, const ObjectPhysicalPropert
 	if (character == Character::JIM) {
 		b2FixtureDef footFixtureDef;
 		b2PolygonShape footShapeDef;
-		footShapeDef.SetAsBox(props.w * .05f, props.h * .05f, b2Vec2(props.x, props.y + (props.h * .05f)), 0.0f);
+		footShapeDef.SetAsBox(props.w * .1f, props.h * .1f, b2Vec2(0, -props.h / 2), 0.0f);
 		footFixtureDef.isSensor = true;
 		footFixtureDef.shape = &footShapeDef;
-		footFixtureDef.userData = (void*)SensorId::FOOT_SENSOR;
+		SensorId value = SensorId::FOOT_SENSOR;
+		SensorId* sensorId = &value;
+		footFixtureDef.userData = (void*)sensorId;
 		body->CreateFixture(&footFixtureDef);
 	}
 

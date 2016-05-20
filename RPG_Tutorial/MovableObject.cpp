@@ -40,7 +40,7 @@ b2Vec2 MovableObject::getPreviousPosition() const {
 
 void MovableObject::jump() {
 	if (footSensor.getNumOfContacts() > 0) {
-		float impulse = objectBody->GetMass() * 10.0f;
+		float impulse = objectBody->GetMass() * 2.0f;
 		objectBody->ApplyLinearImpulse(b2Vec2(0, impulse), objectBody->GetWorldCenter(), true);
 	}
 }

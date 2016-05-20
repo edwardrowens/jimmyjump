@@ -35,7 +35,7 @@ public:
 private:
 	// Fields
 	std::map<Character, string> characterFileMap;
-	const string TEXTURE_PATH = "Textures/jimmyJump_pack/PNG/";
+	const string TEXTURE_PATH = "Resources/Textures/jimmyJump_pack/PNG/";
 
 	// Functions
 	void createCharacterFileMap();

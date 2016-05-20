@@ -8,7 +8,6 @@
 #include "CharacterInformation.h"
 #include "Box2dService.h"
 #include "SensorService.h"
-#include "SensorId.h"
 #include "Sensor.h"
 
 using std::string;

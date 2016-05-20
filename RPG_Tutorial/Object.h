@@ -16,6 +16,7 @@
 #include "Box2dService.h"
 #include <math.h>
 #include <SDL2.0\SDL_ttf.h>
+#include "Box2dDebugger.h"
 
 using std::string;
 
@@ -42,6 +43,7 @@ public:
 	std::string getTexturePath() const;
 	std::string getPreviousTexturePath() const;
 	bool getIsRenderable() const;
+	bool getIsMovable() const;
 	Character getCharacter() const;
 	b2Vec2 getPosition() const;
 	b2Body* getBody() const;
@@ -51,7 +53,6 @@ public:
 	void setX(const int &x);
 	void setY(const int &y);
 	void setTexture(SDL_Texture* texture);
-	void setIsMovable(const bool& isMovable);
 	void setIsRenderable(const bool& isRenderable);
 	void setCharacter(const Character& character);
 	void setContext(SDL_Renderer* context);
@@ -81,9 +82,6 @@ private:
 	b2Vec2 lastDrawnPosition;
 	std::string texturePath;
 	SDL_Rect objectRect;
-
-	// Functions
-	float32 getBox2dWidth() const;
-	float32 getBox2dHeight() const;
+	Box2dDebugger debugger;
 };
 #endif

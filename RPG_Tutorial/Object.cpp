@@ -14,8 +14,8 @@ lastDrawnPosition(Box2dService::retrieveTopLeftVertex(*objectBody)) {
 	objectRect.x = screenCoords.x;
 	objectRect.y = screenCoords.y;
 
-	objectRect.w = getBox2dWidth() * WorldConstants::PIXELS_PER_METER;
-	objectRect.h = getBox2dHeight() * WorldConstants::PIXELS_PER_METER;
+	objectRect.w = Box2dService::getNonSensorFixtureScreenWidth(*objectBody);
+	objectRect.h = Box2dService::getNonSensorFixtureScreenHeight(*objectBody);
 
 	objectBody->SetUserData(this);
 }
@@ -47,16 +47,6 @@ Object& Object::operator= (const Object &object) {
 
 //destructor
 Object::~Object() {
-}
-
-
-float32 Object::getBox2dHeight() const {
-	return Box2dService::retrieveTopLeftVertex(*objectBody).y - Box2dService::retrieveBottomLeftVertex(*objectBody).y;
-}
-
-
-float32 Object::getBox2dWidth() const {
-	return Box2dService::retrieveTopRightVertex(*objectBody).x - Box2dService::retrieveTopLeftVertex(*objectBody).x;
 }
 
 
@@ -105,6 +95,11 @@ CharacterGroup Object::getGroup() const {
 }
 
 
+bool Object::getIsMovable() const {
+	return group == CharacterGroup::MOVABLE_OBJECT || group == CharacterGroup::MAIN_CHARACTER;
+}
+
+
 void Object::setCharacter(const Character& character) {
 	this->character = character;
 }
@@ -120,6 +115,7 @@ void Object::setContext(SDL_Renderer* context) {
 		PrintErrors("The context passed into a level object was null.");
 	}
 	this->context = context;
+	debugger.setContext(context);
 }
 
 
@@ -147,34 +143,11 @@ std::string Object::getPreviousTexturePath() const {
 void Object::draw() {
 	// This is the top left vertex of the box.
 	b2Vec2 currentPosition = Box2dService::retrieveTopLeftVertex(*objectBody);
+	b2Vec2 convertedPosition = CoordinateService::worldToScreen(currentPosition.x, currentPosition.y);
+	objectRect.x = convertedPosition.x;
+	objectRect.y = convertedPosition.y;
 
-	// If there was a change in the object's physics, then update how it's rendered.
-	if (currentPosition.x != lastDrawnPosition.x || currentPosition.y != lastDrawnPosition.y) {
-		b2Vec2 displacement = CoordinateService::displacementFromWorldToScreen(lastDrawnPosition, currentPosition);
-		objectRect.x += roundf(displacement.x);
-		objectRect.y -= roundf(displacement.y);
-		lastDrawnPosition = currentPosition;
-	}
-
-	// debug shit <>
-	SDL_SetRenderDrawColor(context, 255, 0, 0, 255);
-	SDL_RenderDrawLine(context, objectRect.x, objectRect.y, objectRect.x + objectRect.w, objectRect.y);
-	SDL_RenderDrawLine(context, objectRect.x, objectRect.y, objectRect.x, objectRect.y + objectRect.h);
-	SDL_RenderDrawLine(context, objectRect.x, objectRect.y + objectRect.h, objectRect.x + objectRect.w, objectRect.y + objectRect.h);
-	SDL_RenderDrawLine(context, objectRect.x + objectRect.w, objectRect.y + objectRect.h, objectRect.x + objectRect.w, objectRect.y);
-
-	TTF_Font* Sans = TTF_OpenFont("Sans.ttf", 24); //this opens a font style and sets a size
-	SDL_Color White = { 255, 255, 255 };  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
-	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, std::string("(" + std::to_string(objectRect.x) + ", " + std::to_string(objectRect.y) + ")").c_str(), White); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
-	SDL_Texture* Message = SDL_CreateTextureFromSurface(context, surfaceMessage); //now you can convert it into a texture
-
-	SDL_Rect Message_rect; //create a rect
-	Message_rect.x = objectRect.x;  //controls the rect's x coordinate 
-	Message_rect.y = objectRect.y - 10; // controls the rect's y coordinte
-	Message_rect.w = 100; // controls the width of the rect
-	Message_rect.h = 100; // controls the height of the rect
-	SDL_RenderCopy(context, Message, NULL, &Message_rect);
-	//</>
+	debugger.renderAllFixturesOnBody(*objectBody);
 
 	if (texture == nullptr)
 		PrintErrors("No texture has been loaded.", SDL_GetError);

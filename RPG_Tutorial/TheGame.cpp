@@ -44,6 +44,10 @@ SDL_Window* TheGame::WindowInitialization() {
 		PrintErrors("Failed to create SDL window!", SDL_GetError);
 	}
 
+	if (TTF_Init()) {
+		PrintErrors("Failed to initialize the true type font", SDL_GetError);
+	}
+
 	return win;
 }
 
@@ -81,7 +85,7 @@ void TheGame::update() {
 		position.y = mouseY;
 		position.w = 20;
 		position.h = 20;
-		world.createObject(Character::JIM, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::EXAMPLE, position), true);
+		world.createObject(Character::LIGHT_GRAY_PLATFORM, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::EXAMPLE, position), true);
 	}
 
 	world.step();
