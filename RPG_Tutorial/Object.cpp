@@ -151,7 +151,7 @@ void Object::draw() {
 
 	if (texture == nullptr)
 		PrintErrors("No texture has been loaded.", SDL_GetError);
-	if (SDL_RenderCopy(context, texture, NULL, &objectRect))
+	if (SDL_RenderCopyEx(context, texture, &objectRect, NULL, RADIANS_TO_DEGREES(objectBody->GetAngle()), NULL, );
 		PrintErrors("Failed to render " + texturePath, SDL_GetError);
 }
 
@@ -160,4 +160,13 @@ void Object::load(Character character) {
 	this->character = character;
 	previousTexturePath = texturePath = utility.getDefaultTexturePath(character);
 	walkCycles = utility.findAllWalkCycleFiles(character);
+}
+
+double RADIANS_TO_DEGREES(float32 angle) {
+	while (angle < 0){
+		angle += 360;
+	}
+	while (angle > 360){
+		angle -= 360;
+	}
 }

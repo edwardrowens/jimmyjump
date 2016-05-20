@@ -3,7 +3,7 @@
 
 Platform::Platform(b2Body* objectBody, Character character) : Object(objectBody, character){
 	group = CharacterGroup::PLATFORM;
-	objectBody->SetFixedRotation(true);
+	objectBody->SetFixedRotation(false);
 }
 
 Platform::Platform(const Platform &platform): Object(platform){
