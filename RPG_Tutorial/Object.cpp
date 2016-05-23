@@ -6,16 +6,17 @@ objectBody(objectBody),
 isRenderable(true),
 character(character),
 group(CharacterGroup::OBJECT),
-lastDrawnPosition(Box2dService::retrieveTopLeftVertex(*objectBody)) {
+width(Box2dService::getNonSensorFixtureScreenWidth(*objectBody)),
+height(Box2dService::getNonSensorFixtureScreenHeight(*objectBody)) {
 	Object::load(character);
 
 	b2Vec2 objectPosition = Box2dService::retrieveTopLeftVertex(*objectBody);
-	b2Vec2 screenCoords = CoordinateService::worldToScreen(objectPosition.x, objectPosition.y);
+	b2Vec2 screenCoords = ConversionService::worldPointToScreenPoint(objectPosition);
 	objectRect.x = screenCoords.x;
 	objectRect.y = screenCoords.y;
 
-	objectRect.w = Box2dService::getNonSensorFixtureScreenWidth(*objectBody);
-	objectRect.h = Box2dService::getNonSensorFixtureScreenHeight(*objectBody);
+	objectRect.w = width;
+	objectRect.h = height;
 
 	objectBody->SetUserData(this);
 }
@@ -141,26 +142,18 @@ std::string Object::getPreviousTexturePath() const {
 
 
 void Object::draw() {
-	// This is the top left vertex of the box.
-	b2Vec2 currentPosition = Box2dService::retrieveTopLeftVertex(*objectBody);
-	b2Vec2 convertedPosition = CoordinateService::worldToScreen(currentPosition.x, currentPosition.y);
-	objectRect.x = convertedPosition.x;
-	objectRect.y = convertedPosition.y;
+	// Adjust rendering rectangle given the non sensor fixture's rotation.
+	b2Vec2 renderingRectangle = ConversionService::retrieveRenderingRectangleForNonSensorFixture(*objectBody, width, height);
+
+	objectRect.x = renderingRectangle.x;
+	objectRect.y = renderingRectangle.y;
 
 	debugger.renderAllFixturesOnBody(*objectBody);
+	debugger.renderRectangle(objectRect);
 
 	if (texture == nullptr)
 		PrintErrors("No texture has been loaded.", SDL_GetError);
-	SDL_Point center = { CoordinateService::worldToScreen(objectBody->GetWorldCenter().x, objectBody->GetWorldCenter().y).x, CoordinateService::worldToScreen(objectBody->GetWorldCenter().x, objectBody->GetWorldCenter().y).y };
-	if (texturePath.find("Jimmy") != std::string::npos) {
-		SDL_SetRenderDrawColor(context, 255, 0, 0, 0);
-		SDL_RenderDrawPoint(context, center.x, center.y);
-		SDL_RenderDrawPoint(context, center.x-1, center.y);
-		SDL_RenderDrawPoint(context, center.x+1, center.y);
-		SDL_RenderDrawPoint(context, center.x, center.y-1);
-		SDL_RenderDrawPoint(context, center.x, center.y+1);
-	}
-	if (SDL_RenderCopyEx(context, texture, NULL, &objectRect, RADIANS_TO_DEGREES(objectBody->GetAngle()), &center, SDL_FLIP_NONE))
+	if (SDL_RenderCopyEx(context, texture, NULL, &objectRect, MathService::radiansToDegrees(objectBody->GetAngle()), NULL, SDL_FLIP_NONE))
 		PrintErrors("Failed to render " + texturePath, SDL_GetError);
 }
 
@@ -169,9 +162,4 @@ void Object::load(Character character) {
 	this->character = character;
 	previousTexturePath = texturePath = utility.getDefaultTexturePath(character);
 	walkCycles = utility.findAllWalkCycleFiles(character);
-}
-
-
-double Object::RADIANS_TO_DEGREES(float32 angle) {
-	return (angle * 180) / M_PI;
 }

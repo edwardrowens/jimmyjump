@@ -60,9 +60,6 @@
     <ClCompile Include="ObjectPhysicalPropertiesService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CoordinateService.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Box2dService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -72,7 +69,13 @@
     <ClCompile Include="Sensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Box2dDebugger.cpp">
+    <ClCompile Include="Debugger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ConversionService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MathService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -134,9 +137,6 @@
     <ClInclude Include="ObjectPhysicalPropertiesService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CoordinateService.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Box2dService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -152,7 +152,13 @@
     <ClInclude Include="SensorId.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Box2dDebugger.h">
+    <ClInclude Include="Debugger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ConversionService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MathService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

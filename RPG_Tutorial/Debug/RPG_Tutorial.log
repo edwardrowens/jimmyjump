@@ -1,15 +1,20 @@
-﻿Build started 5/20/2016 9:23:47 AM.
-     1>Project "C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\RPG_Tutorial\RPG_Tutorial.vcxproj" on node 2 (Build target(s)).
+﻿Build started 5/22/2016 7:45:01 PM.
+     1>Project "C:\Users\Eddie\Documents\Visual Studio 2013\Projects\jimmyjump\RPG_Tutorial\RPG_Tutorial.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\dependencies\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Object.cpp
          Object.cpp
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(14): warning C4244: '=' : conversion from 'float32' to 'int', possible loss of data
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(15): warning C4244: '=' : conversion from 'float32' to 'int', possible loss of data
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(147): warning C4244: '=' : conversion from 'float32' to 'int', possible loss of data
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(148): warning C4244: '=' : conversion from 'float32' to 'int', possible loss of data
-     1>c:\users\edwardo\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(154): warning C4244: 'initializing' : conversion from 'float32' to 'int', possible loss of data
+     1>c:\program files (x86)\microsoft visual studio 12.0\vc\include\math.h(1298): warning C4005: 'M_PI' : macro redefinition
+                 c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\dependencies\include\sdl2.0\sdl_stdinc.h(350) : see previous definition of 'M_PI'
+     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(10): warning C4244: 'initializing' : conversion from 'int' to 'float32', possible loss of data
+     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(15): warning C4244: '=' : conversion from 'float32' to 'int', possible loss of data
+     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(16): warning C4244: '=' : conversion from 'float32' to 'int', possible loss of data
+     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(18): warning C4244: '=' : conversion from 'float32' to 'int', possible loss of data
+     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(19): warning C4244: '=' : conversion from 'float32' to 'int', possible loss of data
+     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(146): warning C4244: 'argument' : conversion from 'float32' to 'const int', possible loss of data
+     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(148): warning C4244: '=' : conversion from 'float32' to 'int', possible loss of data
+     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\object.cpp(149): warning C4244: '=' : conversion from 'float32' to 'int', possible loss of data
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\dependencies\lib" SDL2.0/SDL2.lib SDL2.0/SDL2main.lib SDL2.0/SDL2test.lib SDL2.0/SDL2_image.lib SDL2.0/SDL2_mixer.lib SDL2.0/SDL2_ttf.lib Box2D/Box2D.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.lib" /MACHINE:X86 Debug\Box2dDebugger.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Eddie\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\dependencies\lib" SDL2.0/SDL2.lib SDL2.0/SDL2main.lib SDL2.0/SDL2test.lib SDL2.0/SDL2_image.lib SDL2.0/SDL2_mixer.lib SDL2.0/SDL2_ttf.lib Box2D/Box2D.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Eddie\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Eddie\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.lib" /MACHINE:X86 Debug\Debugger.obj
          Debug\Box2dMapper.obj
          Debug\Box2dService.obj
          Debug\CharacterGroupingService.obj
@@ -17,6 +22,7 @@
          Debug\Errors.obj
          Debug\main.obj
          Debug\MainCharacter.obj
+         Debug\MathService.obj
          Debug\MovableObject.obj
          Debug\Object.obj
          Debug\ObjectManager.obj
@@ -28,10 +34,10 @@
          Debug\TheGame.obj
          Debug\Utility.obj
          Debug\World.obj
-         Debug\CoordinateService.obj
-         RPG_Tutorial.vcxproj -> C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.exe
-     1>Done Building Project "C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\RPG_Tutorial\RPG_Tutorial.vcxproj" (Build target(s)).
+         Debug\ConversionService.obj
+         RPG_Tutorial.vcxproj -> C:\Users\Eddie\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.exe
+     1>Done Building Project "C:\Users\Eddie\Documents\Visual Studio 2013\Projects\jimmyjump\RPG_Tutorial\RPG_Tutorial.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.77
+Time Elapsed 00:00:01.00

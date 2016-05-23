@@ -83,8 +83,8 @@ void TheGame::update() {
 		Position position;
 		position.x = mouseX;
 		position.y = mouseY;
-		position.w = 20;
-		position.h = 20;
+		position.w = 5;
+		position.h = 5;
 		world.createObject(Character::LIGHT_GRAY_PLATFORM, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::EXAMPLE, position), true);
 	}
 

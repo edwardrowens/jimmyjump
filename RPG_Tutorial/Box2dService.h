@@ -26,6 +26,8 @@ public:
 
 	const static int getFixtureScreenHeight(const b2Body &objectBody, const b2Fixture &fixture);
 	const static int getFixtureScreenWidth(const b2Body &objectBody, const b2Fixture &fixture);
+	const static int getFixtureWorldHeight(const b2Body &objectBody, const b2Fixture &fixture);
+	const static int getFixtureWorldWidth(const b2Body &objectBody, const b2Fixture &fixture);
 	const static b2Fixture& findNonSensorFixture(const b2Fixture &fixture);
 private:
 };

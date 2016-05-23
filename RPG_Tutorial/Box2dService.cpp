@@ -48,12 +48,12 @@ const b2Vec2 Box2dService::retrieveTopRightVertex(const b2Body &objectBody, cons
 
 
 const float32 Box2dService::getNonSensorFixtureWorldHeight(const b2Body &objectBody) {
-	return retrieveTopLeftVertex(objectBody).y - retrieveBottomLeftVertex(objectBody).y;
+	return std::abs(retrieveTopLeftVertex(objectBody).y - retrieveBottomRightVertex(objectBody).y);
 }
 
 
 const float32 Box2dService::getNonSensorFixtureWorldWidth(const b2Body &objectBody) {
-	return retrieveTopRightVertex(objectBody).x - retrieveTopLeftVertex(objectBody).x;
+	return std::abs(retrieveTopLeftVertex(objectBody).x - retrieveBottomRightVertex(objectBody).x);
 }
 
 
@@ -68,10 +68,20 @@ const int Box2dService::getNonSensorFixtureScreenWidth(const b2Body &objectBody)
 
 
 const int Box2dService::getFixtureScreenHeight(const b2Body &objectBody, const b2Fixture &fixture) {
-	return (retrieveTopLeftVertex(objectBody, fixture).y - retrieveBottomLeftVertex(objectBody, fixture).y) * WorldConstants::PIXELS_PER_METER;
+	return getFixtureWorldHeight(objectBody, fixture) * WorldConstants::PIXELS_PER_METER;
 }
 
 
 const int Box2dService::getFixtureScreenWidth(const b2Body &objectBody, const b2Fixture &fixture) {
-	return (retrieveTopRightVertex(objectBody, fixture).x - retrieveTopLeftVertex(objectBody, fixture).x) * WorldConstants::PIXELS_PER_METER;
+	return getFixtureWorldWidth(objectBody, fixture) * WorldConstants::PIXELS_PER_METER;
+}
+
+
+const int Box2dService::getFixtureWorldHeight(const b2Body &objectBody, const b2Fixture &fixture) {
+	return std::abs(retrieveTopLeftVertex(objectBody, fixture).y - retrieveBottomLeftVertex(objectBody, fixture).y);
+}
+
+
+const int Box2dService::getFixtureWorldWidth(const b2Body &objectBody, const b2Fixture &fixture) {
+	return std::abs(retrieveTopRightVertex(objectBody, fixture).x - retrieveTopLeftVertex(objectBody, fixture).x);
 }

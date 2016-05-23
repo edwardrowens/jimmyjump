@@ -8,7 +8,7 @@ ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesServi
 	switch (objectBody) {
 	case ObjectBodies::ObjectBodies::NONE: {
 		props.bodyType = b2_staticBody;
-		b2Vec2 convertedCoords = CoordinateService::screenToWorld(0, 0);
+		b2Vec2 convertedCoords = ConversionService::screenPointToWorldPoint(0, 0);
 		props.x = convertedCoords.x;
 		props.y = convertedCoords.y;
 		props.h = 0.0f;
@@ -19,18 +19,18 @@ ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesServi
 	}
 	case ObjectBodies::ObjectBodies::EXAMPLE: {
 		props.bodyType = b2_dynamicBody;
-		b2Vec2 convertedCoords = CoordinateService::screenToWorld(100, 200);
+		b2Vec2 convertedCoords = ConversionService::screenPointToWorldPoint(100, 200);
 		props.x = convertedCoords.x;
 		props.y = convertedCoords.y;
 		props.h = 1.5f;
 		props.w = 1.5f;
-		props.density = 3.0f;
+		props.density = 1.0f;
 		props.friction = 0.3f;
 		break;
 	}
 	case ObjectBodies::ObjectBodies::PLATFORM: {
 		props.bodyType = b2_staticBody;
-		b2Vec2 convertedCoords = CoordinateService::screenToWorld(WorldConstants::X_ORIGIN, 500);
+		b2Vec2 convertedCoords = ConversionService::screenPointToWorldPoint(WorldConstants::X_ORIGIN, 500);
 		props.x = convertedCoords.x;
 		props.y = convertedCoords.y;
 		props.h = 3.0f;
@@ -48,14 +48,14 @@ ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesServi
 	ObjectPhysicalProperties::ObjectPhysicalProperties props;
 
 	props.physicalBody = objectBody;
-	b2Vec2 convertedCoords = CoordinateService::screenToWorld(position.x, position.y);
+	b2Vec2 convertedCoords = ConversionService::screenPointToWorldPoint(position.x, position.y);
 
 	props.x = convertedCoords.x;
 	props.y = convertedCoords.y;
-	props.h = (float) position.h / WorldConstants::PIXELS_PER_METER;
-	props.w = (float) position.w / WorldConstants::PIXELS_PER_METER;
+	props.h = ConversionService::screenValueToWorldValue(position.h);
+	props.w = ConversionService::screenValueToWorldValue(position.w);
 
-	props.friction = 0.3f;
+	props.friction = 10.3f;
 	props.density = 1.0f;
 	switch (objectBody) {
 	case ObjectBodies::ObjectBodies::NONE:

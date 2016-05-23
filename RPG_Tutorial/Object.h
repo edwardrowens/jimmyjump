@@ -12,11 +12,11 @@
 #include <set>
 #include "Utility.h"
 #include "Box2D\Box2D.h"
-#include "CoordinateService.h"
+#include "ConversionService.h"
 #include "Box2dService.h"
-#include <math.h>
 #include <SDL2.0\SDL_ttf.h>
-#include "Box2dDebugger.h"
+#include "Debugger.h"
+#include "MathService.h"
 
 using std::string;
 
@@ -79,10 +79,10 @@ protected:
 
 private:
 	// Fields
-	b2Vec2 lastDrawnPosition;
 	std::string texturePath;
 	SDL_Rect objectRect;
-	Box2dDebugger debugger;
+	Debugger debugger;
 	double RADIANS_TO_DEGREES(float32 angle);
+	float32 width, height;
 };
 #endif
