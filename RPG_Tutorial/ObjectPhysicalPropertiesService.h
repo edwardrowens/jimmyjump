@@ -7,7 +7,7 @@
 #include "ConversionService.h"
 
 namespace ObjectPhysicalPropertiesService {
-	ObjectPhysicalProperties::ObjectPhysicalProperties objectPhysicalProperties(const ObjectBodies::ObjectBodies &objectBody);
-	ObjectPhysicalProperties::ObjectPhysicalProperties objectPhysicalProperties(const ObjectBodies::ObjectBodies &objectBody, const Position &position);
+	ObjectPhysicalProperties::ObjectPhysicalProperties objectPhysicalProperties(const ObjectBodies &objectBody);
+	ObjectPhysicalProperties::ObjectPhysicalProperties objectPhysicalProperties(const ObjectBodies &objectBody, const Position &position);
 }
 #endif

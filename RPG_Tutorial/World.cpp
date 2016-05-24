@@ -17,6 +17,16 @@ Object* World::createObject(const Character& character, const ObjectPhysicalProp
 }
 
 
+Object* World::createObject(const Character& character, const ObjectBodies &body, bool isRenderable) {
+	return World::createObject(character, ObjectPhysicalPropertiesService::objectPhysicalProperties(body), isRenderable);
+}
+
+
+Object* World::createObject(const Character& character, const ObjectBodies &body, const Position &position, bool isRenderable) {
+	return World::createObject(character, ObjectPhysicalPropertiesService::objectPhysicalProperties(body, position), isRenderable);
+}
+
+
 void World::destroyObject(Object* object) {
 	boxWorld->DestroyBody(object->getBody());
 	objectManager.destroyObject(*object);

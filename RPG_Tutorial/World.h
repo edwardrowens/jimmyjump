@@ -9,6 +9,8 @@
 #include "CollisionCategory.h"
 #include "FootCollisionListener.h"
 #include "SensorId.h"
+#include "ObjectBodies.h"
+#include "ObjectPhysicalPropertiesService.h"
 
 class World {
 public:
@@ -20,6 +22,8 @@ public:
 	ObjectManager& getObjectManager();
 
 	Object* createObject(const Character& character, const ObjectPhysicalProperties::ObjectPhysicalProperties &props, bool isRenderable);
+	Object* createObject(const Character& character, const ObjectBodies &body, bool isRenderable);
+	Object* createObject(const Character& character, const ObjectBodies &body, const Position &position, bool isRenderable);
 	void destroyObject(Object* object);
 	void drawAllObjects();
 	void step();

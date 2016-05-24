@@ -7,7 +7,7 @@ namespace ObjectPhysicalProperties {
 	struct ObjectPhysicalProperties {
 		b2BodyType bodyType;
 		float32 x, y, w, h, density, friction;
-		ObjectBodies::ObjectBodies physicalBody;
+		ObjectBodies physicalBody;
 	};
 }
 #endif

@@ -85,11 +85,12 @@ void TheGame::update() {
 		position.y = mouseY;
 		position.w = 5;
 		position.h = 5;
-		world.createObject(Character::LIGHT_GRAY_PLATFORM, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::EXAMPLE, position), true);
+		world.createObject(Character::LIGHT_GRAY_PLATFORM, ObjectBodies::PLAYER, position, true);
 	}
 
 	world.step();
 }
+
 
 void TheGame::draw() {
 	world.drawAllObjects();
@@ -99,11 +100,12 @@ void TheGame::draw() {
 void TheGame::instantiateLevelObjects() {
 	Position position;
 	position.x = 100;
-	position.y = 250;
+	position.y = 350;
 	position.h = 50;
 	position.w = 100;
-	//world.createObject(Character::BACKGROUND, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::ObjectBodies::NONE, position), true);
-	jim = dynamic_cast<MainCharacter*>(world.createObject(Character::JIM, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::ObjectBodies::EXAMPLE), true));
-	world.createObject(Character::LIGHT_GREEN_PLATFORM, ObjectPhysicalPropertiesService::objectPhysicalProperties(ObjectBodies::ObjectBodies::PLATFORM), true);
+
+	jim = dynamic_cast<MainCharacter*>(world.createObject(Character::JIM, ObjectBodies::PLAYER, true));
+	world.createObject(Character::LIGHT_GREEN_PLATFORM, ObjectBodies::STATIONARY, true);
+	world.createObject(Character::LIGHT_GRAY_PLATFORM, ObjectBodies::STATIONARY, position, true);
 	controllableObjects.push_back(jim);
 }

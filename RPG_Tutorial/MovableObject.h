@@ -53,6 +53,7 @@ private:
 	b2Vec2 maxVelocity;
 	b2Vec2 previousPosition;
 	Sensor footSensor;
+	Uint32 timeOfLastJump;
 
 	// Functions
 	void jump();

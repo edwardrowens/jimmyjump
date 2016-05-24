@@ -1,12 +1,12 @@
 #include "ObjectPhysicalPropertiesService.h"
 
-ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesService::objectPhysicalProperties(const ObjectBodies::ObjectBodies &objectBody) {
+ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesService::objectPhysicalProperties(const ObjectBodies &objectBody) {
 	ObjectPhysicalProperties::ObjectPhysicalProperties props;
 
 	props.physicalBody = objectBody;
 
 	switch (objectBody) {
-	case ObjectBodies::ObjectBodies::NONE: {
+	case ObjectBodies::BLANK: {
 		props.bodyType = b2_staticBody;
 		b2Vec2 convertedCoords = ConversionService::screenPointToWorldPoint(0, 0);
 		props.x = convertedCoords.x;
@@ -17,7 +17,7 @@ ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesServi
 		props.friction = 0.0f;
 		break;
 	}
-	case ObjectBodies::ObjectBodies::EXAMPLE: {
+	case ObjectBodies::PLAYER: {
 		props.bodyType = b2_dynamicBody;
 		b2Vec2 convertedCoords = ConversionService::screenPointToWorldPoint(100, 200);
 		props.x = convertedCoords.x;
@@ -25,10 +25,10 @@ ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesServi
 		props.h = 1.5f;
 		props.w = 1.5f;
 		props.density = 1.0f;
-		props.friction = 0.3f;
+		props.friction = 0.0f;
 		break;
 	}
-	case ObjectBodies::ObjectBodies::PLATFORM: {
+	case ObjectBodies::STATIONARY: {
 		props.bodyType = b2_staticBody;
 		b2Vec2 convertedCoords = ConversionService::screenPointToWorldPoint(WorldConstants::X_ORIGIN, 500);
 		props.x = convertedCoords.x;
@@ -44,7 +44,7 @@ ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesServi
 	return props;
 }
 
-ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesService::objectPhysicalProperties(const ObjectBodies::ObjectBodies &objectBody, const Position &position) {
+ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesService::objectPhysicalProperties(const ObjectBodies &objectBody, const Position &position) {
 	ObjectPhysicalProperties::ObjectPhysicalProperties props;
 
 	props.physicalBody = objectBody;
@@ -58,15 +58,15 @@ ObjectPhysicalProperties::ObjectPhysicalProperties ObjectPhysicalPropertiesServi
 	props.friction = 10.3f;
 	props.density = 1.0f;
 	switch (objectBody) {
-	case ObjectBodies::ObjectBodies::NONE:
+	case ObjectBodies::BLANK:
 		props.bodyType = b2_staticBody;
 		props.friction = 0.0f;
 		props.density = 0.0f;
 		break;
-	case ObjectBodies::ObjectBodies::EXAMPLE:
+	case ObjectBodies::PLAYER:
 		props.bodyType = b2_dynamicBody;
 		break;
-	case ObjectBodies::ObjectBodies::PLATFORM:
+	case ObjectBodies::STATIONARY:
 		props.bodyType = b2_staticBody;
 		break;
 	}

@@ -2,7 +2,7 @@
 
 // Contains the information which pertains to all associated characters within the game.
 // BEGINNING and END need to be at the beginning and end respectively (for iteration).
-enum Character : int{
+enum Character : int {
 	BEGINNING,
 	NONE,
 	JIM,
@@ -14,7 +14,7 @@ enum Character : int{
 	END
 };
 
-enum CharacterGroup : int{
+enum CharacterGroup : int {
 	OBJECT,
 	MAIN_CHARACTER,
 	PLATFORM,

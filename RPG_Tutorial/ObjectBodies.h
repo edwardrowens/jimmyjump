@@ -4,11 +4,9 @@
 /*
 Default bodies
 */
-namespace ObjectBodies {
-	enum ObjectBodies {
-		NONE,
-		EXAMPLE,
-		PLATFORM
-	};
-}
+enum ObjectBodies {
+	BLANK,
+	PLAYER,
+	STATIONARY
+};
 #endif

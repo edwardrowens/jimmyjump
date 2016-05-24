@@ -144,12 +144,11 @@ std::string Object::getPreviousTexturePath() const {
 void Object::draw() {
 	// Adjust rendering rectangle given the non sensor fixture's rotation.
 	b2Vec2 renderingRectangle = ConversionService::retrieveRenderingRectangleForNonSensorFixture(*objectBody, width, height);
-
 	objectRect.x = renderingRectangle.x;
 	objectRect.y = renderingRectangle.y;
 
-	debugger.renderAllFixturesOnBody(*objectBody);
-	debugger.renderRectangle(objectRect);
+	/*debugger.renderAllFixturesOnBody(*objectBody);
+	debugger.renderRectangle(objectRect);*/
 
 	if (texture == nullptr)
 		PrintErrors("No texture has been loaded.", SDL_GetError);

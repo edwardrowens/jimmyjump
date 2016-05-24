@@ -5,8 +5,9 @@ MovableObject::MovableObject(b2Body* objectBody, Character character) :
 Object(objectBody, character),
 stepCount(0),
 maxVelocity(b2Vec2(MAX_X_VELOCITY, MAX_Y_VELOCITY)),
-footSensor(Sensor(SensorService::findSensor(SensorId::FOOT_SENSOR, *objectBody->GetFixtureList()))) {
-	objectBody->SetFixedRotation(false);
+footSensor(Sensor(SensorService::findSensor(SensorId::FOOT_SENSOR, *objectBody->GetFixtureList()))),
+timeOfLastJump(0) {
+	objectBody->SetFixedRotation(true);
 	group = CharacterGroup::MOVABLE_OBJECT;
 }
 
@@ -39,9 +40,11 @@ b2Vec2 MovableObject::getPreviousPosition() const {
 
 
 void MovableObject::jump() {
-	if (footSensor.getNumOfContacts() > 0) {
-		float impulse = objectBody->GetMass() * 2.0f;
+	int timeElapsedSinceLastJump = SDL_GetTicks() - timeOfLastJump;
+	if (footSensor.getNumOfContacts() > 0 && timeElapsedSinceLastJump > 250) {
+		float impulse = objectBody->GetMass() * 10.0f;
 		objectBody->ApplyLinearImpulse(b2Vec2(0, impulse), objectBody->GetWorldCenter(), true);
+		timeOfLastJump = SDL_GetTicks();
 	}
 }
 
