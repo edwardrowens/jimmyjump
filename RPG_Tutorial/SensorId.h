@@ -1,7 +1,7 @@
 #ifndef _SENSORID_H
 #define _SENSORID_H
 
-enum SensorId{
+enum SensorId : int {
 	FOOT_SENSOR
 };
 

@@ -84,9 +84,11 @@ b2Body& World::mapToBody(const Character &character, const ObjectPhysicalPropert
 		footShapeDef.SetAsBox(props.w * .1f, props.h * .1f, b2Vec2(0, -props.h / 2), 0.0f);
 		footFixtureDef.isSensor = true;
 		footFixtureDef.shape = &footShapeDef;
-		SensorId value = SensorId::FOOT_SENSOR;
-		SensorId* sensorId = &value;
-		footFixtureDef.userData = (void*)sensorId;
+		footFixtureDef.filter.categoryBits = CollisionCategory::EVERYTHING;
+		footFixtureDef.filter.maskBits = CollisionCategory::FRIENDLY | CollisionCategory::EVERYTHING | CollisionCategory::ENEMY;
+		SensorId* sensor = new SensorId;
+		*sensor = SensorId::FOOT_SENSOR;
+		footFixtureDef.userData = sensor;
 		body->CreateFixture(&footFixtureDef);
 	}
 

@@ -10,10 +10,10 @@ class FootCollisionListener : public b2ContactListener {
 
 	/// Called when two fixtures begin to touch.
 	void BeginContact(b2Contact* contact) {
-		SensorId* sensorIdA = (SensorId*)contact->GetFixtureA()->GetUserData();
+		SensorId* sensorIdA = static_cast<SensorId*>(contact->GetFixtureA()->GetUserData());
 		Object* objectA = (Object*)contact->GetFixtureA()->GetBody()->GetUserData();
 
-		SensorId* sensorIdB = (SensorId*)contact->GetFixtureB()->GetUserData();
+		SensorId* sensorIdB = static_cast<SensorId*>(contact->GetFixtureB()->GetUserData());
 		Object* objectB = (Object*)contact->GetFixtureB()->GetBody()->GetUserData();
 
 		if (sensorIdA)
