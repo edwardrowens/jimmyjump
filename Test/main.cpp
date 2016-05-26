@@ -1,8 +1,24 @@
 #include <iostream>
+#include <thread>
+#include <mutex>
+
+using namespace std;
+
+void thread1Function() {
+
+}
+
+void thread2Function() {
+
+}
+
+mutex mutey;
 
 int main() {
-	void* something;
+	
+	thread t1(thread1Function);
+	thread t2(thread2Function);
 
-	std::cin.get();
+	system("PAUSE");
 	return 0;
 }

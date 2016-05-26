@@ -1,9 +1,12 @@
-﻿Build started 5/23/2016 9:11:12 PM.
+﻿Build started 5/25/2016 9:50:39 PM.
      1>Project "C:\Users\Eddie\Documents\Visual Studio 2013\Projects\jimmyjump\RPG_Tutorial\RPG_Tutorial.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\dependencies\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ObjectPhysicalPropertiesService.cpp
-         ObjectPhysicalPropertiesService.cpp
-     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\objectphysicalpropertiesservice.cpp(33): warning C4244: 'argument' : conversion from 'const float' to 'const int', possible loss of data
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\dependencies\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt TheGame.cpp
+         TheGame.cpp
+     1>c:\program files (x86)\microsoft visual studio 12.0\vc\include\math.h(1298): warning C4005: 'M_PI' : macro redefinition
+                 c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\dependencies\include\sdl2.0\sdl_stdinc.h(350) : see previous definition of 'M_PI'
+     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\thegame.cpp(108): warning C4244: 'initializing' : conversion from 'Uint32' to 'float', possible loss of data
+     1>c:\users\eddie\documents\visual studio 2013\projects\jimmyjump\rpg_tutorial\thegame.cpp(119): warning C4244: '=' : conversion from 'Uint32' to 'float', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Eddie\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\edwardo\Documents\Visual Studio 2013\Projects\jimmyjump\dependencies\lib" SDL2.0/SDL2.lib SDL2.0/SDL2main.lib SDL2.0/SDL2test.lib SDL2.0/SDL2_image.lib SDL2.0/SDL2_mixer.lib SDL2.0/SDL2_ttf.lib Box2D/Box2D.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Eddie\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Eddie\Documents\Visual Studio 2013\Projects\jimmyjump\Debug\RPG_Tutorial.lib" /MACHINE:X86 Debug\Debugger.obj
          Debug\Box2dMapper.obj
@@ -31,4 +34,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.53
+Time Elapsed 00:00:01.15

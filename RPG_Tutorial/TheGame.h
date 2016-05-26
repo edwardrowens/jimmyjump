@@ -16,11 +16,11 @@
 #include "World.h"
 #include "ObjectPhysicalPropertiesService.h"
 #include "ObjectBodies.h"
+#include <thread>
 
 enum class GameState {PLAY,EXIT};
 
-class TheGame
-{
+class TheGame {
 public:
 	// Constructors and destructor
 	TheGame();
@@ -35,15 +35,12 @@ private:
 	SDL_Window* currentWindow;
 	SDL_Event currentEvent;
 	SDL_Renderer* context;
-	Platform* gameFloor;
 	MainCharacter* jim;
-	int jimWidth, jimHeight, jimStartY, eventMade;
+	int  eventMade;
 	std::vector<MovableObject*> controllableObjects;
 	float gravity, keyPressLength;
-	const int FPS = 10;
 	//processes input
 	const Uint8* keyState;
-	int numberOfFrames;
 	
 	// Functions
 	SDL_Window* WindowInitialization();
@@ -54,7 +51,9 @@ private:
 	//game loop
 	int processInput();
 	void update();
+	void step();
 	void draw();
+	std::thread updateThread;
 
 	World world;
 };

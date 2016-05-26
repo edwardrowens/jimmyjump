@@ -1,8 +1,10 @@
 #include "TheGame.h"
 
 TheGame::TheGame() : currentWindow(nullptr),
-currentState(GameState::PLAY), jimHeight(50), jimWidth(50), eventMade(0), jim(nullptr),
-gravity(10), gameFloor(nullptr) {
+currentState(GameState::PLAY),
+eventMade(0),
+jim(nullptr),
+updateThread(&TheGame::update, this) {
 }
 
 
@@ -12,19 +14,8 @@ TheGame::~TheGame() {
 void TheGame::run() {
 	initGame();
 
-	float timeElapsedSinceLastUpdate = 0.0f;
-	float timeOfLastUpdate = SDL_GetTicks();
-
-	while (currentState != GameState::EXIT) {
-		timeElapsedSinceLastUpdate = SDL_GetTicks() - timeOfLastUpdate;
-		while (timeElapsedSinceLastUpdate >= WorldConstants::UPDATE_TICK_IN_SECONDS) {
-			processInput();
-			update();
-			timeOfLastUpdate = SDL_GetTicks();
-			timeElapsedSinceLastUpdate -= WorldConstants::UPDATE_TICK_IN_SECONDS;
-		}
-		draw();
-	}
+	updateThread.join();
+	draw();
 }
 
 void TheGame::initGame() {
@@ -58,24 +49,23 @@ int TheGame::processInput() {
 	return eventMade = SDL_PollEvent(&currentEvent);
 }
 
-void TheGame::update() {
+void TheGame::step() {
 	//jim->addMovement(Movements::RIGHT);
-	if (keyState[SDL_SCANCODE_D]){
+	if (keyState[SDL_SCANCODE_D]) {
 		jim->addMovement(Movements::RIGHT);
-		}
-
-		if (keyState[SDL_SCANCODE_A]) {
+	}
+	if (keyState[SDL_SCANCODE_A]) {
 		jim->addMovement(Movements::LEFT);
-		}
-		if (keyState[SDL_SCANCODE_W]) {
+	}
+	if (keyState[SDL_SCANCODE_W]) {
 		jim->addMovement(Movements::JUMP);
-		}
-		if (keyState[SDL_SCANCODE_P]) {
+	}
+	if (keyState[SDL_SCANCODE_P]) {
 		jim->addMovement(Movements::PATROL);
-		}
-		if (jim->getCurrentMovements().size() == 0) {
+	}
+	if (jim->getCurrentMovements().size() == 0) {
 		jim->addMovement(Movements::NONE);
-		}
+	}
 
 	if (keyState[SDL_SCANCODE_T]) {
 		int mouseX, mouseY;
@@ -87,13 +77,15 @@ void TheGame::update() {
 		position.h = 5;
 		world.createObject(Character::LIGHT_GRAY_PLATFORM, ObjectBodies::PLAYER, position, true);
 	}
-
 	world.step();
 }
 
 
 void TheGame::draw() {
-	world.drawAllObjects();
+	while (currentState != GameState::EXIT) {
+		std::cout << "render call\n";
+		world.drawAllObjects();
+	}
 }
 
 
@@ -108,4 +100,24 @@ void TheGame::instantiateLevelObjects() {
 	world.createObject(Character::LIGHT_GREEN_PLATFORM, ObjectBodies::STATIONARY, true);
 	world.createObject(Character::LIGHT_GRAY_PLATFORM, ObjectBodies::STATIONARY, position, true);
 	controllableObjects.push_back(jim);
+}
+
+
+void TheGame::update() {
+	float timeElapsedSinceLastUpdate = 0.0f;
+	float timeOfLastUpdate = SDL_GetTicks();
+
+	while (currentState != GameState::EXIT) {
+		timeElapsedSinceLastUpdate = SDL_GetTicks() - timeOfLastUpdate;
+		while (timeElapsedSinceLastUpdate >= WorldConstants::UPDATE_TICK_IN_SECONDS) {
+			std::cout << "processing input\n";
+			processInput();
+			std::cout << "processed\n";
+			std::cout << "stepping\n";
+			step();
+			std::cout << "step\n";
+			timeOfLastUpdate = SDL_GetTicks();
+			timeElapsedSinceLastUpdate -= WorldConstants::UPDATE_TICK_IN_SECONDS;
+		}
+	}
 }
