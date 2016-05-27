@@ -10,6 +10,7 @@
 #include "Platform.h"
 #include "Box2D\Box2D.h"
 #include "TextureCache.h"
+#include <mutex>
 
 /*
 The entire point of this class is to create instances of objects (factory). This class will ensure that the background is the first instance
@@ -43,6 +44,7 @@ private:
 	Utility utility;
 	TextureCache* textureCache;
 	MainCharacter* playableCharacter;
+	std::mutex mutey;
 
 	// Functions
 	void deleteTextures(Character character);

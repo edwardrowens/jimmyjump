@@ -9,6 +9,7 @@ footSensor(Sensor(SensorService::findSensor(SensorId::FOOT_SENSOR, *objectBody->
 timeOfLastJump(0) {
 	objectBody->SetFixedRotation(true);
 	group = CharacterGroup::MOVABLE_OBJECT;
+	isMovable = true;
 }
 
 MovableObject::MovableObject(const MovableObject &movableObject) :
@@ -134,11 +135,6 @@ void MovableObject::executeMovement() {
 
 	// We've executed all movements in the buffer, so let's clear out the buffer now.
 	currentMovements.clear();
-
-	// We need to update the rendering rectangle as the position of the object has changed.
-	b2Vec2 renderingRectangle = ConversionService::retrieveRenderingRectangleForNonSensorFixture(*objectBody, width, height);
-	objectRect.x = renderingRectangle.x;
-	objectRect.y = renderingRectangle.y;
 }
 
 

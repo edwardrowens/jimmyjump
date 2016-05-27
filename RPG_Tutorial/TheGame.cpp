@@ -15,7 +15,20 @@ void TheGame::run() {
 	initGame();
 
 	renderThread = SDL_CreateThread(&sdlRenderThreadWrapper, "RenderThread", this);
-	update();
+	float timeElapsedSinceLastUpdate = 0.0f;
+	float timeOfLastUpdate = SDL_GetTicks();
+
+	while (currentState != GameState::EXIT) {
+		uint32 start = SDL_GetTicks();
+		timeElapsedSinceLastUpdate = SDL_GetTicks() - timeOfLastUpdate;
+		while (timeElapsedSinceLastUpdate >= WorldConstants::UPDATE_TICK_IN_SECONDS) {
+			processInput();
+			step();
+			timeOfLastUpdate = SDL_GetTicks();
+			timeElapsedSinceLastUpdate -= WorldConstants::UPDATE_TICK_IN_SECONDS;
+		}
+		printf("updating took %f seconds\n", (SDL_GetTicks() - start) * 1000);
+	}
 }
 
 void TheGame::initGame() {
@@ -97,23 +110,6 @@ void TheGame::instantiateLevelObjects() {
 	world.createObject(Character::LIGHT_GREEN_PLATFORM, ObjectBodies::STATIONARY, true);
 	world.createObject(Character::LIGHT_GRAY_PLATFORM, ObjectBodies::STATIONARY, position, true);
 	controllableObjects.push_back(jim);
-}
-
-
-int TheGame::update() {
-	float timeElapsedSinceLastUpdate = 0.0f;
-	float timeOfLastUpdate = SDL_GetTicks();
-
-	while (currentState != GameState::EXIT) {
-		timeElapsedSinceLastUpdate = SDL_GetTicks() - timeOfLastUpdate;
-		while (timeElapsedSinceLastUpdate >= WorldConstants::UPDATE_TICK_IN_SECONDS) {
-			processInput();
-			step();
-			timeOfLastUpdate = SDL_GetTicks();
-			timeElapsedSinceLastUpdate -= WorldConstants::UPDATE_TICK_IN_SECONDS;
-		}
-	}
-	return 0;
 }
 
 

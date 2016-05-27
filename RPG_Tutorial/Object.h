@@ -75,6 +75,7 @@ protected:
 	CharacterGroup group;
 	float32 width, height;
 	SDL_Rect objectRect;
+	bool isMovable;
 
 	// Protected functions
 	void setTexturePath(const std::string &texturePath);

@@ -3,7 +3,7 @@
 // Position constructor
 Object::Object(b2Body* objectBody, Character character) :
 objectBody(objectBody),
-isRenderable(true),
+isRenderable(false),
 character(character),
 group(CharacterGroup::OBJECT),
 width(Box2dService::getNonSensorFixtureScreenWidth(*objectBody)),
@@ -18,6 +18,7 @@ height(Box2dService::getNonSensorFixtureScreenHeight(*objectBody)) {
 	objectRect.w = width;
 	objectRect.h = height;
 
+	isMovable = false;
 	objectBody->SetUserData(this);
 }
 
@@ -97,7 +98,7 @@ CharacterGroup Object::getGroup() const {
 
 
 bool Object::getIsMovable() const {
-	return group == CharacterGroup::MOVABLE_OBJECT || group == CharacterGroup::MAIN_CHARACTER;
+	return isMovable;
 }
 
 
@@ -142,13 +143,17 @@ std::string Object::getPreviousTexturePath() const {
 
 
 void Object::draw() {
+	// We need to update the rendering rectangle as the position of the object has changed.
+	b2Vec2 renderingRectangle = ConversionService::retrieveRenderingRectangleForNonSensorFixture(*objectBody, width, height);
+	objectRect.x = renderingRectangle.x;
+	objectRect.y = renderingRectangle.y;
+
 	/*debugger.renderAllFixturesOnBody(*objectBody);
 	debugger.renderRectangle(objectRect);*/
 
-	if (texture == nullptr)
-		PrintErrors("No texture has been loaded.", SDL_GetError);
-	if (SDL_RenderCopyEx(context, texture, NULL, &objectRect, MathService::radiansToDegrees(objectBody->GetAngle()), NULL, SDL_FLIP_NONE))
-		PrintErrors("Failed to render " + texturePath, SDL_GetError);
+	if (texture)
+		if (SDL_RenderCopyEx(context, texture, NULL, &objectRect, MathService::radiansToDegrees(objectBody->GetAngle()), NULL, SDL_FLIP_NONE))
+			PrintErrors("Failed to render " + texturePath, SDL_GetError);
 }
 
 

@@ -1,6 +1,6 @@
 #include "ObjectManager.h"
 
-ObjectManager::ObjectManager(TextureCache* textureCache) : 
+ObjectManager::ObjectManager(TextureCache* textureCache) :
 textureCache(textureCache) {
 
 }
@@ -18,12 +18,12 @@ void ObjectManager::setContext(SDL_Renderer* context) {
 Object* ObjectManager::createObject(const Character &character, b2Body &objectBody, bool isRenderable) {
 	if (character == Character::BACKGROUND) {
 		Object* background = new Object(&objectBody, character);
-		objectsInLevel.insert(objectsInLevel.begin(), background);
-		(*objectsInLevel[0]).setIsRenderable(isRenderable);
+		background->setIsRenderable(isRenderable);
 		if (isRenderable) {
 			textureCache->lockTextureForObject(*background);
 		}
-		return objectsInLevel[0];
+		objectsInLevel.insert(objectsInLevel.begin(), background);
+		return background;
 	}
 	else {
 		Object* objectToAdd = nullptr;
@@ -31,19 +31,15 @@ Object* ObjectManager::createObject(const Character &character, b2Body &objectBo
 		case CharacterGroup::MAIN_CHARACTER:
 			objectToAdd = new MainCharacter(&objectBody, character);
 			playableCharacter = dynamic_cast<MainCharacter*>(objectToAdd);
-			objectsInLevel.push_back(objectToAdd);
 			break;
 		case CharacterGroup::MOVABLE_OBJECT:
 			objectToAdd = new MovableObject(&objectBody, character);
-			objectsInLevel.push_back(objectToAdd);
 			break;
 		case CharacterGroup::OBJECT:
 			objectToAdd = new Object(&objectBody, character);
-			objectsInLevel.push_back(objectToAdd);
 			break;
 		case CharacterGroup::PLATFORM:
 			objectToAdd = new Platform(&objectBody, character);
-			objectsInLevel.push_back(objectToAdd);
 			break;
 		}
 
@@ -51,6 +47,12 @@ Object* ObjectManager::createObject(const Character &character, b2Body &objectBo
 		objectToAdd->setIsRenderable(isRenderable);
 		if (isRenderable) {
 			textureCache->addObjectToCache(*objectToAdd);
+		}
+
+		if (objectToAdd) {
+			mutey.lock();
+			objectsInLevel.push_back(objectToAdd);
+			mutey.unlock();
 		}
 
 		return objectToAdd;
@@ -64,9 +66,9 @@ Iterates through every object in the level and "locks" their textures. If the te
 be drawn to the screen.
 */
 void ObjectManager::setTextures() {
-	for (auto object : objectsInLevel) {
-		if (object->getPreviousTexturePath() != object->getTexturePath()) {
-			textureCache->lockTextureForObject(*object);
+	for (int i = 0; i < objectsInLevel.size(); ++i) {
+		if (objectsInLevel[i]->getPreviousTexturePath() != objectsInLevel[i]->getTexturePath()) {
+			textureCache->lockTextureForObject(*objectsInLevel[i]);
 		}
 	}
 }
@@ -111,11 +113,9 @@ void ObjectManager::drawAllObjects() {
 	if (SDL_RenderClear(context)) {
 		PrintErrors("Renderer failed to clear", SDL_GetError);
 	}
-
-	std::vector<Object*>::iterator iter = getObjectsInLevel().begin();
-	for (iter; iter != getObjectsInLevel().end(); ++iter) {
-		if ((*iter)->getIsRenderable())
-			(*iter)->draw();
+	for (int i = 0; i < getObjectsInLevel().size(); ++i) {
+		if (getObjectsInLevel()[i]->getIsRenderable())
+			getObjectsInLevel()[i]->draw();
 	}
 
 	SDL_RenderPresent(context);
