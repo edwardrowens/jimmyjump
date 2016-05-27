@@ -16,9 +16,9 @@
 #include "World.h"
 #include "ObjectPhysicalPropertiesService.h"
 #include "ObjectBodies.h"
-#include <thread>
 
-enum class GameState {PLAY,EXIT};
+enum class GameState { PLAY, EXIT };
+static int sdlUpdateThreadWrapper(void* param);
 
 class TheGame {
 public:
@@ -28,6 +28,11 @@ public:
 
 	// Functions
 	void run();
+	//game loop
+	void processInput();
+	int update();
+	void step();
+	void draw();
 
 private:
 	// Fields
@@ -41,19 +46,14 @@ private:
 	float gravity, keyPressLength;
 	//processes input
 	const Uint8* keyState;
-	
+
 	// Functions
 	SDL_Window* WindowInitialization();
 	void initGame();
 	void calcGravity();
 	void detectCollisions();
 	void instantiateLevelObjects();
-	//game loop
-	int processInput();
-	void update();
-	void step();
-	void draw();
-	std::thread updateThread;
+	SDL_Thread* updateThread;
 
 	World world;
 };

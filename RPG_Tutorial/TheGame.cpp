@@ -4,7 +4,7 @@ TheGame::TheGame() : currentWindow(nullptr),
 currentState(GameState::PLAY),
 eventMade(0),
 jim(nullptr),
-updateThread(&TheGame::update, this) {
+updateThread(nullptr) {
 }
 
 
@@ -14,7 +14,8 @@ TheGame::~TheGame() {
 void TheGame::run() {
 	initGame();
 
-	updateThread.join();
+	updateThread = SDL_CreateThread(&sdlUpdateThreadWrapper, "UpdateThread", this);
+	//SDL_DetachThread(updateThread);
 	draw();
 }
 
@@ -42,15 +43,12 @@ SDL_Window* TheGame::WindowInitialization() {
 	return win;
 }
 
-int TheGame::processInput() {
+void TheGame::processInput() {
 	int size;
 	keyState = SDL_GetKeyboardState(&size);
-
-	return eventMade = SDL_PollEvent(&currentEvent);
 }
 
 void TheGame::step() {
-	//jim->addMovement(Movements::RIGHT);
 	if (keyState[SDL_SCANCODE_D]) {
 		jim->addMovement(Movements::RIGHT);
 	}
@@ -83,7 +81,6 @@ void TheGame::step() {
 
 void TheGame::draw() {
 	while (currentState != GameState::EXIT) {
-		std::cout << "render call\n";
 		world.drawAllObjects();
 	}
 }
@@ -103,21 +100,24 @@ void TheGame::instantiateLevelObjects() {
 }
 
 
-void TheGame::update() {
+int TheGame::update() {
 	float timeElapsedSinceLastUpdate = 0.0f;
 	float timeOfLastUpdate = SDL_GetTicks();
 
 	while (currentState != GameState::EXIT) {
 		timeElapsedSinceLastUpdate = SDL_GetTicks() - timeOfLastUpdate;
 		while (timeElapsedSinceLastUpdate >= WorldConstants::UPDATE_TICK_IN_SECONDS) {
-			std::cout << "processing input\n";
 			processInput();
-			std::cout << "processed\n";
-			std::cout << "stepping\n";
 			step();
-			std::cout << "step\n";
 			timeOfLastUpdate = SDL_GetTicks();
 			timeElapsedSinceLastUpdate -= WorldConstants::UPDATE_TICK_IN_SECONDS;
 		}
 	}
+	return 0;
+}
+
+
+static int sdlUpdateThreadWrapper(void* param) {
+	((TheGame*)param)->update();
+	return 0;
 }

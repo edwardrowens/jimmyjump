@@ -70,9 +70,8 @@ void World::step() {
 
 void World::putInMotion() {
 	for (auto object : objectManager.getObjectsInLevel()) {
-		if (object->getGroup() == CharacterGroup::MOVABLE_OBJECT || object->getGroup() == CharacterGroup::MAIN_CHARACTER) {
-			MovableObject* movable = dynamic_cast<MovableObject*>(object);
-			movable->executeMovement();
+		if (object->getIsMovable()) {
+			dynamic_cast<MovableObject*>(object)->executeMovement();
 		}
 	}
 }
