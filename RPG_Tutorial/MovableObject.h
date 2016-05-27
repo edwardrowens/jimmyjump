@@ -30,7 +30,6 @@ public:
 
 	// Getters
 	std::vector<Movements> getCurrentMovements() const;
-	b2Vec2 getPreviousPosition() const;
 	Sensor& getFootSensor();
 
 	// Functions

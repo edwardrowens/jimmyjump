@@ -18,7 +18,7 @@
 #include "ObjectBodies.h"
 
 enum class GameState { PLAY, EXIT };
-static int sdlUpdateThreadWrapper(void* param);
+static int sdlRenderThreadWrapper(void* param);
 
 class TheGame {
 public:
@@ -53,7 +53,7 @@ private:
 	void calcGravity();
 	void detectCollisions();
 	void instantiateLevelObjects();
-	SDL_Thread* updateThread;
+	SDL_Thread* renderThread;
 
 	World world;
 };

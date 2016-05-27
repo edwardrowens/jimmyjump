@@ -4,7 +4,7 @@ TheGame::TheGame() : currentWindow(nullptr),
 currentState(GameState::PLAY),
 eventMade(0),
 jim(nullptr),
-updateThread(nullptr) {
+renderThread(nullptr) {
 }
 
 
@@ -14,9 +14,8 @@ TheGame::~TheGame() {
 void TheGame::run() {
 	initGame();
 
-	updateThread = SDL_CreateThread(&sdlUpdateThreadWrapper, "UpdateThread", this);
-	//SDL_DetachThread(updateThread);
-	draw();
+	renderThread = SDL_CreateThread(&sdlRenderThreadWrapper, "RenderThread", this);
+	update();
 }
 
 void TheGame::initGame() {
@@ -45,6 +44,7 @@ SDL_Window* TheGame::WindowInitialization() {
 
 void TheGame::processInput() {
 	int size;
+	SDL_PumpEvents();
 	keyState = SDL_GetKeyboardState(&size);
 }
 
@@ -117,7 +117,7 @@ int TheGame::update() {
 }
 
 
-static int sdlUpdateThreadWrapper(void* param) {
-	((TheGame*)param)->update();
+static int sdlRenderThreadWrapper(void* param) {
+	((TheGame*)param)->draw();
 	return 0;
 }

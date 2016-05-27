@@ -73,6 +73,8 @@ protected:
 	b2Body* objectBody;
 	b2Vec2 linearVelocity;
 	CharacterGroup group;
+	float32 width, height;
+	SDL_Rect objectRect;
 
 	// Protected functions
 	void setTexturePath(const std::string &texturePath);
@@ -80,9 +82,7 @@ protected:
 private:
 	// Fields
 	std::string texturePath;
-	SDL_Rect objectRect;
 	Debugger debugger;
 	double RADIANS_TO_DEGREES(float32 angle);
-	float32 width, height;
 };
 #endif

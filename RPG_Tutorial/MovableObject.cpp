@@ -34,11 +34,6 @@ std::vector<Movements> MovableObject::getCurrentMovements() const {
 }
 
 
-b2Vec2 MovableObject::getPreviousPosition() const {
-	return previousPosition;
-}
-
-
 void MovableObject::jump() {
 	int timeElapsedSinceLastJump = SDL_GetTicks() - timeOfLastJump;
 	if (footSensor.getNumOfContacts() > 0 && timeElapsedSinceLastJump > 250) {
@@ -137,8 +132,13 @@ void MovableObject::executeMovement() {
 		}
 	}
 
-	previousPosition = Box2dService::retrieveTopLeftVertex(*objectBody);
+	// We've executed all movements in the buffer, so let's clear out the buffer now.
 	currentMovements.clear();
+
+	// We need to update the rendering rectangle as the position of the object has changed.
+	b2Vec2 renderingRectangle = ConversionService::retrieveRenderingRectangleForNonSensorFixture(*objectBody, width, height);
+	objectRect.x = renderingRectangle.x;
+	objectRect.y = renderingRectangle.y;
 }
 
 
