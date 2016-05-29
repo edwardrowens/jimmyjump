@@ -19,15 +19,14 @@ void TheGame::run() {
 	float timeOfLastUpdate = SDL_GetTicks();
 
 	while (currentState != GameState::EXIT) {
-		uint32 start = SDL_GetTicks();
 		timeElapsedSinceLastUpdate = SDL_GetTicks() - timeOfLastUpdate;
 		while (timeElapsedSinceLastUpdate >= WorldConstants::UPDATE_TICK_IN_SECONDS) {
+			uint32 start = SDL_GetTicks();
 			processInput();
 			step();
 			timeOfLastUpdate = SDL_GetTicks();
 			timeElapsedSinceLastUpdate -= WorldConstants::UPDATE_TICK_IN_SECONDS;
 		}
-		printf("updating took %f seconds\n", (SDL_GetTicks() - start) * 1000);
 	}
 }
 

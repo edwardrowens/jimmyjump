@@ -66,11 +66,13 @@ Iterates through every object in the level and "locks" their textures. If the te
 be drawn to the screen.
 */
 void ObjectManager::setTextures() {
+	mutey.lock();
 	for (int i = 0; i < objectsInLevel.size(); ++i) {
 		if (objectsInLevel[i]->getPreviousTexturePath() != objectsInLevel[i]->getTexturePath()) {
 			textureCache->lockTextureForObject(*objectsInLevel[i]);
 		}
 	}
+	mutey.unlock();
 }
 
 
@@ -113,10 +115,12 @@ void ObjectManager::drawAllObjects() {
 	if (SDL_RenderClear(context)) {
 		PrintErrors("Renderer failed to clear", SDL_GetError);
 	}
+	mutey.lock();
 	for (int i = 0; i < getObjectsInLevel().size(); ++i) {
 		if (getObjectsInLevel()[i]->getIsRenderable())
 			getObjectsInLevel()[i]->draw();
 	}
+	mutey.unlock();
 
 	SDL_RenderPresent(context);
 }
