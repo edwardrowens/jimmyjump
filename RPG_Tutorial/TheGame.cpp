@@ -21,7 +21,6 @@ void TheGame::run() {
 	while (currentState != GameState::EXIT) {
 		timeElapsedSinceLastUpdate = SDL_GetTicks() - timeOfLastUpdate;
 		while (timeElapsedSinceLastUpdate >= WorldConstants::UPDATE_TICK_IN_SECONDS) {
-			uint32 start = SDL_GetTicks();
 			processInput();
 			step();
 			timeOfLastUpdate = SDL_GetTicks();
