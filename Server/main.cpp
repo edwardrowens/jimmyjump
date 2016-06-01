@@ -5,11 +5,29 @@
 #define ASIO_HAS_STD_SHARED_PTR
 #define ASIO_HAS_STD_TYPE_TRAITS
 
-#include "asio\asio.hpp"
 #include <iostream>
+#include <exception>
+#include <array>
+#include "../dependencies/include/asio/asio.hpp"
+
+using namespace std;
+
+namespace {
+	const int HELLO_PORT = 8080;
+}
+
+
+void asioTcpServer() {
+	asio::io_service aios;
+	asio::ip::tcp::acceptor acceptor(aios, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), HELLO_PORT));
+	std::cout << "Server ready" << std::endl;
+	asio::ip::tcp::socket socket(aios);
+	acceptor.accept(socket);
+	cout << "Connection made to: " + socket.remote_endpoint().address().to_string() << endl;
+	cout << "Port: " + to_string(socket.remote_endpoint().port()) << endl;
+}
+
 
 int main(int argc, char* argv[]) {
-	asio::io_service ioService;
-	printf("hi\n");
-	return 0;
+	asioTcpServer();
 }
