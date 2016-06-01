@@ -3,7 +3,7 @@
 const char Server::ADDRESS[] = "localhost";
 const int Server::PORT = 8080;
 
-Server::Server(asio::io_service asioService) :
+Server::Server(asio::io_service& asioService) :
 asioService(asioService) {
 }
 

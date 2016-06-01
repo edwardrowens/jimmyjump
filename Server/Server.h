@@ -14,7 +14,7 @@
 
 class Server {
 public:
-	Server(asio::io_service asioService);
+	Server(asio::io_service& asioService);
 	~Server();
 
 	void startTCP();
