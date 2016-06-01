@@ -12,14 +12,9 @@
 
 using namespace std;
 
-namespace {
-	const int HELLO_PORT = 8080;
-}
-
-
 void asioTcpServer() {
 	asio::io_service aios;
-	asio::ip::tcp::acceptor acceptor(aios, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), HELLO_PORT));
+	asio::ip::tcp::acceptor acceptor(aios, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), 8080));
 	std::cout << "Server ready" << std::endl;
 	asio::ip::tcp::socket socket(aios);
 	acceptor.accept(socket);

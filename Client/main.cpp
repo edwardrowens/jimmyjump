@@ -14,6 +14,8 @@ namespace {
 	const char* HELLO_PORT_STR = "8080";
 }
 
+using namespace std;
+
 void asioTcpClient(const char* host) {
 	try {
 		asio::io_service aios;
@@ -33,11 +35,9 @@ void asioTcpClient(const char* host) {
 				break; // Connection closed cleanly by peer
 			else if (error)
 				throw asio::system_error(error);
-			
-			std::cout.write(buf.data(), len);
-			std::cout << '|';
 		}
-		std::cout << std::endl;
+		cout << "Connection made to: " + socket.remote_endpoint().address().to_string() << endl;
+		cout << "Port: " + to_string(socket.remote_endpoint().port()) << endl;
 	}
 	catch (std::exception& e) {
 		std::cerr << e.what() << std::endl;
