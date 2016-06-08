@@ -23,6 +23,6 @@ public:
 	static const char ADDRESS[];
 
 private:
-	asio::io_service asioService;
+	asio::io_service &asioService;
 };
 #endif

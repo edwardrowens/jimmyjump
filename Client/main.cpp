@@ -9,6 +9,7 @@
 #include <exception>
 #include <array>
 #include "../dependencies/include/asio/asio.hpp"
+#include <ctime>
 
 namespace {
 	const char* HELLO_PORT_STR = "8080";
@@ -16,36 +17,17 @@ namespace {
 
 using namespace std;
 
-void asioTcpClient(const char* host) {
-	try {
-		asio::io_service aios;
-
-		asio::ip::tcp::resolver resolver(aios);
-		asio::ip::tcp::resolver::iterator endpoint = resolver.resolve(asio::ip::tcp::resolver::query(host, HELLO_PORT_STR));
-		asio::ip::tcp::socket socket(aios);
-		// open the connection for the specified endpoint, or throws a system_error
-		asio::connect(socket, endpoint);
-
-		for (;;) {
-			std::array<char, 4> buf;
-			asio::error_code error;
-			size_t len = socket.read_some(asio::buffer(buf), error);
-
-			if (error == asio::error::eof)
-				break; // Connection closed cleanly by peer
-			else if (error)
-				throw asio::system_error(error);
-		}
-		cout << "Connection made to: " + socket.remote_endpoint().address().to_string() << endl;
-		cout << "Port: " + to_string(socket.remote_endpoint().port()) << endl;
-	}
-	catch (std::exception& e) {
-		std::cerr << e.what() << std::endl;
-	}
+void asioTcpClient() {
+	asio::io_service aios;
+	asio::ip::tcp::socket socket(aios);
+	asio::ip::tcp::resolver resolver(aios); // 1
+	asio::ip::tcp::resolver::iterator endpoint = resolver.resolve(
+		asio::ip::tcp::resolver::query("localhost", HELLO_PORT_STR));
+	asio::connect(socket, endpoint);
 }
 
 
 int main(int argc, char* argv[]) {
-	asioTcpClient("localhost");
+	asioTcpClient();
 	system("PAUSE");
 }

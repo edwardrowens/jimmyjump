@@ -14,21 +14,23 @@
 
 using namespace std;
 
-void accept_handler() {
-	std::time_t now = std::time(nullptr);
-	data = std::ctime(&now);
-	asio::async_write(asio::ip::tcp_socket, asio::buffer(data), write_handler);
+void accept_handler(const asio::error_code ec) {
+	if (!ec) {
+		printf("%d\n", ec.value());
+		printf("A connection has been made\n");
+	}
 }
 
 void asioTcpServer() {
-	asio::io_service aios;
-	asio::ip::tcp::acceptor acceptor(aios, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), 8080));
-	std::cout << "Server ready" << std::endl;
-	asio::ip::tcp::socket socket(aios);
-	acceptor.listen();
-	acceptor.async_accept(socket, accept_handler);
-	cout << "Connection made to: " + socket.remote_endpoint().address().to_string() << endl;
-	cout << "Port: " + to_string(socket.remote_endpoint().port()) << endl;
+		asio::io_service aios;
+		asio::ip::tcp::acceptor acceptor(aios, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), 8080));
+		std::cout << "Server ready" << std::endl;
+	for(;;) {
+		asio::ip::tcp::socket socket(aios);
+		acceptor.listen();
+		acceptor.async_accept(socket, accept_handler);
+		aios.run();
+	}
 }
 
 
