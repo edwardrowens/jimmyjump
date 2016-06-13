@@ -10,30 +10,45 @@
 #include <array>
 #include <string>
 #include <ctime>
-#include "asio.hpp"
+#include "asio\asio.hpp"
+#include "Server.h"
 
 using namespace std;
 
-void accept_handler(const asio::error_code ec) {
+void acceptHandler(const asio::error_code ec) {
 	if (!ec) {
-		printf("%d\n", ec.value());
 		printf("A connection has been made\n");
+	}
+	else {
+		printf("Connection attempted\n.");
+	}
+}
+
+void readHandler(const asio::error_code ec, std::size_t bytesTransferred) {
+	if (bytesTransferred > 0)
+		printf("Data received by server\n");
+	else if (ec.value() == asio::error::eof) {
+		printf("The connection has closed\n");
 	}
 }
 
 void asioTcpServer() {
-		asio::io_service aios;
-		asio::ip::tcp::acceptor acceptor(aios, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), 8080));
-		std::cout << "Server ready" << std::endl;
-	for(;;) {
-		asio::ip::tcp::socket socket(aios);
+	asio::io_service aios;
+	asio::ip::tcp::acceptor acceptor(aios, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), 8080));
+	std::cout << "Server ready" << std::endl;
+	asio::ip::tcp::socket socket(aios);
+	for (;;) {
 		acceptor.listen();
-		acceptor.async_accept(socket, accept_handler);
+		acceptor.async_accept(socket, acceptHandler);
+		std::vector<uint16_t> net(3, 0);
+		asio::async_read(socket, asio::buffer((char*)&net.front(), 6), readHandler);
 		aios.run();
 	}
 }
 
 
 int main(int argc, char* argv[]) {
-	asioTcpServer();
+	asio::io_service asioService;
+	Server server(asioService);
+	server.startTCP();
 }
