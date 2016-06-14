@@ -18,10 +18,21 @@ namespace {
 using namespace std;
 
 void writeHandler(asio::error_code errorCode, size_t bytesTransferred) {
-	printf("Writing %d bytes to the server\n", bytesTransferred);
+	if (!errorCode) {
+		printf("Write successful. Bytes transferred: %d\n", bytesTransferred);
+	}
+	else {
+		printf("Write failed! %s (%d)\n", errorCode.message().c_str(), errorCode.value());
+	}
 }
 
 void connectHandler(asio::error_code errorCode, asio::ip::tcp::resolver::iterator resolverIter) {
+	if (!errorCode) {
+		printf("Client connected successfully\n");
+	}
+	else {
+		printf("Client connection failed! %s (%d)\n", errorCode.message().c_str(), errorCode.value());
+	}
 }
 
 void asioTcpClient() {
@@ -31,13 +42,11 @@ void asioTcpClient() {
 	asio::ip::tcp::resolver::iterator endpoint = resolver.resolve(
 		asio::ip::tcp::resolver::query("localhost", HELLO_PORT_STR));
 	asio::async_connect(socket, endpoint, connectHandler);
-	//asio::connect(socket, endpoint);
-	vector<uint16_t> net(3, 0);
-	net[0] = 1;
-	net[1] = 2;
-	net[2] = 3;
-	asio::async_write(socket, asio::buffer((char*)&net.front(), 6), writeHandler);
 	aios.run();
+	//asio::connect(socket, endpoint);
+	vector<uint16_t> net(1);
+	//asio::async_write(socket, asio::buffer((char*)&net.front(), 2), writeHandler);
+	//aios.run();
 }
 
 

@@ -10,8 +10,8 @@
 #include <array>
 #include <string>
 #include <ctime>
-#include "asio\asio.hpp"
 #include "Server.h"
+#include "asio\asio.hpp"
 
 using namespace std;
 

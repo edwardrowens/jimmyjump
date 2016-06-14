@@ -16,12 +16,8 @@
 class Server {
 public:
 	Server(asio::io_service& asioService);
-	~Server();
 
 	void startTCP();
-	/*void (Server::*getAcceptHandler)(const asio::error_code&) = &Server::acceptHandler;
-	void (Server::*getReadHandler)(const asio::error_code&, std::size_t) = &Server::readHandler;
-	void (Server::*getWriteHandler)(const asio::error_code&, std::size_t) = &Server::writeHandler;*/
 
 	static const int PORT;
 	static const char ADDRESS[];

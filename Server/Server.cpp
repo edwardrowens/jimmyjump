@@ -11,10 +11,6 @@ nextId(0) {
 }
 
 
-Server::~Server() {
-}
-
-
 void Server::startTCP() {
 	printf("Server (TCP) started.\n");
 	acceptor.listen();
@@ -26,6 +22,9 @@ void Server::startTCP() {
 void Server::readHandler(const asio::error_code &errorCode, std::size_t bytesTransferred) {
 	if (!errorCode) {
 		printf("Read successful. Bytes transferred: %d\n", bytesTransferred);
+	}
+	else if (errorCode == asio::error::eof) {
+		printf("Client disconnected\n%d current connections\n", nextId);
 	}
 	else {
 		printf("Read failed! %s (%d)\n", errorCode.message().c_str(), errorCode.value());
@@ -52,7 +51,7 @@ void Server::acceptHandler(const asio::error_code &errorCode) {
 		acceptor.listen();
 		acceptor.async_accept(socket, boost::bind(&Server::acceptHandler, this, _1));
 		std::vector<uint16_t> net(3, 0);
-		asio::async_read(socketMap[nextId - 1], asio::buffer((char*)&net.front(), 6), boost::bind(&Server::readHandler, this, _1, _2));
+		asio::async_read(socketMap.at(nextId - 1), asio::buffer((char*)&net.front(), 6), boost::bind(&Server::readHandler, this, _1, _2));
 	}
 	else {
 		printf("Accept failed! %s (%d)\n", errorCode.message().c_str(), errorCode.value());
