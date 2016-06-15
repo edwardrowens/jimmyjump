@@ -14,7 +14,7 @@ nextId(0) {
 void Server::startTCP() {
 	printf("Server (TCP) started.\n");
 	acceptor.listen();
-	acceptor.async_accept(socket, boost::bind(&Server::acceptHandler, this, _1));
+	acceptor.async_accept(socket, boost::bind(&Server::acceptHandler, shared_from_this(), _1));
 	asioService.run();
 }
 
@@ -36,9 +36,13 @@ void Server::writeHandler(const asio::error_code &errorCode, std::size_t bytesTr
 	if (!errorCode) {
 		printf("Write successful. Bytes transferred: %d\n", bytesTransferred);
 	}
+	else if (errorCode == asio::error::eof || errorCode == asio::error::connection_aborted || errorCode == asio::error::connection_reset) {
+		printf("Disconnect detected!\n");
+	}
 	else {
 		printf("Write failed! %s (%d)\n", errorCode.message().c_str(), errorCode.value());
 	}
+	buffer->clear();
 }
 
 
@@ -46,14 +50,19 @@ void Server::acceptHandler(const asio::error_code &errorCode) {
 	if (!errorCode) {
 		socketMap.emplace(nextId, std::move(socket));
 		socket = asio::ip::tcp::socket(asioService);
-		++nextId;
+		assignAndSendClientId();
 		printf("Connection made\n%d current connections\n", nextId);
 		acceptor.listen();
-		acceptor.async_accept(socket, boost::bind(&Server::acceptHandler, this, _1));
-		std::vector<uint16_t> net(3, 0);
-		asio::async_read(socketMap.at(nextId - 1), asio::buffer((char*)&net.front(), 6), boost::bind(&Server::readHandler, this, _1, _2));
+		acceptor.async_accept(socket, boost::bind(&Server::acceptHandler, shared_from_this(), _1));
 	}
 	else {
 		printf("Accept failed! %s (%d)\n", errorCode.message().c_str(), errorCode.value());
 	}
+}
+
+
+void Server::assignAndSendClientId() {
+	buffer->push_back(nextId);
+	asio::async_write(socketMap.at(nextId), asio::buffer((char*)&buffer->front(), 2), boost::bind(&Server::writeHandler, shared_from_this(), _1, _2));
+	++nextId;
 }
