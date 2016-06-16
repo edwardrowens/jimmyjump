@@ -29,7 +29,8 @@ private:
 
 	// functions
 	void connectHandler(asio::error_code errorCode, asio::ip::tcp::resolver::iterator resolverIter);
+	void readHandler(asio::error_code errorCode, std::size_t bytesTransferred);
 	void initialReadHandler(asio::error_code errorCode, std::size_t bytesTransferred);
-	void retrieveIdFromServer();
+	void readFromServer();
 };
 

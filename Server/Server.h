@@ -38,7 +38,7 @@ private:
 	// functions
 	void readHandler(const asio::error_code &errorCode, std::size_t bytesTransferred);
 	void writeHandler(const asio::error_code &errorCode, std::size_t bytesTransferred);
-	void acceptHandler(const asio::error_code &errorCode);
+	void acceptHandler(const asio::error_code &errorCode, int i);
 
 	void assignAndSendClientId();
 };
