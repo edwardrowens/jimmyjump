@@ -8,24 +8,28 @@ asioService(asioService),
 acceptor(asioService, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), Server::PORT)),
 socket(asioService),
 nextId(0),
-buffer(new std::vector<uint16_t>()) {
+readBuffer(new std::vector<uint16_t>()), 
+writeBuffer(new std::vector<uint16_t>()) {
 }
 
 
 void Server::startTCP() {
 	printf("Server (TCP) started.\n");
 	acceptor.listen();
-	acceptor.async_accept(socket, boost::bind(&Server::acceptHandler, shared_from_this(), _1, 1));
+	acceptor.async_accept(socket, boost::bind(&Server::acceptHandler, shared_from_this(), _1));
 	asioService.run();
 }
 
 
-void Server::readHandler(const asio::error_code &errorCode, std::size_t bytesTransferred) {
+void Server::readHandler(const asio::error_code &errorCode, std::size_t bytesTransferred, int clientId) {
 	if (!errorCode) {
-		printf("Read successful. Bytes transferred: %d\n", bytesTransferred);
+		printf("Read successful. %d bytes transferred from client %d\n", bytesTransferred, clientId);
+		readBuffer->clear();
+		asio::async_read(socketMap.at(clientId), asio::buffer((char*)&readBuffer->front(), 2), boost::bind(&Server::readHandler, shared_from_this(), _1, _2, clientId));
 	}
 	else if (errorCode == asio::error::eof) {
-		printf("Client disconnected\n%d current connections\n", nextId);
+		socketMap.erase(clientId);
+		printf("Client %d disconnected\n%d current connections\n", clientId, socketMap.size());
 	}
 	else {
 		printf("Read failed! %s (%d)\n", errorCode.message().c_str(), errorCode.value());
@@ -33,13 +37,16 @@ void Server::readHandler(const asio::error_code &errorCode, std::size_t bytesTra
 }
 
 
-void Server::writeHandler(const asio::error_code &errorCode, std::size_t bytesTransferred) {
+void Server::writeHandler(const asio::error_code &errorCode, std::size_t bytesTransferred, int clientId) {
 	if (!errorCode) {
-		printf("Write successful. Bytes transferred: %d\n", bytesTransferred);
-		asio::async_write(socketMap.at(0), asio::buffer((char*)&buffer->front(), 2), boost::bind(&Server::writeHandler, shared_from_this(), _1, _2));
+		printf("Write successful. %d bytes transferred to client %d\n", bytesTransferred, clientId);
+		writeBuffer->clear();
+		writeBuffer->push_back(clientId);
+		asio::async_write(socketMap.at(clientId), asio::buffer((char*)&writeBuffer->front(), 2), boost::bind(&Server::writeHandler, shared_from_this(), _1, _2, clientId));
 	}
 	else if (errorCode == asio::error::eof || errorCode == asio::error::connection_aborted || errorCode == asio::error::connection_reset) {
-		printf("Disconnect detected!\n");
+		socketMap.erase(clientId);
+		printf("Client %d disconnected\n%d current connections\n", clientId, socketMap.size());
 	}
 	else {
 		printf("Write failed! %s (%d)\n", errorCode.message().c_str(), errorCode.value());
@@ -47,15 +54,14 @@ void Server::writeHandler(const asio::error_code &errorCode, std::size_t bytesTr
 }
 
 
-void Server::acceptHandler(const asio::error_code &errorCode, int i) {
+void Server::acceptHandler(const asio::error_code &errorCode) {
 	if (!errorCode) {
-		printf("%d\n", i);
 		socketMap.emplace(nextId, std::move(socket));
 		socket = asio::ip::tcp::socket(asioService);
 		assignAndSendClientId();
 		printf("Connection made\n%d current connections\n", nextId);
 		acceptor.listen();
-		acceptor.async_accept(socket, boost::bind(&Server::acceptHandler, shared_from_this(), _1, 1));
+		acceptor.async_accept(socket, boost::bind(&Server::acceptHandler, shared_from_this(), _1));
 	}
 	else {
 		printf("Accept failed! %s (%d)\n", errorCode.message().c_str(), errorCode.value());
@@ -64,7 +70,7 @@ void Server::acceptHandler(const asio::error_code &errorCode, int i) {
 
 
 void Server::assignAndSendClientId() {
-	buffer->push_back(nextId);
-	asio::async_write(socketMap.at(nextId), asio::buffer((char*)&buffer->front(), 2), boost::bind(&Server::writeHandler, shared_from_this(), _1, _2));
+	writeBuffer->push_back(nextId);
+	asio::async_write(socketMap.at(nextId), asio::buffer((char*)&writeBuffer->front(), 2), boost::bind(&Server::writeHandler, shared_from_this(), _1, _2, nextId));
 	++nextId;
 }

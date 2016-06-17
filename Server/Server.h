@@ -33,12 +33,13 @@ private:
 	std::map<int, asio::ip::tcp::socket> socketMap;
 	asio::ip::tcp::socket socket;
 	int nextId;
-	std::unique_ptr<std::vector<uint16_t>> buffer;
+	std::unique_ptr<std::vector<uint16_t>> readBuffer;
+	std::unique_ptr<std::vector<uint16_t>> writeBuffer;
 
 	// functions
-	void readHandler(const asio::error_code &errorCode, std::size_t bytesTransferred);
-	void writeHandler(const asio::error_code &errorCode, std::size_t bytesTransferred);
-	void acceptHandler(const asio::error_code &errorCode, int i);
+	void readHandler(const asio::error_code &errorCode, std::size_t bytesTransferred, int clientId);
+	void writeHandler(const asio::error_code &errorCode, std::size_t bytesTransferred, int clientId);
+	void acceptHandler(const asio::error_code &errorCode);
 
 	void assignAndSendClientId();
 };

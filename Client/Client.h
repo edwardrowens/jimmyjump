@@ -25,12 +25,14 @@ private:
 	asio::ip::tcp::resolver resolver;
 	asio::ip::tcp::resolver::iterator endpoint;
 	asio::io_service& asioService;
-	std::unique_ptr<std::vector<uint16_t>> buffer;
+	std::unique_ptr<std::vector<uint16_t>> readBuffer;
+	std::unique_ptr<std::vector<uint16_t>> writeBuffer;
 
 	// functions
 	void connectHandler(asio::error_code errorCode, asio::ip::tcp::resolver::iterator resolverIter);
 	void readHandler(asio::error_code errorCode, std::size_t bytesTransferred);
 	void initialReadHandler(asio::error_code errorCode, std::size_t bytesTransferred);
+	void writeHandler(asio::error_code errorCode, std::size_t bytesTransferred);
 	void readFromServer();
 };
 
