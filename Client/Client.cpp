@@ -40,6 +40,9 @@ void Client::readHandler(asio::error_code errorCode, std::size_t bytesTransferre
 		//printf("Client ID: %d\n", id);
 		asio::async_read(socket, asio::buffer((char*)&readBuffer->front(), 2), boost::bind(&Client::readHandler, shared_from_this(), _1, _2));
 	}
+	else if (errorCode == asio::error::connection_reset) {
+		printf("Server has disconnected\n");
+	}
 	else {
 		printf("Read failed, %s (%d)\n", errorCode.message().c_str(), errorCode.value());
 	}
@@ -53,6 +56,9 @@ void Client::initialReadHandler(asio::error_code errorCode, std::size_t bytesTra
 		//readBuffer->clear();
 		asio::async_read(socket, asio::buffer((char*)&readBuffer->front(), 2), boost::bind(&Client::readHandler, shared_from_this(), _1, _2));
 	}
+	else if (errorCode == asio::error::connection_reset) {
+		printf("Server has disconnected\n");
+	}
 	else {
 		printf("Read failed, %s (%d)\n", errorCode.message().c_str(), errorCode.value());
 	}
@@ -65,7 +71,10 @@ void Client::writeHandler(asio::error_code errorCode, std::size_t bytesTransferr
 		writeBuffer->push_back(id);
 		asio::async_write(socket, asio::buffer((char*)&writeBuffer->front(), 2), boost::bind(&Client::readHandler, shared_from_this(), _1, _2));
 	}
+	else if (errorCode == asio::error::connection_reset) {
+		printf("Server has disconnected\n");
+	}
 	else {
-		printf("Read failed, %s (%d)\n", errorCode.message().c_str(), errorCode.value());
+		printf("Write failed, %s (%d)\n", errorCode.message().c_str(), errorCode.value());
 	}
 }
