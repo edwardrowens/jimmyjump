@@ -7,7 +7,7 @@ Server::Server(asio::io_service &asioService) :
 asioService(asioService),
 acceptor(asioService, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), Server::PORT)),
 socket(asioService),
-nextId(0),
+nextId(-1),
 readBuffer(new std::vector<uint16_t>()), 
 writeBuffer(new std::vector<uint16_t>()) {
 }
@@ -56,10 +56,11 @@ void Server::writeHandler(const asio::error_code &errorCode, std::size_t bytesTr
 
 void Server::acceptHandler(const asio::error_code &errorCode) {
 	if (!errorCode) {
+		++nextId;
 		socketMap.emplace(nextId, std::move(socket));
 		socket = asio::ip::tcp::socket(asioService);
 		assignAndSendClientId();
-		printf("Connection made\n%d current connections\n", nextId);
+		printf("Connection made\n%d current connections\n", socketMap.size());
 		acceptor.listen();
 		acceptor.async_accept(socket, boost::bind(&Server::acceptHandler, shared_from_this(), _1));
 	}
@@ -72,5 +73,4 @@ void Server::acceptHandler(const asio::error_code &errorCode) {
 void Server::assignAndSendClientId() {
 	writeBuffer->push_back(nextId);
 	asio::async_write(socketMap.at(nextId), asio::buffer((char*)&writeBuffer->front(), 2), boost::bind(&Server::writeHandler, shared_from_this(), _1, _2, nextId));
-	++nextId;
 }

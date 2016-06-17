@@ -36,7 +36,8 @@ void Client::connectHandler(asio::error_code errorCode, asio::ip::tcp::resolver:
 
 void Client::readHandler(asio::error_code errorCode, std::size_t bytesTransferred) {
 	if (!errorCode) {
-		readBuffer->clear();
+		//readBuffer->clear();
+		//printf("Client ID: %d\n", id);
 		asio::async_read(socket, asio::buffer((char*)&readBuffer->front(), 2), boost::bind(&Client::readHandler, shared_from_this(), _1, _2));
 	}
 	else {
@@ -48,7 +49,8 @@ void Client::readHandler(asio::error_code errorCode, std::size_t bytesTransferre
 void Client::initialReadHandler(asio::error_code errorCode, std::size_t bytesTransferred) {
 	if (!errorCode) {
 		id = readBuffer->at(0);
-		readBuffer->clear();
+		printf("Client ID: %d\n", id);
+		//readBuffer->clear();
 		asio::async_read(socket, asio::buffer((char*)&readBuffer->front(), 2), boost::bind(&Client::readHandler, shared_from_this(), _1, _2));
 	}
 	else {
