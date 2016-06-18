@@ -8,8 +8,11 @@
 #include "Server.h"
 #include "asio\asio.hpp"
 #include "boost\shared_ptr.hpp"
+#include "CharacterInformation.h"
 
 int main(int argc, char* argv[]) {
+	Character c = Character::BACKGROUND;
+	printf("%d\n", c);
 	asio::io_service asioService;
 	boost::shared_ptr<Server> server(new Server(asioService));
 	server->startTCP();
