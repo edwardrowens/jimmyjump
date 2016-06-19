@@ -48,6 +48,8 @@ private:
 	float gravity, keyPressLength;
 	//processes input
 	const Uint8* keyState;
+	std::unique_ptr<Uint8> keys;
+
 
 	// Functions
 	SDL_Window* WindowInitialization();

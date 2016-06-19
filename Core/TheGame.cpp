@@ -4,7 +4,8 @@ TheGame::TheGame() : currentWindow(nullptr),
 currentState(GameState::PLAY),
 eventMade(0),
 jim(nullptr),
-renderThread(nullptr) {
+renderThread(nullptr),
+keys(new Uint8[SDL_NUM_SCANCODES]{0}) {
 }
 
 
@@ -52,32 +53,22 @@ void TheGame::processInput() {
 
 void TheGame::processInput(const std::vector<Uint8>& inputs) {
 	SDL_PumpEvents();
-	Uint8 keys[SDL_NUM_SCANCODES] = {0};
-	keyState = keys;
 	for (Uint8 input : inputs)
-		keys[input] = 1;
+		keys.get()[input] = 1;
 
-	keyState = keys;
-	for (int i = 0; i < SDL_NUM_SCANCODES; ++i)
-		//printf("%s", i ? "true\n" : "");
-		printf("%d\n", keyState[i]);
-
-	system("PAUSE");
+	keyState = keys.get();
 }
 
 
 void TheGame::step() {
 	if (keyState[SDL_SCANCODE_D]) {
-		//printf("right\n");
 		jim->addMovement(Movements::RIGHT);
 	}
 	if (keyState[SDL_SCANCODE_A]) {
 		jim->addMovement(Movements::LEFT);
-		//printf("left\n");
 	}
 	if (keyState[SDL_SCANCODE_W]) {
 		jim->addMovement(Movements::JUMP);
-		//printf("jump\n");
 	}
 	if (keyState[SDL_SCANCODE_P]) {
 		jim->addMovement(Movements::PATROL);
