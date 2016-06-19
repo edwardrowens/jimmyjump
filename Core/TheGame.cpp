@@ -15,18 +15,7 @@ void TheGame::run() {
 	initGame();
 
 	renderThread = SDL_CreateThread(&sdlRenderThreadWrapper, "RenderThread", this);
-	float timeElapsedSinceLastUpdate = 0.0f;
-	float timeOfLastUpdate = SDL_GetTicks();
-
-	while (currentState != GameState::EXIT) {
-		timeElapsedSinceLastUpdate = SDL_GetTicks() - timeOfLastUpdate;
-		while (timeElapsedSinceLastUpdate >= WorldConstants::UPDATE_TICK_IN_SECONDS) {
-			processInput();
-			step();
-			timeOfLastUpdate = SDL_GetTicks();
-			timeElapsedSinceLastUpdate -= WorldConstants::UPDATE_TICK_IN_SECONDS;
-		}
-	}
+	update();
 }
 
 void TheGame::initGame() {
@@ -53,21 +42,42 @@ SDL_Window* TheGame::WindowInitialization() {
 	return win;
 }
 
+
 void TheGame::processInput() {
 	int size;
 	SDL_PumpEvents();
 	keyState = SDL_GetKeyboardState(&size);
 }
 
+
+void TheGame::processInput(const std::vector<Uint8>& inputs) {
+	SDL_PumpEvents();
+	Uint8 keys[SDL_NUM_SCANCODES] = {0};
+	keyState = keys;
+	for (Uint8 input : inputs)
+		keys[input] = 1;
+
+	keyState = keys;
+	for (int i = 0; i < SDL_NUM_SCANCODES; ++i)
+		//printf("%s", i ? "true\n" : "");
+		printf("%d\n", keyState[i]);
+
+	system("PAUSE");
+}
+
+
 void TheGame::step() {
 	if (keyState[SDL_SCANCODE_D]) {
+		//printf("right\n");
 		jim->addMovement(Movements::RIGHT);
 	}
 	if (keyState[SDL_SCANCODE_A]) {
 		jim->addMovement(Movements::LEFT);
+		//printf("left\n");
 	}
 	if (keyState[SDL_SCANCODE_W]) {
 		jim->addMovement(Movements::JUMP);
+		//printf("jump\n");
 	}
 	if (keyState[SDL_SCANCODE_P]) {
 		jim->addMovement(Movements::PATROL);
@@ -113,5 +123,24 @@ void TheGame::instantiateLevelObjects() {
 
 static int sdlRenderThreadWrapper(void* param) {
 	((TheGame*)param)->draw();
+	return 0;
+}
+
+int TheGame::update() {
+	float timeElapsedSinceLastUpdate = 0.0f;
+	float timeOfLastUpdate = SDL_GetTicks();
+
+	while (currentState != GameState::EXIT) {
+		timeElapsedSinceLastUpdate = SDL_GetTicks() - timeOfLastUpdate;
+		while (timeElapsedSinceLastUpdate >= WorldConstants::UPDATE_TICK_IN_SECONDS) {
+			std::vector<Uint8> vec;
+			vec.push_back(SDL_SCANCODE_D);
+			vec.push_back(SDL_SCANCODE_W);
+			processInput(vec);
+			step();
+			timeOfLastUpdate = SDL_GetTicks();
+			timeElapsedSinceLastUpdate -= WorldConstants::UPDATE_TICK_IN_SECONDS;
+		}
+	}
 	return 0;
 }

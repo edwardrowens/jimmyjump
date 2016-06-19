@@ -15,6 +15,7 @@
 #include "boost\bind.hpp"
 #include "boost\enable_shared_from_this.hpp"
 #include "boost\shared_ptr.hpp"
+#include "TheGame.h"
 
 class Server : public boost::enable_shared_from_this<Server> {
 public:
@@ -22,6 +23,7 @@ public:
 
 	void startTCP();
 	void addClient();
+	void startUpdateLoop();
 
 	static const int PORT;
 	static const char ADDRESS[];

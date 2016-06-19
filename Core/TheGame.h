@@ -16,6 +16,7 @@
 #include "World.h"
 #include "ObjectPhysicalPropertiesService.h"
 #include "ObjectBodies.h"
+#include <algorithm>
 
 enum class GameState { PLAY, EXIT };
 static int sdlRenderThreadWrapper(void* param);
@@ -30,6 +31,7 @@ public:
 	void run();
 	//game loop
 	void processInput();
+	void processInput(const std::vector<Uint8>& inputs);
 	int update();
 	void step();
 	void draw();
