@@ -124,10 +124,7 @@ int TheGame::update() {
 	while (currentState != GameState::EXIT) {
 		timeElapsedSinceLastUpdate = SDL_GetTicks() - timeOfLastUpdate;
 		while (timeElapsedSinceLastUpdate >= WorldConstants::UPDATE_TICK_IN_SECONDS) {
-			std::vector<Uint8> vec;
-			vec.push_back(SDL_SCANCODE_D);
-			vec.push_back(SDL_SCANCODE_W);
-			processInput(vec);
+			processInput();
 			step();
 			timeOfLastUpdate = SDL_GetTicks();
 			timeElapsedSinceLastUpdate -= WorldConstants::UPDATE_TICK_IN_SECONDS;

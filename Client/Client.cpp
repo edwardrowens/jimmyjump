@@ -10,6 +10,11 @@ id(-1) {
 }
 
 
+void Client::start() {
+	game.run();
+}
+
+
 void Client::connectToServer(std::string address, std::string port) {
 	endpoint = resolver.resolve(asio::ip::tcp::resolver::query(address, port));
 	asio::async_connect(socket, endpoint, boost::bind(&Client::connectHandler, shared_from_this(), _1, _2));
