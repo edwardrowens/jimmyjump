@@ -10,8 +10,19 @@ id(-1) {
 }
 
 
-void Client::start() {
+void Client::start(std::string address, std::string port) {
+	connectToServer(address, port);
 	game.run();
+}
+
+
+void Client::kill() {
+	asio::error_code shutdownAttempt;
+	socket.shutdown(asio::ip::tcp::socket::shutdown_both, shutdownAttempt);
+	if (shutdownAttempt) {
+		printf("shut down error: %s (%d)\n", shutdownAttempt.message().c_str(), shutdownAttempt.value());
+	}
+	socket.close();
 }
 
 
@@ -19,12 +30,6 @@ void Client::connectToServer(std::string address, std::string port) {
 	endpoint = resolver.resolve(asio::ip::tcp::resolver::query(address, port));
 	asio::async_connect(socket, endpoint, boost::bind(&Client::connectHandler, shared_from_this(), _1, _2));
 	asioService.run();
-	asio::error_code shutdownAttempt;
-	socket.shutdown(asio::ip::tcp::socket::shutdown_both, shutdownAttempt);
-	if (shutdownAttempt) {
-		printf("shut down error: %s (%d)\n", shutdownAttempt.message().c_str(), shutdownAttempt.value());
-	}
-	socket.close();
 }
 
 

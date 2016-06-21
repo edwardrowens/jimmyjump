@@ -20,6 +20,7 @@
 
 enum class GameState { PLAY, EXIT };
 static int sdlRenderThreadWrapper(void* param);
+static int sdlUpdateThreadWrapper(void* param);
 
 class TheGame {
 public:
@@ -29,12 +30,8 @@ public:
 
 	// Functions
 	void run();
-	//game loop
-	void processInput();
-	void processInput(const std::vector<Uint8>& inputs);
-	int update();
-	void step();
 	void draw();
+	int update();
 
 private:
 	// Fields
@@ -52,12 +49,16 @@ private:
 
 
 	// Functions
+	void processInput();
+	void processInput(const std::vector<Uint8>& inputs);
+	void step();
 	SDL_Window* WindowInitialization();
 	void initGame();
 	void calcGravity();
 	void detectCollisions();
 	void instantiateLevelObjects();
 	SDL_Thread* renderThread;
+	SDL_Thread* updateThread;
 
 	World world;
 };

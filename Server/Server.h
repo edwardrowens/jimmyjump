@@ -37,12 +37,12 @@ private:
 	int nextId;
 	std::unique_ptr<std::vector<uint16_t>> readBuffer;
 	std::unique_ptr<std::vector<uint16_t>> writeBuffer;
+	TheGame game;
 
 	// functions
 	void readHandler(const asio::error_code &errorCode, std::size_t bytesTransferred, int clientId);
 	void writeHandler(const asio::error_code &errorCode, std::size_t bytesTransferred, int clientId);
 	void acceptHandler(const asio::error_code &errorCode);
-
 	void assignAndSendClientId();
 };
 #endif

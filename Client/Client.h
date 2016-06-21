@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CLIENT_H
+#define CLIENT_H
 
 #define ASIO_STANDALONE 
 #define ASIO_HAS_STD_ADDRESSOF
@@ -17,8 +18,8 @@ class Client : public boost::enable_shared_from_this<Client> {
 public:
 	Client(asio::io_service& asioService);
 
-	void connectToServer(std::string address, std::string port);
-	void start();
+	void start(std::string address, std::string port);
+	void kill(); 
 
 private:
 	// fields
@@ -36,7 +37,8 @@ private:
 	void readHandler(asio::error_code errorCode, std::size_t bytesTransferred);
 	void initialReadHandler(asio::error_code errorCode, std::size_t bytesTransferred);
 	void writeHandler(asio::error_code errorCode, std::size_t bytesTransferred);
+	void connectToServer(std::string address, std::string port);
 	void readFromServer();
 	void sendObjectPositions();
 };
-
+#endif

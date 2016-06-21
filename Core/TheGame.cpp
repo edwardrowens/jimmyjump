@@ -9,15 +9,13 @@ keys(new Uint8[SDL_NUM_SCANCODES]{0}) {
 }
 
 
-TheGame::~TheGame() {
-}
-
 void TheGame::run() {
 	initGame();
 
 	renderThread = SDL_CreateThread(&sdlRenderThreadWrapper, "RenderThread", this);
 	update();
 }
+
 
 void TheGame::initGame() {
 	currentWindow = WindowInitialization();
@@ -26,6 +24,7 @@ void TheGame::initGame() {
 
 	instantiateLevelObjects();
 }
+
 
 SDL_Window* TheGame::WindowInitialization() {
 	SDL_Init(SDL_INIT_EVENTS | SDL_INIT_VIDEO);
@@ -109,6 +108,12 @@ void TheGame::instantiateLevelObjects() {
 	world.createObject(Character::LIGHT_GREEN_PLATFORM, ObjectBodies::STATIONARY, true);
 	world.createObject(Character::LIGHT_GRAY_PLATFORM, ObjectBodies::STATIONARY, position, true);
 	controllableObjects.push_back(jim);
+}
+
+
+static int sdlUpdateThreadWrapper(void* param) {
+	((TheGame*)param)->update();
+	return 0;
 }
 
 

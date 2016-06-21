@@ -8,10 +8,11 @@
 #include "Client.h"
 #include "asio\asio.hpp"
 #include "boost\shared_ptr.hpp"
+#undef main //shitty SDL defines main for initialization...
 
 int main(int argc, char* argv[]) {
 	asio::io_service asioService;
 	boost::shared_ptr<Client> client(new Client(asioService));
-	client->connectToServer("localhost", "8080");
+	client->start("localhost", "8080");
 	system("PAUSE");
 }
