@@ -1,12 +1,7 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#define ASIO_STANDALONE 
-#define ASIO_HAS_STD_ADDRESSOF
-#define ASIO_HAS_STD_ARRAY
-#define ASIO_HAS_CSTDINT
-#define ASIO_HAS_STD_SHARED_PTR
-#define ASIO_HAS_STD_TYPE_TRAITS
+#define BOOST_ALL_DYN_LINK
 
 #include "asio/asio.hpp"
 #include <iostream>
@@ -15,6 +10,7 @@
 #include "boost\bind.hpp"
 #include "boost\enable_shared_from_this.hpp"
 #include "boost\shared_ptr.hpp"
+#include "boost\thread.hpp"
 #include "TheGame.h"
 
 class Server : public boost::enable_shared_from_this<Server> {

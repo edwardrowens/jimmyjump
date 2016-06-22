@@ -26,7 +26,6 @@ class TheGame {
 public:
 	// Constructors and destructor
 	TheGame();
-	~TheGame();
 
 	// Functions
 	void run();

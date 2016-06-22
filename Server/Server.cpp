@@ -17,7 +17,8 @@ void Server::startTCP() {
 	printf("Server (TCP) started.\n");
 	acceptor.listen();
 	acceptor.async_accept(socket, boost::bind(&Server::acceptHandler, shared_from_this(), _1));
-	asioService.run();
+	boost::thread asioServiceThread(boost::bind(&asio::io_service::run, &asioService));
+	game.run();
 }
 
 

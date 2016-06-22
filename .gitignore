@@ -41,10 +41,13 @@ local.properties
 *.user
 *.sln.docstates
 *.sdf
+*.tlog
+*.idb
+*.exe
 
 # Build results
 
-[Dd]ebug/
+./[Dd]ebug/
 [Rr]elease/
 x64/
 build/
