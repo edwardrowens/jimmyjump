@@ -1,14 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "Core\Core.vcxproj", "{026A1663-2881-45FC-A1A4-1C50416BB005}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server", "Server\Server.vcxproj", "{2A39D75B-D333-4ED8-AE31-9C4BF5D5F49C}"
-	ProjectSection(ProjectDependencies) = postProject
-		{026A1663-2881-45FC-A1A4-1C50416BB005} = {026A1663-2881-45FC-A1A4-1C50416BB005}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "Client\Client.vcxproj", "{DA91C9DB-332C-4096-B3FF-FEB70D5BC727}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -31,6 +28,7 @@ Global
 		{2A39D75B-D333-4ED8-AE31-9C4BF5D5F49C}.Release|Win32.Build.0 = Release|Win32
 		{DA91C9DB-332C-4096-B3FF-FEB70D5BC727}.Debug|Win32.ActiveCfg = Debug|Win32
 		{DA91C9DB-332C-4096-B3FF-FEB70D5BC727}.Debug|Win32.Build.0 = Debug|Win32
+		{DA91C9DB-332C-4096-B3FF-FEB70D5BC727}.Debug|Win32.Deploy.0 = Debug|Win32
 		{DA91C9DB-332C-4096-B3FF-FEB70D5BC727}.Release|Win32.ActiveCfg = Release|Win32
 		{DA91C9DB-332C-4096-B3FF-FEB70D5BC727}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
