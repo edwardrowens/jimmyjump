@@ -4,7 +4,6 @@
 #define ASIO_HAS_CSTDINT
 #define ASIO_HAS_STD_SHARED_PTR
 #define ASIO_HAS_STD_TYPE_TRAITS
-#define BOOST_ALL_DYN_LINK
 
 #include "Server.h"
 #include "asio\asio.hpp"

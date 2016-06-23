@@ -1,8 +1,6 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#define BOOST_ALL_DYN_LINK
-
 #include "asio/asio.hpp"
 #include <iostream>
 #include <map>
