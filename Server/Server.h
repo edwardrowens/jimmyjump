@@ -10,6 +10,7 @@
 #include "boost\shared_ptr.hpp"
 #include "boost\thread.hpp"
 #include "TheGame.h"
+#include "Packet.h"
 
 static int sdlAsioServiceWrapper(void* param);
 

@@ -41,9 +41,12 @@ void Server::readHandler(const asio::error_code &errorCode, std::size_t bytesTra
 void Server::writeHandler(const asio::error_code &errorCode, std::size_t bytesTransferred, int clientId) {
 	if (!errorCode) {
 		//printf("Write successful. %d bytes transferred to client %d\n", bytesTransferred, clientId);
-		writeBuffer->clear();
-		writeBuffer->push_back(clientId);
-		asio::async_write(socketMap.at(clientId), asio::buffer((char*)&writeBuffer->front(), 2), boost::bind(&Server::writeHandler, shared_from_this(), _1, _2, clientId));
+		//writeBuffer->clear();
+		//writeBuffer->push_back(clientId);
+		//asio::async_write(socketMap.at(clientId), asio::buffer((char*)&writeBuffer->front(), 2), boost::bind(&Server::writeHandler, shared_from_this(), _1, _2, clientId));
+		Packet<Uint8> packet;
+		packet.add(clientId);
+		asio::async_write(socketMap.at(clientId), packet.toAsioBuffer(), boost::bind(&Server::writeHandler, shared_from_this(), _1, _2, clientId));
 	}
 	else if (errorCode == asio::error::eof || errorCode == asio::error::connection_aborted || errorCode == asio::error::connection_reset) {
 		socketMap.erase(clientId);

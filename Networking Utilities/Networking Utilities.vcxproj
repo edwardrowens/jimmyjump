@@ -12,8 +12,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header Files\Packet.h" />
+    <ClInclude Include="Packet.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Packet.cpp" />
     <ClCompile Include="Source Files\Packet.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
