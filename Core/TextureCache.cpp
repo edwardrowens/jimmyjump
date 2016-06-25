@@ -21,9 +21,8 @@ path and add the texture to the cache. Essentially, the object dictates its text
 its file path.
 */
 void TextureCache::lockTextureForObject(Object &object) {
-	if (context == nullptr){
-		PrintErrors("The context passed in was null. A texture cannot be set without a context.");
-	}
+	if (!context)
+		PrintErrors("No context set on texture cache.");
 
 	if (object.getCharacter() == Character::BACKGROUND && amountOfObjects[Character::BACKGROUND] != 0)
 		PrintErrors("A background is being added to the cache. Only a single background can exist per context. Currently there are " + std::to_string(amountOfObjects[Character::BACKGROUND]) + " backgrounds.");

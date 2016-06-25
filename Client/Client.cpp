@@ -29,7 +29,7 @@ void Client::kill() {
 void Client::connectToServer(std::string address, std::string port) {
 	endpoint = resolver.resolve(asio::ip::tcp::resolver::query(address, port));
 	asio::async_connect(socket, endpoint, boost::bind(&Client::connectHandler, shared_from_this(), _1, _2));
-	asioService.run();
+	boost::thread asioServiceThread(boost::bind(&asio::io_service::run, &asioService));
 }
 
 
@@ -46,7 +46,7 @@ void Client::connectHandler(asio::error_code errorCode, asio::ip::tcp::resolver:
 
 void Client::readHandler(asio::error_code errorCode, std::size_t bytesTransferred) {
 	if (!errorCode) {
-		//readBuffer->clear();
+		readBuffer->clear();
 		//printf("Client ID: %d\n", id);
 		asio::async_read(socket, asio::buffer((char*)&readBuffer->front(), 2), boost::bind(&Client::readHandler, shared_from_this(), _1, _2));
 	}
@@ -63,7 +63,7 @@ void Client::initialReadHandler(asio::error_code errorCode, std::size_t bytesTra
 	if (!errorCode) {
 		id = readBuffer->at(0);
 		printf("Client ID: %d\n", id);
-		//readBuffer->clear();
+		readBuffer->clear();
 		asio::async_read(socket, asio::buffer((char*)&readBuffer->front(), 2), boost::bind(&Client::readHandler, shared_from_this(), _1, _2));
 	}
 	else if (errorCode == asio::error::connection_reset) {

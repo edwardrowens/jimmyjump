@@ -31,7 +31,7 @@ public:
 
 	// public functions
 	Object* createObject(const Character& character, b2Body& objectBody, bool isRenderable);
-	void destroyObject(Object object);
+	void destroyObject(Object &object);
 	void setTextures();
 	void setContext(SDL_Renderer* context);
 	void drawAllObjects();

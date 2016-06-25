@@ -113,9 +113,6 @@ void Object::setIsRenderable(const bool& isRenderable) {
 
 
 void Object::setContext(SDL_Renderer* context) {
-	if (context == nullptr) {
-		PrintErrors("The context passed into a level object was null.");
-	}
 	this->context = context;
 	debugger.setContext(context);
 }

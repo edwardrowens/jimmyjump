@@ -8,7 +8,7 @@ asioService(asioService),
 acceptor(asioService, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), Server::PORT)),
 socket(asioService),
 nextId(-1),
-readBuffer(new std::vector<uint16_t>(1)), 
+readBuffer(new std::vector<uint16_t>(1)),
 writeBuffer(new std::vector<uint16_t>(1)) {
 }
 
@@ -17,8 +17,8 @@ void Server::startTCP() {
 	printf("Server (TCP) started.\n");
 	acceptor.listen();
 	acceptor.async_accept(socket, boost::bind(&Server::acceptHandler, shared_from_this(), _1));
-	boost::thread asioServiceThread(boost::bind(&asio::io_service::run, &asioService));
-	game.run();
+	SDL_CreateThread(&sdlAsioServiceWrapper, "ServerAsioServiceThread", &asioService);
+	game.startUpdateLoop();
 }
 
 
@@ -74,4 +74,10 @@ void Server::acceptHandler(const asio::error_code &errorCode) {
 void Server::assignAndSendClientId() {
 	writeBuffer->at(0) = nextId;
 	asio::async_write(socketMap.at(nextId), asio::buffer((char*)&writeBuffer->front(), 2), boost::bind(&Server::writeHandler, shared_from_this(), _1, _2, nextId));
+}
+
+
+static int sdlAsioServiceWrapper(void* param) {
+	((asio::io_service*) param)->run();
+	return 0;
 }

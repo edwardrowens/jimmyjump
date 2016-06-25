@@ -11,13 +11,16 @@
 #include "boost\thread.hpp"
 #include "TheGame.h"
 
-class Server : public boost::enable_shared_from_this<Server> {
+static int sdlAsioServiceWrapper(void* param);
+
+class Server : public boost::enable_shared_from_this < Server > {
 public:
 	Server(asio::io_service& asioService);
 
 	void startTCP();
 	void addClient();
 	void startUpdateLoop();
+	void addInput();
 
 	static const int PORT;
 	static const char ADDRESS[];

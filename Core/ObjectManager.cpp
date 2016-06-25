@@ -18,9 +18,11 @@ void ObjectManager::setContext(SDL_Renderer* context) {
 Object* ObjectManager::createObject(const Character &character, b2Body &objectBody, bool isRenderable) {
 	if (character == Character::BACKGROUND) {
 		Object* background = new Object(&objectBody, character);
-		background->setIsRenderable(isRenderable);
-		if (isRenderable) {
-			textureCache->lockTextureForObject(*background);
+		if (context) {
+			background->setIsRenderable(isRenderable);
+			if (isRenderable) {
+				textureCache->lockTextureForObject(*background);
+			}
 		}
 		objectsInLevel.insert(objectsInLevel.begin(), background);
 		return background;
@@ -43,10 +45,12 @@ Object* ObjectManager::createObject(const Character &character, b2Body &objectBo
 			break;
 		}
 
-		// Add the object to the cache
-		objectToAdd->setIsRenderable(isRenderable);
-		if (isRenderable) {
-			textureCache->addObjectToCache(*objectToAdd);
+		// Add the object to the cache if we have a context
+		if (context) {
+			objectToAdd->setIsRenderable(isRenderable);
+			if (isRenderable) {
+				textureCache->addObjectToCache(*objectToAdd);
+			}
 		}
 
 		if (objectToAdd) {
@@ -54,7 +58,7 @@ Object* ObjectManager::createObject(const Character &character, b2Body &objectBo
 			objectsInLevel.push_back(objectToAdd);
 			mutey.unlock();
 		}
-
+		printf("added. %d objects\n", objectsInLevel.size());
 		return objectToAdd;
 	}
 }
@@ -79,18 +83,15 @@ void ObjectManager::setTextures() {
 /*
 Removes the object from the cache and from the vector which stores all objects in the level.
 */
-void ObjectManager::destroyObject(Object object) {
-	textureCache->removeObjectFromCache(object);
+void ObjectManager::destroyObject(Object &object) {
+	if (context) {
+		textureCache->removeObjectFromCache(object);
+	}
 
 	// POTENTIAL SPEED UP: Rethink the data structure which holds the objects in the level as this current algorithm is O(n)
 	// whenever we want to remove an object from the game.
-	std::vector<Object*>::iterator it = objectsInLevel.begin();
-	for (it; it != objectsInLevel.end(); ++it) {
-		if ((*it) == &object) {
-			delete *it;
-			objectsInLevel.erase(it);
-		}
-	}
+	objectsInLevel.erase(std::remove(objectsInLevel.begin(), objectsInLevel.end(), &object), objectsInLevel.end());
+	printf("deleted. %d objects\n", objectsInLevel.size());
 }
 
 

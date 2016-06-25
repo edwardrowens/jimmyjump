@@ -13,6 +13,7 @@
 #include "boost\enable_shared_from_this.hpp"
 #include <vector>
 #include "TheGame.h"
+#include "boost\thread.hpp"
 
 class Client : public boost::enable_shared_from_this<Client> {
 public:

@@ -17,6 +17,8 @@
 #include "ObjectPhysicalPropertiesService.h"
 #include "ObjectBodies.h"
 #include <algorithm>
+#include <time.h>
+#include <map>
 
 enum class GameState { PLAY, EXIT };
 static int sdlRenderThreadWrapper(void* param);
@@ -30,7 +32,10 @@ public:
 	// Functions
 	void run();
 	void draw();
-	int update();
+	void addInput(Uint8 input);
+	int startUpdateLoop();
+	World& getWorld();
+	std::map<DWORD, std::vector<Uint8>> getKeyPressByFrame();
 
 private:
 	// Fields
@@ -44,12 +49,15 @@ private:
 	float gravity, keyPressLength;
 	//processes input
 	const Uint8* keyState;
-	std::unique_ptr<Uint8> keys;
+	std::unique_ptr<Uint8> keyPressBuffer;
+	std::set<Uint8> inputs;
+	std::mutex mutey;
+	DWORD updateTick;
+	std::map<DWORD, std::vector<Uint8>> keyPressByFrame;
 
 
 	// Functions
 	void processInput();
-	void processInput(const std::vector<Uint8>& inputs);
 	void step();
 	SDL_Window* WindowInitialization();
 	void initGame();

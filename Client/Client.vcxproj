@@ -50,6 +50,8 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\lib\;$(SolutionDir)dependencies\lib\boost\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Core.lib;SDL2.0/SDL2.lib;SDL2.0/SDL2main.lib;SDL2.0/SDL2test.lib;SDL2.0/SDL2_image.lib;SDL2.0/SDL2_mixer.lib;SDL2.0/SDL2_ttf.lib;Box2D/Box2D.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -72,6 +74,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.vcxproj">
+      <Project>{026a1663-2881-45fc-a1a4-1c50416bb005}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Networking Utilities\Networking Utilities.vcxproj">
+      <Project>{f2d8e67d-1d36-4ee5-b0c8-d3d5fcacafd8}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

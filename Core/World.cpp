@@ -27,9 +27,9 @@ Object* World::createObject(const Character& character, const ObjectBodies &body
 }
 
 
-void World::destroyObject(Object* object) {
-	boxWorld->DestroyBody(object->getBody());
-	objectManager.destroyObject(*object);
+void World::destroyObject(Object &object) {
+	boxWorld->DestroyBody(object.getBody());
+	objectManager.destroyObject(object);
 }
 
 

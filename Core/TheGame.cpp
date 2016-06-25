@@ -5,7 +5,7 @@ currentState(GameState::PLAY),
 eventMade(0),
 jim(nullptr),
 renderThread(nullptr),
-keys(new Uint8[SDL_NUM_SCANCODES]{0}) {
+keyPressBuffer(new Uint8[SDL_NUM_SCANCODES]{0}) {
 }
 
 
@@ -13,7 +13,7 @@ void TheGame::run() {
 	initGame();
 
 	renderThread = SDL_CreateThread(&sdlRenderThreadWrapper, "RenderThread", this);
-	update();
+	startUpdateLoop();
 }
 
 
@@ -21,8 +21,6 @@ void TheGame::initGame() {
 	currentWindow = WindowInitialization();
 	context = SDL_CreateRenderer(currentWindow, -1, SDL_RENDERER_ACCELERATED);
 	world.setContext(context);
-
-	instantiateLevelObjects();
 }
 
 
@@ -44,22 +42,32 @@ SDL_Window* TheGame::WindowInitialization() {
 
 
 void TheGame::processInput() {
-	int size;
-	SDL_PumpEvents();
-	keyState = SDL_GetKeyboardState(&size);
-}
+	if (inputs.size() == 0 && context) {
+		SDL_PumpEvents();
+		int size;
+		keyState = SDL_GetKeyboardState(&size);
+	}
+	else {
+		mutey.lock();
 
+		// remove all previous inputs
+		for (Uint8 input : inputs)
+			keyPressBuffer.get()[input] = 0;
 
-void TheGame::processInput(const std::vector<Uint8>& inputs) {
-	SDL_PumpEvents();
-	for (Uint8 input : inputs)
-		keys.get()[input] = 1;
+		// add new inputs
+		for (Uint8 input : inputs)
+			keyPressBuffer.get()[input] = 1;
 
-	keyState = keys.get();
+		keyState = keyPressBuffer.get();
+
+		inputs.clear();
+		mutey.unlock();
+	}
 }
 
 
 void TheGame::step() {
+	std::vector<Uint8> keyPresses;
 	if (keyState[SDL_SCANCODE_D]) {
 		jim->addMovement(Movements::RIGHT);
 	}
@@ -86,6 +94,13 @@ void TheGame::step() {
 		position.h = 5;
 		world.createObject(Character::LIGHT_GRAY_PLATFORM, ObjectBodies::PLAYER, position, true);
 	}
+
+	if (keyState[SDL_SCANCODE_K]) {
+		int toDestroy = rand() % (world.getObjectManager().getObjectsInLevel().size() - 1) + 1;
+		world.destroyObject(*world.getObjectManager().getObjectsInLevel()[toDestroy]);
+	}
+
+	keyPressByFrame.insert({ updateTick, keyPresses });
 	world.step();
 }
 
@@ -112,7 +127,7 @@ void TheGame::instantiateLevelObjects() {
 
 
 static int sdlUpdateThreadWrapper(void* param) {
-	((TheGame*)param)->update();
+	((TheGame*)param)->startUpdateLoop();
 	return 0;
 }
 
@@ -122,18 +137,39 @@ static int sdlRenderThreadWrapper(void* param) {
 	return 0;
 }
 
-int TheGame::update() {
-	float timeElapsedSinceLastUpdate = 0.0f;
-	float timeOfLastUpdate = SDL_GetTicks();
+int TheGame::startUpdateLoop() {
+	instantiateLevelObjects();
+	unsigned long timeElapsedSinceLastUpdate = 0.0f;
+	unsigned long timeOfLastUpdate = GetTickCount();
 
 	while (currentState != GameState::EXIT) {
-		timeElapsedSinceLastUpdate = SDL_GetTicks() - timeOfLastUpdate;
+		timeElapsedSinceLastUpdate = GetTickCount() - timeOfLastUpdate;
 		while (timeElapsedSinceLastUpdate >= WorldConstants::UPDATE_TICK_IN_SECONDS) {
 			processInput();
 			step();
-			timeOfLastUpdate = SDL_GetTicks();
+			timeOfLastUpdate = GetTickCount();
 			timeElapsedSinceLastUpdate -= WorldConstants::UPDATE_TICK_IN_SECONDS;
+			++updateTick;
 		}
 	}
 	return 0;
+}
+
+
+void TheGame::addInput(Uint8 input) {
+	mutey.lock();
+	inputs.insert(input);
+	mutey.unlock();
+}
+
+
+World& TheGame::getWorld() {
+	return world;
+}
+
+
+std::map<DWORD, std::vector<Uint8>> TheGame::getKeyPressByFrame() {
+	std::map<DWORD, std::vector<Uint8>> copy = keyPressByFrame;
+	keyPressByFrame.clear();
+	return copy;
 }
