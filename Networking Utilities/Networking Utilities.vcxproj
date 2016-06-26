@@ -11,12 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Header Files\Packet.h" />
     <ClInclude Include="Packet.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Packet.cpp" />
-    <ClCompile Include="Source Files\Packet.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F2D8E67D-1D36-4EE5-B0C8-D3D5FCACAFD8}</ProjectGuid>
