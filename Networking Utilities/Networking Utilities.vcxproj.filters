@@ -18,9 +18,12 @@
     <ClInclude Include="Packet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PacketData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Packet.cpp">
+    <ClCompile Include="PacketData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

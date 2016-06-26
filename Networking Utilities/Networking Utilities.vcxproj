@@ -12,9 +12,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Packet.h" />
+    <ClInclude Include="PacketData.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Packet.cpp" />
+    <ClCompile Include="PacketData.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F2D8E67D-1D36-4EE5-B0C8-D3D5FCACAFD8}</ProjectGuid>

@@ -14,6 +14,7 @@
 #include <vector>
 #include "TheGame.h"
 #include "boost\thread.hpp"
+#include "Packet.h"
 
 class Client : public boost::enable_shared_from_this<Client> {
 public:
