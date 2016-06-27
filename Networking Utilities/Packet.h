@@ -16,15 +16,25 @@ public:
 	}
 
 
-	void add(T element) {
-		data.push_back(element);
+	void setClientId(const Uint8& clientId) {
+		this->clientId = clientId;
 	}
 
-	std::vector<T>& getData() {
-		return data;
+	
+	void setDirective(const Uint8& directive) {
+		this->directive = directive;
 	}
+
+
+	void setObjectId(const Uint32 objectId) {
+		this->objectId = objectId;
+	}
+
+
+	void set
 
 private:
 	std::vector<T> data;
-	Uint8 id;
+	Uint8 clientId, directive, xPosition, yPosition;
+	Uint32 objectId;
 };

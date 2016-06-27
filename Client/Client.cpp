@@ -51,11 +51,8 @@ void Client::readHandler(asio::error_code errorCode, std::size_t bytesTransferre
 		//readBuffer->push_back(0);
 		//asio::async_read(socket, asio::buffer((char*)&readBuffer->front(), 2), boost::bind(&Client::readHandler, shared_from_this(), _1, _2));
 		Packet<char*> packet;
-		printf("reading\n");
 		asio::async_read(socket, packet.toAsioBuffer(), boost::bind(&Client::readHandler, shared_from_this(), _1, _2));
 		packet.getData();
-		printf("%s\n", (std::string) packet.getData().at(0));
-		printf("read\n");
 	}
 	else if (errorCode == asio::error::connection_reset) {
 		printf("Server has disconnected\n");

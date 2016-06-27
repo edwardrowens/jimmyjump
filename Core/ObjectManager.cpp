@@ -1,12 +1,9 @@
 #include "ObjectManager.h"
 
 ObjectManager::ObjectManager(TextureCache* textureCache) :
-textureCache(textureCache) {
+textureCache(textureCache),
+nextId(0) {
 
-}
-
-// Destructor
-ObjectManager::~ObjectManager() {
 }
 
 
@@ -24,6 +21,8 @@ Object* ObjectManager::createObject(const Character &character, b2Body &objectBo
 				textureCache->lockTextureForObject(*background);
 			}
 		}
+		background->setId(nextId);
+		++nextId;
 		objectsInLevel.insert(objectsInLevel.begin(), background);
 		return background;
 	}
@@ -44,6 +43,9 @@ Object* ObjectManager::createObject(const Character &character, b2Body &objectBo
 			objectToAdd = new Platform(&objectBody, character);
 			break;
 		}
+
+		objectToAdd->setId(nextId);
+		++nextId;
 
 		// Add the object to the cache if we have a context
 		if (context) {

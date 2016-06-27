@@ -159,3 +159,13 @@ void Object::load(Character character) {
 	previousTexturePath = texturePath = utility.getDefaultTexturePath(character);
 	walkCycles = utility.findAllWalkCycleFiles(character);
 }
+
+
+Uint32 Object::getId() const {
+	return id;
+}
+
+
+void Object::setId(const Uint32& id) {
+	this->id = id;
+}

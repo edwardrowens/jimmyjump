@@ -9,5 +9,8 @@ public:
 	~PacketData();
 
 private:
+	uint8_t clientId, position, directive;
+	uint32_t objectId;
+	DWORD frame;
 };
 

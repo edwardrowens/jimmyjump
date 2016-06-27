@@ -20,11 +20,9 @@
 
 using std::string;
 
-class Object
-{
+class Object {
 public:
 	// Constructors, destructor
-	//Object();
 	Object(b2Body* objectBody, Character character);
 	Object(const Object &object);
 	~Object();
@@ -60,6 +58,8 @@ public:
 	// Public functions
 	virtual void draw();
 	void load(Character character);
+	void setId(const Uint32& id);
+	Uint32 getId() const;
 
 protected:
 	// Protected fields
@@ -85,5 +85,6 @@ private:
 	std::string texturePath;
 	Debugger debugger;
 	double RADIANS_TO_DEGREES(float32 angle);
+	Uint32 id;
 };
 #endif

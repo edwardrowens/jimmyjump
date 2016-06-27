@@ -19,11 +19,10 @@ object.
 */
 using std::string;
 
-class ObjectManager{
+class ObjectManager {
 public:
 	// constructors/destructors
 	ObjectManager(TextureCache* textureCache);
-	~ObjectManager();
 
 	// Getters
 	MainCharacter& getPlayableCharacter();
@@ -45,6 +44,7 @@ private:
 	TextureCache* textureCache;
 	MainCharacter* playableCharacter;
 	std::mutex mutey;
+	Uint32 nextId;
 
 	// Functions
 	void deleteTextures(Character character);
