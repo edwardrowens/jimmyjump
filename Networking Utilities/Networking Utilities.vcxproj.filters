@@ -21,6 +21,12 @@
     <ClInclude Include="PacketData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ServerDirectives.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientDirectives.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PacketData.cpp">

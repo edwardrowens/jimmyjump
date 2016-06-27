@@ -26,12 +26,12 @@ public:
 	}
 
 
-	void setObjectId(const Uint32 objectId) {
+	void setObjectId(const Uint32& objectId) {
 		this->objectId = objectId;
 	}
 
 
-	void set
+	void setXPosition(const Uint8& xPosition)
 
 private:
 	std::vector<T> data;

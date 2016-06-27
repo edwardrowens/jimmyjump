@@ -11,8 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ClientDirectives.h" />
     <ClInclude Include="Packet.h" />
     <ClInclude Include="PacketData.h" />
+    <ClInclude Include="ServerDirectives.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PacketData.cpp" />
