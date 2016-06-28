@@ -30,8 +30,7 @@ private:
 	asio::ip::tcp::resolver resolver;
 	asio::ip::tcp::resolver::iterator endpoint;
 	asio::io_service& asioService;
-	std::unique_ptr<std::vector<uint16_t>> readBuffer;
-	std::unique_ptr<std::vector<uint16_t>> writeBuffer;
+	std::unique_ptr<Packet> readBuffer;
 	TheGame game;
 
 	// functions

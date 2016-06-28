@@ -2,8 +2,6 @@
 
 #include "asio\asio.hpp"
 #include <vector>
-#include "PacketData.h"
-#include "PacketService.h"
 
 class Packet {
 public:

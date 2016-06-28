@@ -44,8 +44,8 @@ void Server::writeHandler(const asio::error_code &errorCode, std::size_t bytesTr
 		//writeBuffer->clear();
 		//writeBuffer->push_back(clientId);
 		//asio::async_write(socketMap.at(clientId), asio::buffer((char*)&writeBuffer->front(), 2), boost::bind(&Server::writeHandler, shared_from_this(), _1, _2, clientId));
-		Packet<char*> packet;
-		packet.add("hi");
+		Packet packet;
+		packet.setClientId(clientId);
 		asio::async_write(socketMap.at(clientId), packet.toAsioBuffer(), boost::bind(&Server::writeHandler, shared_from_this(), _1, _2, clientId));
 	}
 	else if (errorCode == asio::error::eof || errorCode == asio::error::connection_aborted || errorCode == asio::error::connection_reset) {
@@ -75,8 +75,10 @@ void Server::acceptHandler(const asio::error_code &errorCode) {
 
 
 void Server::assignAndSendClientId() {
-	writeBuffer->at(0) = nextId;
-	asio::async_write(socketMap.at(nextId), asio::buffer((char*)&writeBuffer->front(), 2), boost::bind(&Server::writeHandler, shared_from_this(), _1, _2, nextId));
+	Packet packet;
+	packet.setClientId(nextId);
+	packet.setXPosition(100);
+	asio::async_write(socketMap.at(nextId), packet.toAsioBuffer(), boost::bind(&Server::writeHandler, shared_from_this(), _1, _2, nextId));
 }
 
 

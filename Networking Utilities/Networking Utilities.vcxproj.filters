@@ -18,27 +18,15 @@
     <ClInclude Include="Packet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PacketData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ServerDirectives.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ClientDirectives.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PacketService.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PacketData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Packet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PacketService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

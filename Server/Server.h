@@ -11,6 +11,7 @@
 #include "boost\thread.hpp"
 #include "TheGame.h"
 #include "Packet.h"
+#include "ClientDirectives.h"
 
 static int sdlAsioServiceWrapper(void* param);
 
