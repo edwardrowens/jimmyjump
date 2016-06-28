@@ -14,10 +14,13 @@
     <ClInclude Include="ClientDirectives.h" />
     <ClInclude Include="Packet.h" />
     <ClInclude Include="PacketData.h" />
+    <ClInclude Include="PacketService.h" />
     <ClInclude Include="ServerDirectives.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Packet.cpp" />
     <ClCompile Include="PacketData.cpp" />
+    <ClCompile Include="PacketService.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F2D8E67D-1D36-4EE5-B0C8-D3D5FCACAFD8}</ProjectGuid>

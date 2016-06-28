@@ -2,39 +2,41 @@
 
 #include "asio\asio.hpp"
 #include <vector>
+#include "PacketData.h"
+#include "PacketService.h"
 
-template<typename T>
 class Packet {
 public:
-	asio::mutable_buffers_1 toAsioBuffer() {
-		if (data.empty()) {
-			T t;
-			data.emplace_back(t);
-		}
+	Packet();
 
-		return asio::buffer((char*)&data.front(), sizeof(T) * data.size());
-	}
+	asio::mutable_buffers_1 toAsioBuffer();
+	void setClientId(const uint8_t& clientId);
+	void setDirective(const uint8_t& directive);
+	void setObjectId(const uint32_t& objectId);
+	void setXPosition(const uint16_t& xPosition);
+	void setYPosition(const uint16_t& yPosition);
+	void setFrame(const DWORD& frame);
 
-
-	void setClientId(const Uint8& clientId) {
-		this->clientId = clientId;
-	}
-
-	
-	void setDirective(const Uint8& directive) {
-		this->directive = directive;
-	}
-
-
-	void setObjectId(const Uint32& objectId) {
-		this->objectId = objectId;
-	}
-
-
-	void setXPosition(const Uint8& xPosition)
+	uint8_t getClientId() const;
+	uint8_t getDirective() const;
+	uint32_t getObjectId() const;
+	uint16_t getXPosition() const;
+	uint16_t getYPosition() const;
+	DWORD getFrame() const;
 
 private:
-	std::vector<T> data;
-	Uint8 clientId, directive, xPosition, yPosition;
-	Uint32 objectId;
+	enum PacketIndex {
+		CLIENT_ID,
+		DIRECTIVE,
+		OBJECT_ID,
+		FRAME,
+		X_POSITION,
+		Y_POSITION,
+		END
+	};
+	std::vector<DWORD> data;
+	uint8_t clientId, directive;
+	uint16_t xPosition, yPosition;
+	uint32_t objectId;
+	DWORD frame;
 };
