@@ -14,6 +14,7 @@ public:
 	void setXPosition(const uint16_t& xPosition);
 	void setYPosition(const uint16_t& yPosition);
 	void setFrame(const DWORD& frame);
+	void setKeyPressesByFrame(const std::map<DWORD, std::vector<uint8_t>>& keyPressesByFrame);
 
 	uint8_t getClientId() const;
 	uint8_t getDirective() const;
@@ -21,7 +22,7 @@ public:
 	uint16_t getXPosition() const;
 	uint16_t getYPosition() const;
 	DWORD getFrame() const;
-
+	std::map<DWORD, std::vector<uint8_t>>& getKeyPressesByFrame() const;
 private:
 	enum PacketIndex {
 		CLIENT_ID,
@@ -30,6 +31,7 @@ private:
 		FRAME,
 		X_POSITION,
 		Y_POSITION,
+		KEY_PRESSES,
 		END
 	};
 	std::vector<DWORD> data;
@@ -37,4 +39,5 @@ private:
 	uint16_t xPosition, yPosition;
 	uint32_t objectId;
 	DWORD frame;
+	std::map<DWORD, std::vector<uint8_t>> keyPressesByFrame;
 };

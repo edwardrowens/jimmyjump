@@ -2,5 +2,6 @@
 
 enum Directives {
 	OK,
-	CLIENT_SYNC
+	CLIENT_SYNC,
+	SERVER_SYNC
 };
