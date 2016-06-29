@@ -39,19 +39,19 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)Networking Utilities;$(SolutionDir)Core;$(SolutionDir)dependencies/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Networking;$(SolutionDir)Core;$(SolutionDir)dependencies/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Networking Utilities;$(SolutionDir)Core;$(SolutionDir)dependencies/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Networking;$(SolutionDir)Core;$(SolutionDir)dependencies/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)dependencies\lib\;$(SolutionDir)dependencies\lib\boost\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Core.lib;"Networking Utilities.lib";SDL2.0/SDL2.lib;SDL2.0/SDL2main.lib;SDL2.0/SDL2test.lib;SDL2.0/SDL2_image.lib;SDL2.0/SDL2_mixer.lib;SDL2.0/SDL2_ttf.lib;Box2D/Box2D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Core.lib;Networking.lib;SDL2.0/SDL2.lib;SDL2.0/SDL2main.lib;SDL2.0/SDL2test.lib;SDL2.0/SDL2_image.lib;SDL2.0/SDL2_mixer.lib;SDL2.0/SDL2_ttf.lib;Box2D/Box2D.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -79,8 +79,8 @@
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{026a1663-2881-45fc-a1a4-1c50416bb005}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Networking Utilities\Networking Utilities.vcxproj">
-      <Project>{f2d8e67d-1d36-4ee5-b0c8-d3d5fcacafd8}</Project>
+    <ProjectReference Include="..\Networking\Networking.vcxproj">
+      <Project>{792bfd0f-7d74-4f69-8e2e-d89130303c4a}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

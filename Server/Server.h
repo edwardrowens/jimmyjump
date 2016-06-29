@@ -9,11 +9,10 @@
 #include "boost\enable_shared_from_this.hpp"
 #include "boost\shared_ptr.hpp"
 #include "boost\thread.hpp"
-#include "TheGame.h"
 #include "Packet.h"
 #include "ClientDirectives.h"
+#include "TheGame.h"
 
-static int sdlAsioServiceWrapper(void* param);
 
 class Server : public boost::enable_shared_from_this < Server > {
 public:
@@ -34,14 +33,13 @@ private:
 	std::map<int, asio::ip::tcp::socket> socketMap;
 	asio::ip::tcp::socket socket;
 	int nextId;
-	std::unique_ptr<std::vector<uint16_t>> readBuffer;
-	std::unique_ptr<std::vector<uint16_t>> writeBuffer;
+	std::unique_ptr<Packet> readBuffer;
 	TheGame game;
 
 	// functions
-	void readHandler(const asio::error_code &errorCode, std::size_t bytesTransferred, int clientId);
-	void writeHandler(const asio::error_code &errorCode, std::size_t bytesTransferred, int clientId);
-	void acceptHandler(const asio::error_code &errorCode);
 	void assignAndSendClientId();
+	void readHandler(const asio::error_code& errorCode, std::size_t bytesTransferred, int clientId);
+	void writeHandler(const asio::error_code& errorCode, std::size_t bytesTransferred, int clientId);
+	void acceptHandler(const asio::error_code &errorCode);
 };
 #endif

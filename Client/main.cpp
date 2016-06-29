@@ -8,6 +8,7 @@
 #include "Client.h"
 #include "asio\asio.hpp"
 #include "boost\shared_ptr.hpp"
+#include "TheGame.h"
 #undef main //shitty SDL defines main for initialization...
 
 int main(int argc, char* argv[]) {

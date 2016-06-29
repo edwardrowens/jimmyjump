@@ -12,15 +12,17 @@
 #include "boost\bind.hpp"
 #include "boost\enable_shared_from_this.hpp"
 #include <vector>
-#include "TheGame.h"
 #include "boost\thread.hpp"
 #include "Packet.h"
+#include "ClientServer.h"
+#include "TheGame.h"
 
-class Client : public boost::enable_shared_from_this<Client> {
+class Client : public boost::enable_shared_from_this<Client>, public ClientServer {
 public:
 	Client(asio::io_service& asioService);
 
 	void start(std::string address, std::string port);
+	const TheGame& getGame() const;
 	void kill(); 
 
 private:
@@ -34,9 +36,9 @@ private:
 	TheGame game;
 
 	// functions
+	void initialReadHandler(asio::error_code errorCode, std::size_t bytesTransferred);
 	void connectHandler(asio::error_code errorCode, asio::ip::tcp::resolver::iterator resolverIter);
 	void readHandler(asio::error_code errorCode, std::size_t bytesTransferred);
-	void initialReadHandler(asio::error_code errorCode, std::size_t bytesTransferred);
 	void writeHandler(asio::error_code errorCode, std::size_t bytesTransferred);
 	void connectToServer(std::string address, std::string port);
 	void readFromServer();
