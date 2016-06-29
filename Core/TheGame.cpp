@@ -95,11 +95,6 @@ void TheGame::step() {
 		world.createObject(Character::LIGHT_GRAY_PLATFORM, ObjectBodies::PLAYER, position, true);
 	}
 
-	if (keyState[SDL_SCANCODE_K]) {
-		int toDestroy = rand() % (world.getObjectManager().getObjectsInLevel().size() - 1) + 1;
-		world.destroyObject(*world.getObjectManager().getObjectsInLevel()[toDestroy]);
-	}
-
 	keyPressByFrame.insert({ updateTick, keyPresses });
 	world.step();
 }

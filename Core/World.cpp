@@ -39,6 +39,10 @@ void World::setContext(SDL_Renderer* context) {
 }
 
 
+Object* World::getObject(const uint32_t& objectId) {
+	return objectManager.getObjectsInLevel()[objectId];
+}
+
 
 ObjectManager& World::getObjectManager() {
 	return objectManager;
@@ -69,11 +73,7 @@ void World::step() {
 
 
 void World::putInMotion() {
-	for (auto object : objectManager.getObjectsInLevel()) {
-		if (object->getIsMovable()) {
-			dynamic_cast<MovableObject*>(object)->executeMovement();
-		}
-	}
+	objectManager.putInMotion();
 }
 
 

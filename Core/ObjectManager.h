@@ -5,6 +5,7 @@
 #include "Object.h"
 #include "Position.h"
 #include <vector>
+#include <map>
 #include "Utility.h"
 #include "MainCharacter.h"
 #include "Platform.h"
@@ -34,12 +35,13 @@ public:
 	void setTextures();
 	void setContext(SDL_Renderer* context);
 	void drawAllObjects();
-	std::vector<Object*>& getObjectsInLevel();
+	std::map<uint32_t, Object*>& getObjectsInLevel();
+	void putInMotion();
 
 private:
 	// Fields
 	SDL_Renderer* context;
-	std::vector<Object*> objectsInLevel;
+	std::map<uint32_t, Object*> objectsInLevel;
 	Utility utility;
 	TextureCache* textureCache;
 	MainCharacter* playableCharacter;

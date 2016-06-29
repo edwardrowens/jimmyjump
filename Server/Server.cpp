@@ -21,9 +21,12 @@ void Server::startTCP() {
 }
 
 
-void Server::readHandler(const asio::error_code &errorCode, std::size_t bytesTransferred, int clientId) {
+void Server::readHandler(const asio::error_code &errorCode, std::size_t bytesTransferred) {
+	uint8_t clientId = readBuffer->getClientId();
+
+	// potential speed up: multi thread handling process so we can call async_read right away. just make a copy of the readBuffer to do the processing
 	if (!errorCode) {
-		asio::async_read(socketMap.at(clientId), readBuffer->toAsioBuffer(), boost::bind(&Server::readHandler, shared_from_this(), _1, _2, clientId));
+		asio::async_read(socketMap.at(clientId), readBuffer->toAsioBuffer(), boost::bind(&Server::readHandler, shared_from_this(), _1, _2));
 	}
 	else if (errorCode == asio::error::eof) {
 		socketMap.erase(clientId);

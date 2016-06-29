@@ -23,7 +23,7 @@ Object* ObjectManager::createObject(const Character &character, b2Body &objectBo
 		}
 		background->setId(nextId);
 		++nextId;
-		objectsInLevel.insert(objectsInLevel.begin(), background);
+		objectsInLevel[background->getId()] = background;
 		return background;
 	}
 	else {
@@ -57,7 +57,7 @@ Object* ObjectManager::createObject(const Character &character, b2Body &objectBo
 
 		if (objectToAdd) {
 			mutey.lock();
-			objectsInLevel.push_back(objectToAdd);
+			objectsInLevel[objectToAdd->getId()] = objectToAdd;
 			mutey.unlock();
 		}
 		printf("added. %d objects\n", objectsInLevel.size());
@@ -93,7 +93,6 @@ void ObjectManager::destroyObject(Object &object) {
 	// POTENTIAL SPEED UP: Rethink the data structure which holds the objects in the level as this current algorithm is O(n)
 	// whenever we want to remove an object from the game.
 	objectsInLevel.erase(std::remove(objectsInLevel.begin(), objectsInLevel.end(), &object), objectsInLevel.end());
-	printf("deleted. %d objects\n", objectsInLevel.size());
 }
 
 
@@ -107,7 +106,7 @@ void ObjectManager::setPlayableCharacter(MainCharacter& playableCharacter) {
 }
 
 
-std::vector<Object*>& ObjectManager::getObjectsInLevel() {
+std::map<uint32_t, Object*>& ObjectManager::getObjectsInLevel() {
 	return objectsInLevel;
 }
 
@@ -119,11 +118,22 @@ void ObjectManager::drawAllObjects() {
 		PrintErrors("Renderer failed to clear", SDL_GetError);
 	}
 	mutey.lock();
-	for (int i = 0; i < getObjectsInLevel().size(); ++i) {
-		if (getObjectsInLevel()[i]->getIsRenderable())
-			getObjectsInLevel()[i]->draw();
+	std::map<uint32_t, Object*>::iterator iter = objectsInLevel.begin();
+	for (iter; iter != objectsInLevel.end(); ++iter) {
+		if (iter->second->getIsRenderable())
+			iter->second->draw();
 	}
 	mutey.unlock();
 
 	SDL_RenderPresent(context);
+}
+
+
+void ObjectManager::putInMotion() {
+	std::map<uint32_t, Object*>::iterator iter = objectsInLevel.begin();
+	for (iter; iter != objectsInLevel.end(); ++iter) {
+		if (iter->second->getIsMovable()) {
+			dynamic_cast<MovableObject*>(iter->second)->executeMovement();
+		}
+	}
 }

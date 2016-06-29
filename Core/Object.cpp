@@ -161,11 +161,11 @@ void Object::load(Character character) {
 }
 
 
-Uint32 Object::getId() const {
+uint32_t Object::getId() const {
 	return id;
 }
 
 
-void Object::setId(const Uint32& id) {
+void Object::setId(const uint32_t& id) {
 	this->id = id;
 }

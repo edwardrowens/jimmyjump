@@ -15,22 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ClientDirectives.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ClientServer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Handlers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Packet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ServerDirectives.h">
+    <ClInclude Include="DirectiveHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HandleDirective.h">
+    <ClInclude Include="Directives.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -38,13 +32,10 @@
     <ClCompile Include="ClientServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Handlers.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Packet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HandleDirective.cpp">
+    <ClCompile Include="DirectiveHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

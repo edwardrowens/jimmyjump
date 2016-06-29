@@ -11,18 +11,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ClientDirectives.h" />
     <ClInclude Include="ClientServer.h" />
-    <ClInclude Include="HandleDirective.h" />
-    <ClInclude Include="Handlers.h" />
+    <ClInclude Include="DirectiveHandler.h" />
+    <ClInclude Include="Directives.h" />
     <ClInclude Include="Packet.h" />
-    <ClInclude Include="ServerDirectives.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClientServer.cpp" />
-    <ClCompile Include="HandleDirective.cpp" />
-    <ClCompile Include="Handlers.cpp" />
+    <ClCompile Include="DirectiveHandler.cpp" />
     <ClCompile Include="Packet.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.vcxproj">
+      <Project>{026a1663-2881-45fc-a1a4-1c50416bb005}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{792BFD0F-7D74-4F69-8E2E-D89130303C4A}</ProjectGuid>
@@ -54,14 +56,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)dependencies\lib</OutDir>
-    <IncludePath>$(SolutionDir)dependencies\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Core;$(SolutionDir)dependencies\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Core\;$(SolutionDir)dependencies\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

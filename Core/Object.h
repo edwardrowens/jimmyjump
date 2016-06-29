@@ -58,8 +58,8 @@ public:
 	// Public functions
 	virtual void draw();
 	void load(Character character);
-	void setId(const Uint32& id);
-	Uint32 getId() const;
+	void setId(const uint32_t& id);
+	uint32_t getId() const;
 
 protected:
 	// Protected fields
@@ -85,6 +85,6 @@ private:
 	std::string texturePath;
 	Debugger debugger;
 	double RADIANS_TO_DEGREES(float32 angle);
-	Uint32 id;
+	uint32_t id;
 };
 #endif

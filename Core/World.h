@@ -24,6 +24,7 @@ public:
 	Object* createObject(const Character& character, const ObjectPhysicalProperties::ObjectPhysicalProperties &props, bool isRenderable);
 	Object* createObject(const Character& character, const ObjectBodies &body, bool isRenderable);
 	Object* createObject(const Character& character, const ObjectBodies &body, const Position &position, bool isRenderable);
+	Object* getObject(const uint32_t& objectId);
 	void destroyObject(Object &object);
 	void drawAllObjects();
 	void step();
