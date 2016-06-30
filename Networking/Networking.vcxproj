@@ -15,11 +15,13 @@
     <ClInclude Include="DirectiveHandler.h" />
     <ClInclude Include="Directives.h" />
     <ClInclude Include="Packet.h" />
+    <ClInclude Include="PacketService.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClientServer.cpp" />
     <ClCompile Include="DirectiveHandler.cpp" />
     <ClCompile Include="Packet.cpp" />
+    <ClCompile Include="PacketService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.vcxproj">

@@ -32,10 +32,10 @@ public:
 	// Functions
 	void run();
 	void draw();
-	void addInput(Uint8 input);
+	void addInput(uint8_t input);
 	int startUpdateLoop();
 	World& getWorld();
-	std::map<DWORD, std::vector<Uint8>> getKeyPressByFrame();
+	std::map<uint32_t, std::vector<uint8_t>> getKeyPressByFrame();
 
 private:
 	// Fields
@@ -48,12 +48,12 @@ private:
 	std::vector<MovableObject*> controllableObjects;
 	float gravity, keyPressLength;
 	//processes input
-	const Uint8* keyState;
-	std::unique_ptr<Uint8> keyPressBuffer;
-	std::set<Uint8> inputs;
+	const uint8_t* keyState;
+	std::unique_ptr<uint8_t> keyPressBuffer;
+	std::set<uint8_t> inputs;
 	std::mutex mutey;
-	DWORD updateTick;
-	std::map<DWORD, std::vector<Uint8>> keyPressByFrame;
+	uint32_t updateTick;
+	std::map<uint32_t, std::vector<uint8_t>> keyPressByFrame;
 
 
 	// Functions

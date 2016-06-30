@@ -5,7 +5,7 @@ currentState(GameState::PLAY),
 eventMade(0),
 jim(nullptr),
 renderThread(nullptr),
-keyPressBuffer(new Uint8[SDL_NUM_SCANCODES]{0}) {
+keyPressBuffer(new uint8_t[SDL_NUM_SCANCODES]{0}) {
 }
 
 
@@ -51,11 +51,11 @@ void TheGame::processInput() {
 		mutey.lock();
 
 		// remove all previous inputs
-		for (Uint8 input : inputs)
+		for (uint8_t input : inputs)
 			keyPressBuffer.get()[input] = 0;
 
 		// add new inputs
-		for (Uint8 input : inputs)
+		for (uint8_t input : inputs)
 			keyPressBuffer.get()[input] = 1;
 
 		keyState = keyPressBuffer.get();
@@ -67,7 +67,7 @@ void TheGame::processInput() {
 
 
 void TheGame::step() {
-	std::vector<Uint8> keyPresses;
+	std::vector<uint8_t> keyPresses;
 	if (keyState[SDL_SCANCODE_D]) {
 		jim->addMovement(Movements::RIGHT);
 	}
@@ -151,7 +151,7 @@ int TheGame::startUpdateLoop() {
 }
 
 
-void TheGame::addInput(Uint8 input) {
+void TheGame::addInput(uint8_t input) {
 	mutey.lock();
 	inputs.insert(input);
 	mutey.unlock();
@@ -163,8 +163,8 @@ World& TheGame::getWorld() {
 }
 
 
-std::map<DWORD, std::vector<Uint8>> TheGame::getKeyPressByFrame() {
-	std::map<DWORD, std::vector<Uint8>> copy = keyPressByFrame;
+std::map<uint32_t, std::vector<uint8_t>> TheGame::getKeyPressByFrame() {
+	std::map<uint32_t, std::vector<uint8_t>> copy = keyPressByFrame;
 	keyPressByFrame.clear();
 	return copy;
 }
