@@ -90,9 +90,7 @@ void ObjectManager::destroyObject(Object &object) {
 		textureCache->removeObjectFromCache(object);
 	}
 
-	// POTENTIAL SPEED UP: Rethink the data structure which holds the objects in the level as this current algorithm is O(n)
-	// whenever we want to remove an object from the game.
-	objectsInLevel.erase(std::remove(objectsInLevel.begin(), objectsInLevel.end(), &object), objectsInLevel.end());
+	objectsInLevel.erase(object.getId());
 }
 
 

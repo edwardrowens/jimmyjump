@@ -8,6 +8,7 @@ namespace TestNetworking {
 	TEST_CLASS(TestPacketService) {
 	public:
 		TEST_METHOD(TestExtractInput) {
+
 		}
 	};
 }

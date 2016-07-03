@@ -35,7 +35,7 @@ void Client::connectToServer(std::string address, std::string port) {
 void Client::initialReadHandler(asio::error_code errorCode, std::size_t bytesTransferred) {
 	if (!errorCode) {
 		id = readBuffer->getClientId();
-		asio::async_read(socket, readBuffer->toAsioBuffer(), boost::bind(&Client::readHandler, _1, _2));
+		asio::async_read(socket, readBuffer->toAsioBuffer(), boost::bind(&Client::readHandler, shared_from_this(), _1, _2));
 	}
 	else if (errorCode == asio::error::connection_reset) {
 		printf("Server has disconnected\n");
@@ -49,7 +49,7 @@ void Client::initialReadHandler(asio::error_code errorCode, std::size_t bytesTra
 void Client::connectHandler(asio::error_code errorCode, asio::ip::tcp::resolver::iterator resolverIter) {
 	if (!errorCode) {
 		printf("Client connected successfully\n");
-		asio::async_read(socket, readBuffer->toAsioBuffer(), boost::bind(&Client::initialReadHandler, _1, _2));
+		asio::async_read(socket, readBuffer->toAsioBuffer(), boost::bind(&Client::initialReadHandler, shared_from_this(), _1, _2));
 	}
 	else {
 		printf("Client connection failed! %s (%d)\n", errorCode.message().c_str(), errorCode.value());
@@ -59,7 +59,7 @@ void Client::connectHandler(asio::error_code errorCode, asio::ip::tcp::resolver:
 
 void Client::readHandler(asio::error_code errorCode, std::size_t bytesTransferred) {
 	if (!errorCode) {
-		asio::async_read(socket, readBuffer->toAsioBuffer(), boost::bind(&Client::readHandler, _1, _2));
+		asio::async_read(socket, readBuffer->toAsioBuffer(), boost::bind(&Client::readHandler, shared_from_this(), _1, _2));
 	}
 	else if (errorCode == asio::error::connection_reset) {
 		printf("Server has disconnected\n");
@@ -73,7 +73,7 @@ void Client::readHandler(asio::error_code errorCode, std::size_t bytesTransferre
 void Client::writeHandler(asio::error_code errorCode, std::size_t bytesTransferred) {
 	if (!errorCode) {
 		Packet packet;
-		asio::async_write(socket, packet.toAsioBuffer(), boost::bind(&Client::writeHandler, _1, _2));
+		asio::async_write(socket, packet.toAsioBuffer(), boost::bind(&Client::writeHandler, shared_from_this(), _1, _2));
 	}
 	else if (errorCode == asio::error::connection_reset) {
 		printf("Server has disconnected\n");
