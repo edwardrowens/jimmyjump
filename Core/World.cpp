@@ -44,17 +44,12 @@ Object* World::getObject(const uint32_t& objectId) {
 }
 
 
-ObjectManager& World::getObjectManager() {
-	return objectManager;
-}
-
-
 /*
 Sets the textures for every object and draws them.
 */
 void World::drawAllObjects() {
-	getObjectManager().setTextures();
-	getObjectManager().drawAllObjects();
+	objectManager.setTextures();
+	objectManager.drawAllObjects();
 }
 
 
@@ -74,6 +69,17 @@ void World::step() {
 
 void World::putInMotion() {
 	objectManager.putInMotion();
+}
+
+
+std::vector<uint32_t> World::getAllObjectKeys() {
+	std::map<uint32_t, Object*>::const_iterator iter = objectManager.getObjectsInLevel().begin();
+	std::vector<uint32_t> objectKeys(objectManager.getObjectsInLevel().size());
+	for (iter; iter != objectManager.getObjectsInLevel().end(); ++iter) {
+		objectKeys.push_back(iter->first);
+	}
+
+	return objectKeys;
 }
 
 

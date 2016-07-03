@@ -1,6 +1,6 @@
 #include "PacketService.h"
 
-static std::vector<uint32_t>& packInput(const std::map<uint32_t, std::vector<uint8_t>>& keyPressByFrame) {
+std::unique_ptr<std::vector<uint32_t>> PacketService::packInput(const std::map<uint32_t, std::vector<uint8_t>>& keyPressByFrame) {
 	std::map<uint32_t, std::vector<uint8_t>>::const_iterator iter = keyPressByFrame.begin();
 	std::unique_ptr<std::vector<uint32_t>> keyPresses(new std::vector<uint32_t>);
 
@@ -14,22 +14,29 @@ static std::vector<uint32_t>& packInput(const std::map<uint32_t, std::vector<uin
 			(*keyPresses).push_back(i);
 	}
 
-	return *keyPresses;
+	return keyPresses;
 }
 
 
-static std::map<uint32_t, std::vector<uint8_t>>& extractInput(const std::vector<uint32_t>& packedKeyPresses) {
-	std::map<uint32_t, std::vector<uint8_t>> keyPressesByFrame;
+std::unique_ptr<std::map<uint32_t, std::vector<uint8_t>>> PacketService::extractInput(const std::vector<uint32_t>& packedKeyPresses) {
+	std::unique_ptr<std::map<uint32_t, std::vector<uint8_t>>> keyPressesByFrame(new std::map<uint32_t, std::vector<uint8_t>>);
 	std::vector<uint32_t>::const_iterator packedKeyPressesIter = packedKeyPresses.begin();
 
 	while (packedKeyPressesIter != packedKeyPresses.end()) {
+		// store the frame and allocate the vector of key presses
 		uint32_t frame = *packedKeyPressesIter;
 		std::vector<uint8_t> keyPresses(*(++packedKeyPressesIter));
 		uint8_t numberOfInputs = *packedKeyPressesIter++;
-		for (int i = 0; i < numberOfInputs; ++packedKeyPressesIter) {
-			keyPresses.push_back(*packedKeyPressesIter);
+
+		// collect all the key presses
+		for (int i = 0; i < numberOfInputs; ++i) {
+			keyPresses[i] = (*packedKeyPressesIter);
+			++packedKeyPressesIter;
 		}
-		keyPressesByFrame[frame] = keyPresses;
-		++packedKeyPressesIter;
+
+		// add the key presses to the map
+		(*keyPressesByFrame)[frame] = keyPresses;
 	}
+
+	return keyPressesByFrame;
 }

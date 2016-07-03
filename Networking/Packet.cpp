@@ -1,49 +1,47 @@
 #include "Packet.h"
 
 Packet::Packet() : 
-data(PacketIndex::END),
-xPosition(-1),
-yPosition(-1),
-clientId(-1),
-objectId(-1),
-directive(-1) {
+data(PacketIndex::END) {
 }
 
 
 asio::mutable_buffers_1 Packet::toAsioBuffer() {
-	data[PacketIndex::CLIENT_ID] = clientId;
-	data[PacketIndex::DIRECTIVE] = directive;
-	data[PacketIndex::OBJECT_ID] = objectId;
-	data[PacketIndex::X_POSITION] = xPosition;
-	data[PacketIndex::Y_POSITION] = yPosition;
-	data[PacketIndex::FRAME] = frame;
-
-	return asio::buffer((char*)&data.front(), sizeof(uint32_t) * PacketIndex::END);
+	return asio::buffer((char*)&data.front(), sizeof(uint32_t) * data.size());
 }
 
 
 void Packet::setClientId(const uint8_t& clientId) {
-	this->clientId = clientId;
+	data[PacketIndex::CLIENT_ID] = clientId;
 }
 
 
 void Packet::setDirective(const uint8_t& directive) {
-	this->directive = directive;
+	data[PacketIndex::DIRECTIVE] = directive;
 }
 
 
 void Packet::setObjectId(const uint32_t& objectId) {
-	this->objectId = objectId;
+	data[PacketIndex::OBJECT_ID] = objectId;
 }
 
 
 void Packet::setXPosition(const uint16_t& xPosition) {
-	this->xPosition = xPosition;
+	data[PacketIndex::X_POSITION] = xPosition;
 }
 
 
 void Packet::setYPosition(const uint16_t& yPosition) {
-	this->yPosition = yPosition;
+	data[PacketIndex::Y_POSITION] = yPosition;
+}
+
+
+void Packet::setFrame(const uint32_t& frame) {
+	data[PacketIndex::FRAME] = frame;
+}
+
+
+void Packet::setKeyPressesByFrame(const std::map<uint32_t, std::vector<uint8_t>>& keyPressesByFrame) {
+	data.insert(data.begin() + PacketIndex::END, keyPressesByFrame.begin(), keyPressesByFrame.end());
 }
 
 
@@ -72,6 +70,6 @@ uint16_t Packet::getYPosition() const {
 }
 
 
-DWORD Packet::getFrame() const {
+uint32_t Packet::getFrame() const {
 	return data[PacketIndex::FRAME];
 }

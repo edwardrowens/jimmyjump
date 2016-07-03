@@ -168,3 +168,8 @@ std::map<uint32_t, std::vector<uint8_t>> TheGame::getKeyPressByFrame() {
 	keyPressByFrame.clear();
 	return copy;
 }
+
+
+uint32_t TheGame::getUpdateTick() const {
+	return updateTick;
+}

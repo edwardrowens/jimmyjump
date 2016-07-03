@@ -19,8 +19,6 @@ public:
 
 	void setContext(SDL_Renderer* context);
 
-	ObjectManager& getObjectManager();
-
 	Object* createObject(const Character& character, const ObjectPhysicalProperties::ObjectPhysicalProperties &props, bool isRenderable);
 	Object* createObject(const Character& character, const ObjectBodies &body, bool isRenderable);
 	Object* createObject(const Character& character, const ObjectBodies &body, const Position &position, bool isRenderable);
@@ -28,6 +26,7 @@ public:
 	void destroyObject(Object &object);
 	void drawAllObjects();
 	void step();
+	std::vector<uint32_t> getAllObjectKeys();
 
 private:
 	// Fields

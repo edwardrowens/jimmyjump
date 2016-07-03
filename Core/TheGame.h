@@ -36,6 +36,7 @@ public:
 	int startUpdateLoop();
 	World& getWorld();
 	std::map<uint32_t, std::vector<uint8_t>> getKeyPressByFrame();
+	uint32_t getUpdateTick() const;
 
 private:
 	// Fields
