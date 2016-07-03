@@ -14,5 +14,5 @@ namespace PacketService {
 	/*
 	Extracts the keys pressed by frame which were in the structure set by the PacketService::packInput function
 	*/
-	static std::map<uint32_t, std::vector<uint8_t>>& extractInput(std::vector<uint32_t>&);
+	static std::map<uint32_t, std::vector<uint8_t>>& extractInput(const std::vector<uint32_t>& packedKeyPresses);
 }

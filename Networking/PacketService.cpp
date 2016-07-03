@@ -18,6 +18,18 @@ static std::vector<uint32_t>& packInput(const std::map<uint32_t, std::vector<uin
 }
 
 
-static std::map<uint32_t, std::vector<uint8_t>>& extractInput(std::vector<uint32_t>&) {
+static std::map<uint32_t, std::vector<uint8_t>>& extractInput(const std::vector<uint32_t>& packedKeyPresses) {
+	std::map<uint32_t, std::vector<uint8_t>> keyPressesByFrame;
+	std::vector<uint32_t>::const_iterator packedKeyPressesIter = packedKeyPresses.begin();
 
+	while (packedKeyPressesIter != packedKeyPresses.end()) {
+		uint32_t frame = *packedKeyPressesIter;
+		std::vector<uint8_t> keyPresses(*(++packedKeyPressesIter));
+		uint8_t numberOfInputs = *packedKeyPressesIter++;
+		for (int i = 0; i < numberOfInputs; ++packedKeyPressesIter) {
+			keyPresses.push_back(*packedKeyPressesIter);
+		}
+		keyPressesByFrame[frame] = keyPresses;
+		++packedKeyPressesIter;
+	}
 }
