@@ -26,7 +26,6 @@ std::unique_ptr<std::vector<Packet>> DirectiveHandler::syncClientDirective(const
 	std::unique_ptr<std::vector<Packet>> packetBatch(new std::vector<Packet>);
 	std::vector<uint32_t> objectKeys = game.getWorld().getAllObjectKeys();
 
-	// synchronize the playable character's input first
 	for (auto objectKey : objectKeys) {
 		Packet packet;
 		packet.setClientId(clientId);
